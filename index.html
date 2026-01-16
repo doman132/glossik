@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gloss Point Detailing – Tarnów</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
 <style>
 :root{
 --tiffany:#81d8d0;
@@ -291,12 +292,21 @@ h2{font-size:1.5rem;margin-bottom:30px;}
   font-weight:bold;
   transition:.3s;
   white-space:nowrap;
+  border:none;
+  cursor:pointer;
 }
 .btn-rezerwacja:hover{
   background:#fff;
   transform:translateY(-2px);
   box-shadow:0 8px 20px rgba(129,216,208,.4);
 }
+
+.services-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;max-width:1000px;margin:0 auto;}
+.service-item{background:rgba(255,255,255,.05);padding:24px;border-radius:12px;border:2px solid rgba(129,216,208,.2);cursor:pointer;transition:.3s;text-align:center;}
+.service-item:hover{background:rgba(129,216,208,.1);border-color:var(--tiffany);transform:translateY(-6px);}
+.service-item h3{color:#fff;font-size:1.2rem;margin-bottom:10px;}
+.service-item p{color:var(--muted);font-size:0.95rem;margin-bottom:16px;}
+.service-item .price{color:var(--tiffany);font-size:1.3rem;font-weight:bold;}
 
 .beyond-wrapper{
 display:flex;
@@ -496,6 +506,61 @@ font-size:1rem;
 </div>
 </div>
 
+<!-- FULLSCREEN MODAL REZERWACJI -->
+<div class="pricing-modal-overlay" id="reservationModalOverlay"></div>
+<div class="pricing-modal" id="reservationModal">
+<div class="modal-header">
+<h1 id="reservationTitle">Rezerwacja</h1>
+<button class="modal-close" id="reservationClose">&times;</button>
+</div>
+<div class="modal-content">
+<!-- STRONA 1: WYBÓR USŁUGI -->
+<div id="reservationPage1" class="reservation-page">
+<h2 style="text-align:center;margin-bottom:40px;color:var(--tiffany);">Wybierz usługę</h2>
+<div class="services-list" id="reservationServicesList"></div>
+</div>
+<!-- STRONA 2: FORMULARZ REZERWACJI -->
+<div id="reservationPage2" class="reservation-page" style="display:none;">
+<h2 style="text-align:center;margin-bottom:30px;color:var(--tiffany);">Potwierdź rezerwację</h2>
+<div id="selectedServiceInfo" style="background:rgba(129,216,208,.1);padding:20px;border-radius:12px;margin-bottom:30px;border-left:4px solid var(--tiffany);">
+<p id="selectedServiceName" style="font-size:1.2rem;color:#fff;margin-bottom:10px;"></p>
+<p id="selectedServicePrice" style="font-size:1.1rem;color:var(--tiffany);font-weight:bold;"></p>
+</div>
+<form id="reservationForm" style="max-width:600px;margin:0 auto;">
+<div style="margin-bottom:20px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Imię i Nazwisko *</label>
+<input type="text" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div style="margin-bottom:20px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Telefon *</label>
+<input type="tel" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div style="margin-bottom:20px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">E-mail *</label>
+<input type="email" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div style="margin-bottom:20px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Data rezerwacji *</label>
+<input type="date" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div style="margin-bottom:20px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Godzina (9:00 - 17:00) *</label>
+<input type="time" id="reservationTime" required min="09:00" max="17:00" style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+<div id="blockedHoursWarning" style="margin-top:8px;color:#ff6b6b;font-size:0.9rem;display:none;">Ta godzina jest już zarezerwowana. Wybierz inną.</div>
+</div>
+<div style="margin-bottom:30px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Wiadomość (opcjonalnie)</label>
+<textarea style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;min-height:120px;resize:vertical;"></textarea>
+</div>
+<div style="display:flex;gap:16px;">
+<button type="button" onclick="goBackReservation()" style="flex:1;padding:14px;background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.3);border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;">Wróć</button>
+<button type="submit" style="flex:1;padding:14px;background:var(--tiffany);color:#000;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;">Zarezerwuj</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
 <header>
 <nav>
   <div class="nav-inner">
@@ -524,7 +589,7 @@ font-size:1rem;
 </div>
         </li>
         <li><a href="#kontakt">Kontakt</a></li>
-        <li><a href="#rezerwacja" class="btn-rezerwacja">Rezerwacja</a></li>
+        <li><a href="javascript:void(0)" class="btn-rezerwacja" id="reservationBtn">Rezerwacja</a></li>
       </ul>
     </div>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
@@ -1072,6 +1137,198 @@ window.addEventListener('scroll', () => {
     animateCount(stats[2], 67);
   }
 }, { once: true });
+
+// ------------------- MODAL REZERWACJI -------------------
+const reservationBtn = document.getElementById('reservationBtn');
+const reservationModal = document.getElementById('reservationModal');
+const reservationModalOverlay = document.getElementById('reservationModalOverlay');
+const reservationClose = document.getElementById('reservationClose');
+const reservationForm = document.getElementById('reservationForm');
+let selectedService = null;
+
+// Lista usług do rezerwacji
+const reservationServices = [
+  { id: 'mycie', name: 'Mycie pojazdu', price: 'od 130 zł', description: 'Profesjonalne mycie pojazdu' },
+  { id: 'wnetrze', name: 'Detailing wnętrza', price: 'od 1000 zł', description: 'Głębokie czyszczenie wnętrza' },
+  { id: 'lakier', name: 'Korekta lakieru', price: 'od 1100 zł', description: 'Polerowanie i renowacja' },
+  { id: 'powloki', name: 'Powłoki ceramiczne', price: 'od 2500 zł', description: 'Ochrona lakieru i szyb' },
+  { id: 'szyby', name: 'Przyciemnianie szyb', price: '1000 zł', description: 'Profesjonalne przyciemnianie' },
+  { id: 'ppf', name: 'Folia ochronna PPF', price: 'od 1800 zł', description: 'Ochrona pojazdu' }
+];
+
+function openReservationModal() {
+  // Wygeneruj listę usług
+  const servicesList = document.getElementById('reservationServicesList');
+  servicesList.innerHTML = reservationServices.map(service => `
+    <div class="service-item" onclick="selectService('${service.id}', '${service.name}', '${service.price}')">
+      <h3>${service.name}</h3>
+      <p>${service.description}</p>
+      <div class="price">${service.price}</div>
+    </div>
+  `).join('');
+
+  reservationModal.classList.add('active');
+  reservationModalOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  
+  // Pokaż pierwszą stronę
+  document.getElementById('reservationPage1').style.display = 'block';
+  document.getElementById('reservationPage2').style.display = 'none';
+}
+
+function selectService(id, name, price) {
+  selectedService = { id, name, price };
+  document.getElementById('selectedServiceName').textContent = name;
+  document.getElementById('selectedServicePrice').textContent = price;
+  
+  // Przejdź na drugą stronę
+  document.getElementById('reservationPage1').style.display = 'none';
+  document.getElementById('reservationPage2').style.display = 'block';
+}
+
+function goBackReservation() {
+  document.getElementById('reservationPage1').style.display = 'block';
+  document.getElementById('reservationPage2').style.display = 'none';
+}
+
+function closeReservationModal() {
+  reservationModal.classList.remove('active');
+  reservationModalOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Event listenery
+reservationBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  openReservationModal();
+});
+
+reservationClose.addEventListener('click', closeReservationModal);
+reservationModalOverlay.addEventListener('click', closeReservationModal);
+
+// Inicjalizuj EmailJS
+emailjs.init('YOUR_PUBLIC_KEY_HERE'); // Zastąp swoim kluczem publicznym z EmailJS
+
+// Funkcja sprawdzająca czy godzina jest zablokowana
+function isTimeBlocked(date, serviceId, time) {
+  const blockedKey = `blocked_${date}_${serviceId}_${time}`;
+  return localStorage.getItem(blockedKey) === 'true';
+}
+
+// Funkcja blokująca godzinę
+function blockTime(date, serviceId, time) {
+  const blockedKey = `blocked_${date}_${serviceId}_${time}`;
+  localStorage.setItem(blockedKey, 'true');
+}
+
+// Walidacja godziny w czasie rzeczywistym
+document.getElementById('reservationTime').addEventListener('change', function() {
+  const selectedDate = reservationForm.querySelectorAll('input')[3].value;
+  const selectedTime = this.value;
+  
+  if (selectedDate && selectedTime && selectedService) {
+    if (isTimeBlocked(selectedDate, selectedService.id, selectedTime)) {
+      document.getElementById('blockedHoursWarning').style.display = 'block';
+      this.style.borderColor = '#ff6b6b';
+    } else {
+      document.getElementById('blockedHoursWarning').style.display = 'none';
+      this.style.borderColor = 'rgba(129,216,208,.3)';
+    }
+  }
+});
+
+// Wysyłanie formularza
+reservationForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const inputs = reservationForm.querySelectorAll('input, textarea');
+  const name = inputs[0].value;
+  const phone = inputs[1].value;
+  const email = inputs[2].value;
+  const date = inputs[3].value;
+  const time = inputs[4].value;
+  const message = inputs[5].value;
+  
+  // Sprawdź czy godzina jest zablokowana
+  if (isTimeBlocked(date, selectedService.id, time)) {
+    alert('Ta godzina jest już zarezerwowana. Wybierz inną godzinę.');
+    document.getElementById('blockedHoursWarning').style.display = 'block';
+    return;
+  }
+  
+  // Sprawdź czy czas jest w zakresie 9:00-17:00
+  const [hours] = time.split(':').map(Number);
+  if (hours < 9 || hours >= 17) {
+    alert('Rezerwacje możliwe tylko w godzinach 9:00 - 17:00');
+    return;
+  }
+  
+  // Formatuj datę
+  const dateObj = new Date(date + 'T00:00');
+  const dateFormatted = dateObj.toLocaleDateString('pl-PL', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+  
+  // Dane do wysłania emaila
+  const emailDataAdmin = {
+    to_email: 'glosspointbiuro@gmail.com',
+    subject: `Nowa rezerwacja - ${selectedService.name}`,
+    client_name: name,
+    client_phone: phone,
+    client_email: email,
+    service_name: selectedService.name,
+    service_price: selectedService.price,
+    reservation_date: dateFormatted,
+    reservation_time: time,
+    message: message || 'Brak wiadomości',
+    from_name: name
+  };
+  
+  const emailDataClient = {
+    to_email: email,
+    subject: `Potwierdzenie rezerwacji - Gloss Point Detailing`,
+    client_name: name,
+    service_name: selectedService.name,
+    reservation_date: dateFormatted,
+    reservation_time: time,
+    company_phone: '+48 660 706 043',
+    company_email: 'glosspointbiuro@gmail.com',
+    from_name: 'Gloss Point Detailing'
+  };
+  
+  try {
+    // Wyślij email do administratora
+    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID_ADMIN', emailDataAdmin);
+    
+    // Wyślij email do klienta
+    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID_CLIENT', emailDataClient);
+    
+    // Zablokuj godzinę
+    blockTime(date, selectedService.id, time);
+    
+    // Pokaż komunikat sukcesu
+    alert(`✓ Rezerwacja potwierdzona!\n\nUżytkownik: ${name}\nUsługa: ${selectedService.name}\nData: ${dateFormatted}\nGodzina: ${time}\n\nEmail potwierdzający został wysłany na adres: ${email}`);
+    
+    // Zamknij modal
+    closeReservationModal();
+    
+    // Resetuj formularz
+    reservationForm.reset();
+  } catch (error) {
+    console.error('Błąd wysyłania emaila:', error);
+    alert('❌ Błąd przy wysyłaniu rezerwacji. Upewnij się że EmailJS jest prawidłowo skonfigurowany.\n\nSpróbuj ponownie lub skontaktuj się telefonicznie: +48 660 706 043');
+  }
+});
+
+// Zamknij modal na Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && reservationModal.classList.contains('active')) {
+    closeReservationModal();
+  }
+});
 
 </script>
 
