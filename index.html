@@ -416,6 +416,15 @@ font-size:1rem;
     z-index: 3001;
   }
 }
+@media(max-width:980px){
+  .dropdown-menu a {
+    z-index: 3002 !important;
+    position: relative;
+  }
+  .nav-wrapper.active .dropdown-menu.active {
+    z-index: 3002;
+  }
+}
 </style>
 </head>
 <body>
@@ -891,12 +900,14 @@ if (cennikToggle && cennikMenu) {
     const category = link.getAttribute('data-category');
     if (category && pricingData[category]) {
       openPricingModal(category);
-      closeMenu();
+      setTimeout(() => {
+        closeMenu();
+      }, 100);
     }
   });
 
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav-center li:has(#cennikToggle)')) {
+    if (!e.target.closest('.nav-center li:has(#cennikToggle)') && !e.target.closest('.dropdown-menu')) {
       cennikToggle.classList.remove('active');
       cennikMenu.classList.remove('active');
     }
