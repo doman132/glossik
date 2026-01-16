@@ -432,17 +432,16 @@ font-size:1rem;
 }
 @media(max-width:980px){
   .header-icons {
-    flex-direction: column;
-    gap: 10px;
-    order: 2;
-    margin-top: auto;
-    padding-top: px;
-    border-top: 1px solid rgba(129,216,208,.2);
+    flex-direction: row;          /* ikony w jednym rzędzie */
+    gap: 20px;
+    order: 1;                     /* będą NAD linkami */
+    margin-top: 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(129,216,208,.2);
   }
+
   .nav-center {
-    flex-direction: column;
-    gap: 10px;
-    order: 1;
+    order: 2;
   }
 }
 </style>
