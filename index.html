@@ -425,14 +425,14 @@ font-size:1rem;
         <li><a href="#realizacje">Realizacje</a></li>
         <li>
           <a href="#cennik" class="dropdown-toggle" id="cennikToggle">Cennik</a>
-          <div class="dropdown-menu" id="cennikMenu">
-          <a href="javascript:void(0)" data-category="mycie">Mycie</a>
-          <a href="javascript:void(0)" data-category="wnetrze">Wnętrze pojazdu</a>
-          <a href="javascript:void(0)" data-category="lakier">Lakier</a>
-          <a href="javascript:void(0)" data-category="powloki">Powłoki i hydrofoba</a>
-          <a href="javascript:void(0)" data-category="szyby">Szyby</a>
-          <a href="javascript:void(0)" data-category="Folia ochronna PPF">Folia ochronna PPF</a>
-          </div>
+<div class="dropdown-menu" id="cennikMenu">
+  <a href="javascript:void(0)" data-category="mycie">Mycie</a>
+  <a href="javascript:void(0)" data-category="wnetrze">Wnętrze pojazdu</a>
+  <a href="javascript:void(0)" data-category="lakier">Lakier</a>
+  <a href="javascript:void(0)" data-category="powloki">Powłoki i hydrofoba</a>
+  <a href="javascript:void(0)" data-category="szyby">Szyby</a>
+  <a href="javascript:void(0)" data-category="ppf">Folia ochronna PPF</a>
+</div>
         </li>
         <li><a href="#kontakt">Kontakt</a></li>
         <li><a href="#rezerwacja" class="btn-rezerwacja">Rezerwacja</a></li>
@@ -989,6 +989,35 @@ window.addEventListener('scroll', () => {
     animateCount(stats[2], 67);
   }
 }, { once: true });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const cennikMenu = document.getElementById('cennikMenu');
+  
+  if (cennikMenu) {
+    cennikMenu.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const category = e.target.getAttribute('data-category');
+        if (category && pricingData[category]) {
+          openPricingModal(category);
+          
+          // Zamknij menu
+          setTimeout(() => {
+            document.getElementById('cennikToggle').classList.remove('active');
+            document.getElementById('cennikMenu').classList.remove('active');
+            document.getElementById('hamburger').classList.remove('active');
+            document.getElementById('menu').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = '';
+          }, 100);
+        }
+      }
+    });
+  }
+});
+
 </script>
 
 </body>
