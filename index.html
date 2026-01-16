@@ -425,14 +425,14 @@ font-size:1rem;
         <li><a href="#realizacje">Realizacje</a></li>
         <li>
           <a href="#cennik" class="dropdown-toggle" id="cennikToggle">Cennik</a>
-<div class="dropdown-menu" id="cennikMenu">
-  <a href="javascript:void(0)" data-category="mycie">Mycie</a>
-  <a href="javascript:void(0)" data-category="wnetrze">Wnętrze pojazdu</a>
-  <a href="javascript:void(0)" data-category="lakier">Lakier</a>
-  <a href="javascript:void(0)" data-category="powloki">Powłoki i hydrofoba</a>
-  <a href="javascript:void(0)" data-category="szyby">Szyby</a>
-  <a href="javascript:void(0)" data-category="ppf">Folia ochronna PPF</a>
-</div>
+          <div class="dropdown-menu" id="cennikMenu">
+            <a href="javascript:void(0)" data-category="mycie">Mycie</a>
+            <a href="javascript:void(0)" data-category="wnetrze">Wnętrze pojazdu</a>
+            <a href="javascript:void(0)" data-category="lakier">Lakier</a>
+            <a href="javascript:void(0)" data-category="powloki">Powłoki i hydrofoba</a>
+            <a href="javascript:void(0)" data-category="szyby">Szyby</a>
+            <a href="javascript:void(0)" data-category="ppf">Folia ochronna PPF</a>
+          </div>
         </li>
         <li><a href="#kontakt">Kontakt</a></li>
         <li><a href="#rezerwacja" class="btn-rezerwacja">Rezerwacja</a></li>
@@ -853,19 +853,20 @@ if (cennikToggle && cennikMenu) {
     cennikMenu.classList.toggle('active');
   });
 
-  // Kliknięcie na element menu - otwórz modal
-  document.querySelectorAll('#cennikMenu a').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+  // Delegacja dla wszystkich linków w menu
+  cennikMenu.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const category = link.getAttribute('data-category');
+    
+    if (category && pricingData[category]) {
+      openPricingModal(category);
       
-      // Pobierz kategorię z data-category
-      const category = link.getAttribute('data-category');
-      if (category) {
-        openPricingModal(category);
-      }
-      
-      // Zamknij menu dopiero po otwarciu modala
+      // Zamknij wszystkie menu
       setTimeout(() => {
         cennikToggle.classList.remove('active');
         cennikMenu.classList.remove('active');
@@ -873,13 +874,1001 @@ if (cennikToggle && cennikMenu) {
         menu.classList.remove('active');
         overlay.classList.remove('active');
         document.body.style.overflow = '';
-      }, 100);
-    });
+      }, 50);
+    }
   });
 
+  // Zamknij dropdown przy kliknięciu poza nim
   document.addEventListener('click', (e) => {
-    const isInside = e.target.closest('.nav-center li:has(.dropdown-toggle)');
-    if (!isInside) {
+    if (!e.target.closest('.nav-center li:has(#cennikToggle)')) {
+      cennikToggle.classList.remove('active');
+      cennikMenu.classList.remove('active');
+    }
+  });
+}
+
+// ------------------- SLIDER REALIZACJI -------------------
+let allImages = [
+  'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900',
+  'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900',
+  'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=900',
+  'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=900',
+  'https://images.unsplash.com/photo-1617814065893-00757125efab?w=900',
+  'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900',
+  'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900',
+  'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=900',
+  'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=900',
+  'https://images.unsplash.com/photo-1617814065893-00757125efab?w=900',
+];
+
+let currentIndex = 1;
+
+function updateSliderImages() {
+  const leftIdx = (currentIndex - 1 + allImages.length) % allImages.length;
+  const centerIdx = currentIndex;
+  const rightIdx = (currentIndex + 1) % allImages.length;
+
+  document.getElementById('slide-left').querySelector('img').src = allImages[leftIdx];
+  document.getElementById('slide-center').querySelector('img').src = allImages[centerIdx];
+  document.getElementById('slide-right').querySelector('img').src = allImages[rightIdx];
+}
+
+function nextSlide() {
+  currentIndex = (currentIndex + 1) % allImages.length;
+  updateSliderImages();
+}
+
+setInterval(nextSlide, 4000);
+updateSliderImages();
+
+// ------------------- PRZED/PO -------------------
+const after = document.querySelector('.ba-after');
+const handle = document.querySelector('.ba-handle');
+const baBox = document.getElementById('ba-box');
+let isDragging = false;
+
+if (handle && baBox) {
+  handle.addEventListener('mousedown', startDrag);
+  handle.addEventListener('touchstart', startDrag, { passive: true });
+
+  function startDrag(e) {
+    isDragging = true;
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', stopDrag);
+    document.addEventListener('touchmove', drag, { passive: false });
+    document.addEventListener('touchend', stopDrag);
+  }
+
+  function drag(e) {
+    if (!isDragging) return;
+    const rect = baBox.getBoundingClientRect();
+    const x = (e.clientX || e.touches?.[0]?.clientX) - rect.left;
+    const limitedX = Math.max(0, Math.min(rect.width, x));
+    const perc = (limitedX / rect.width) * 100;
+    after.style.clipPath = `inset(0 ${100 - perc}% 0 0)`;
+    handle.style.left = perc + '%';
+  }
+
+  function stopDrag() {
+    isDragging = false;
+    document.removeEventListener('mousemove', drag);
+    document.removeEventListener('mouseup', stopDrag);
+    document.removeEventListener('touchmove', drag);
+    document.removeEventListener('touchend', stopDrag);
+  }
+}
+
+// ------------------- REVEAL -------------------
+function reveal() {
+  document.querySelectorAll('.reveal').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      el.classList.add('active');
+    }
+  });
+}
+window.addEventListener('load', reveal);
+window.addEventListener('scroll', reveal);
+
+// ------------------- LICZNIKI -------------------
+function animateCount(el, end) {
+  let start = 0;
+  let duration = 2000;
+  let stepTime = Math.abs(Math.floor(duration / end));
+  let timer = setInterval(() => {
+    start += 1;
+    el.textContent = start + '+';
+    if (start >= end) clearInterval(timer);
+  }, stepTime);
+}
+
+window.addEventListener('scroll', () => {
+  const stats = document.querySelectorAll('.stat-item .number');
+  const offsetTop = document.querySelector('#onas').offsetTop - window.innerHeight + 100;
+  if (window.scrollY > offsetTop) {
+    animateCount(stats[0], 6967);
+    animate<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gloss Point Detailing – Tarnów</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+--tiffany:#81d8d0;
+--muted:#aaa;
+--dark:#111;
+--black:#0b0b0b;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+html,body{width:100%;height:100%;}
+body{
+background:linear-gradient(-45deg,var(--black),var(--dark),#1a1a1a,var(--black));
+background-size:400% 400%;animation:bg 14s infinite;
+color:#fff;overflow-x:hidden;scroll-behavior:smooth;
+}
+@keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+header{position:sticky;top:0;z-index:2000;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);width:100%;padding:0;}
+nav{width:100%;padding:16px 24px;display:flex;justify-content:center;align-items:center;margin:0;background:rgba(0,0,0,.95);}
+.nav-inner{width:100%;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:0 24px;}
+.logo{height:50px;width:auto;min-width:fit-content;flex-shrink:0;}
+.logo img{height:100%;width:auto;object-fit:contain;}
+.nav-wrapper{display:flex;gap:36px;align-items:center;flex:1;justify-content:flex-end;}
+.header-icons{display:flex;gap:16px;flex-shrink:0;}
+.header-icons a{color:var(--tiffany);font-size:1.2rem;text-decoration:none;transition:.3s;}
+.header-icons a:hover{transform:translateY(-3px);}
+.nav-center{display:flex;gap:36px;list-style:none;margin:0;align-items:center;}
+.nav-center li{position:relative;}
+.nav-center a{color:#fff;text-decoration:none;font-weight:600;transition:.3s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.nav-center a:hover{color:var(--tiffany);}
+.dropdown-toggle{cursor:pointer;}
+.dropdown-toggle::after{content:'▼';font-size:0.7rem;transition:transform 0.3s ease;}
+.dropdown-toggle.active::after{transform:rotate(180deg);}
+.dropdown-menu{
+  position:absolute;
+  top:100%;
+  left:0;
+  background:#111;
+  border-radius:8px;
+  min-width:200px;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-10px);
+  transition:all 0.3s ease;
+  z-index:3000;
+  box-shadow:0 8px 24px rgba(0,0,0,.6);
+  padding:0;
+  margin-top:8px;
+}
+.dropdown-menu.active{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+.dropdown-menu a{
+  display:block;
+  padding:12px 20px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:400;
+  transition:.3s;
+  border-bottom:1px solid rgba(129,216,208,.2);
+  cursor:pointer;
+}
+.dropdown-menu a:last-child{
+  border-bottom:none;
+}
+.dropdown-menu a:hover{
+  color:var(--tiffany);
+  background:rgba(129,216,208,.1);
+}
+
+@media(max-width:980px){
+  .dropdown-menu{
+    position:static;
+    opacity:0;
+    visibility:hidden;
+    transform:none;
+    background:transparent;
+    box-shadow:none;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease, opacity 0.3s ease;
+    margin-top:0;
+    padding:0;
+  }
+  .dropdown-menu.active{
+    opacity:1;
+    visibility:visible;
+    max-height:500px;
+    padding:10px 0;
+  }
+  .dropdown-menu a{
+    border-bottom:1px solid rgba(129,216,208,.2);
+    padding:10px 20px;
+  }
+}
+ a:hover{color:var(--tiffany);background:rgba(129,216,208,.1);}
+.hamburger{width:34px;cursor:pointer;display:none;flex-direction:column;gap:6px;z-index:3001;flex-shrink:0;}
+.hamburger span{height:4px;background:var(--tiffany);border-radius:4px;transition:.35s;}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(7px,7px);}
+.hamburger.active span:nth-child(2){opacity:0;}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-7px);}
+@media(max-width:1024px){
+.nav-inner{gap:16px;padding:0 16px;}
+.nav-wrapper{gap:24px;}
+.nav-center{gap:24px;}
+}
+@media(max-width:980px){
+.hamburger{display:flex;}
+.nav-wrapper{position:fixed;top:60px;right:0;height:calc(100vh - 60px);width:100%;max-width:none;background:#111;flex-direction:column;justify-content:flex-start;align-items:center;gap:28px;padding-top:40px;transform:translateX(100%);transition:.4s ease;z-index:3000;flex:none;}
+.nav-wrapper.active{transform:translateX(0);}
+.nav-center{flex-direction:column;gap:20px;}
+.header-icons{flex-direction:column;gap:20px;}
+.nav-inner{justify-content:space-between;gap:8px;}
+.dropdown-menu{position:static;opacity:1;visibility:visible;transform:none;background:transparent;box-shadow:none;max-height:0;overflow:hidden;transition:max-height 0.3s ease;margin-top:0;padding:0;}
+.dropdown-menu.active{max-height:500px;padding:10px 0;}
+.dropdown-menu a{border-bottom:1px solid rgba(129,216,208,.2);padding:10px 20px;}
+}
+@media(max-width:768px){
+nav{padding:12px 16px;}
+.nav-inner{padding:0 12px;gap:12px;}
+.logo{height:40px;}
+.nav-center{gap:20px;}
+}
+@media(max-width:480px){
+nav{padding:12px 12px;}
+.nav-inner{padding:0 8px;gap:8px;}
+.logo{height:35px;}
+.header-icons a{font-size:1rem;}
+.nav-center{gap:16px;font-size:0.9rem;}
+}
+.menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:.3s;z-index:2500;}
+.menu-overlay.active{opacity:1;pointer-events:auto;}
+section{margin:0 auto;padding:100px 24px;position:relative;width:100%;}
+h2{text-align:center;color:var(--tiffany);font-size:3rem;margin-bottom:60px;}
+.hero{padding:180px 24px 140px;text-align:center;}
+.hero h2{font-size:5rem;}
+.hero p{color:var(--muted);font-size:1.8rem;}
+.stats{display:flex;justify-content:center;gap:70px;flex-wrap:wrap;}
+.stat-item .number{font-size:4.2rem;color:var(--tiffany);font-weight:bold;}
+.stat-item .label{color:var(--muted);margin-top:10px;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:1400px;margin:0 auto;}
+.service-card{background:rgba(255,255,255,.05);border-radius:18px;overflow:hidden;transition:.35s;cursor:pointer;}
+.service-card:hover{transform:translateY(-14px);box-shadow:0 24px 48px rgba(129,216,208,.25);}
+.service-card img{width:100%;height:280px;object-fit:cover;}
+.service-card h3{padding:22px 20px 10px;font-size:1.5rem;}
+.service-card p{padding:0 20px 30px;color:var(--muted);font-size:1rem;}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
+.pricing-item{background:rgba(255,255,255,.05);border-radius:18px;overflow:hidden;border:2px solid rgba(129,216,208,.2);transition:.35s;}
+.pricing-item:hover{transform:translateY(-8px);border-color:var(--tiffany);box-shadow:0 20px 40px rgba(129,216,208,.2);}
+.pricing-header{padding:24px 20px;background:rgba(129,216,208,.1);border-bottom:2px solid var(--tiffany);}
+.pricing-header h3{color:var(--tiffany);font-size:1.4rem;margin-bottom:8px;}
+.pricing-content{padding:24px 20px;}
+.pricing-list{list-style:none;}
+.pricing-list li{padding:10px 0;color:var(--muted);border-bottom:1px solid rgba(129,216,208,.1);display:flex;justify-content:space-between;}
+.pricing-list li:last-child{border-bottom:none;}
+.pricing-list span{color:var(--tiffany);font-weight:bold;}
+.before-after{max-width:500px;margin:auto;overflow:hidden;border-radius:20px;position:relative;}
+.ba-box{position:relative;aspect-ratio:4/3;cursor:ew-resize;}
+.ba-box img{position:absolute;width:100%;height:100%;object-fit:cover;}
+.ba-after{clip-path:inset(0 50% 0 0);}
+.ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;background:var(--tiffany);cursor:ew-resize;z-index:10;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.ba-handle::before{content:'⟨';color:#000;font-size:24px;font-weight:bold;}
+.ba-handle::after{content:'⟩';color:#000;font-size:24px;font-weight:bold;}
+.slider-container{position:relative;overflow:visible;max-width:1400px;margin:0 auto;perspective:1200px;padding:40px 0;}
+.slider-track{display:flex;gap:30px;justify-content:center;align-items:center;position:relative;height:420px;}
+.slide{position:relative;background:rgba(255,255,255,.05);border-radius:18px;overflow:hidden;height:100%;width:340px;flex-shrink:0;transition:all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);border:2px solid rgba(129,216,208,.2);}
+.slide img{width:100%;height:100%;object-fit:cover;}
+.slide#slide-left{transform:perspective(1200px) rotateY(25deg) translateZ(-100px) scale(0.85);opacity:0.7;}
+.slide#slide-center{transform:perspective(1200px) rotateY(0deg) translateZ(0) scale(1);opacity:1;z-index:10;border-color:var(--tiffany);box-shadow:0 20px 60px rgba(129,216,208,.3);}
+.slide#slide-right{transform:perspective(1200px) rotateY(-25deg) translateZ(-100px) scale(0.85);opacity:0.7;}
+
+@media(max-width:1024px){
+.services-grid{grid-template-columns:repeat(3,1fr);gap:30px;}
+.service-card img{height:240px;}
+.slider-track{gap:20px;height:360px;}
+.slide{width:290px;}
+.slide#slide-left{transform:perspective(1000px) rotateY(20deg) translateZ(-80px) scale(0.8);}
+.slide#slide-center{transform:perspective(1000px) rotateY(0deg) translateZ(0) scale(1);}
+.slide#slide-right{transform:perspective(1000px) rotateY(-20deg) translateZ(-80px) scale(0.8);}
+}
+@media(max-width:768px){
+section{padding:60px 16px;}
+h2{font-size:2rem;margin-bottom:40px;}
+.hero{padding:120px 16px 100px;}
+.hero h2{font-size:3rem;}
+.hero p{font-size:1.4rem;}
+.stats{gap:40px;}
+.stat-item .number{font-size:3rem;}
+.services-grid{grid-template-columns:repeat(2,1fr);gap:20px;}
+.service-card img{height:200px;}
+.before-after{max-width:400px;}
+.slider-track{gap:15px;height:300px;}
+.slide{width:240px;}
+.slide#slide-left{transform:perspective(800px) rotateY(15deg) translateZ(-60px) scale(0.75);}
+.slide#slide-center{transform:perspective(800px) rotateY(0deg) translateZ(0) scale(1);}
+.slide#slide-right{transform:perspective(800px) rotateY(-15deg) translateZ(-60px) scale(0.75);}
+}
+@media(max-width:480px){
+section{padding:40px 12px;}
+h2{font-size:1.5rem;margin-bottom:30px;}
+.hero{padding:80px 12px 60px;}
+.hero h2{font-size:2rem;}
+.hero p{font-size:1.1rem;}
+.stats{gap:30px;flex-direction:column;}
+.stat-item .number{font-size:2.5rem;}
+.services-grid{grid-template-columns:1fr;}
+.service-card h3{font-size:1.2rem;}
+.service-card p{font-size:0.9rem;padding:0 15px 20px;}
+.service-card img{height:160px;}
+.before-after{max-width:300px;}
+.slider-track{gap:10px;height:240px;}
+.slide{width:180px;}
+.slide#slide-left{transform:perspective(600px) rotateY(10deg) translateZ(-40px) scale(0.7);}
+.slide#slide-center{transform:perspective(600px) rotateY(0deg) translateZ(0) scale(1);}
+.slide#slide-right{transform:perspective(600px) rotateY(-10deg) translateZ(-40px) scale(0.7);}
+.contact-card{flex:1 1 100%;}
+.map{height:300px;}
+.contact-icons{gap:16px;}
+.contact-icons a{width:60px;height:60px;font-size:1.4rem;}
+.pricing-grid{grid-template-columns:1fr;}
+.pricing-header h3{font-size:1.1rem;}
+}
+.contact-container{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;margin-top:40px;}
+.contact-card{flex:1 1 280px;background:rgba(255,255,255,0.05);padding:30px 20px;border-radius:20px;text-align:center;transition:all .3s;}
+.contact-card:hover{background:rgba(129,216,208,0.15);}
+.contact-icons{display:flex;justify-content:center;gap:24px;margin:50px 0;flex-wrap:wrap;}
+.contact-icons a{display:flex;align-items:center;justify-content:center;width:70px;height:70px;border-radius:50%;background:rgba(129,216,208,0.2);color:var(--tiffany);font-size:1.8rem;transition:.3s;text-decoration:none;}
+.contact-icons a:hover{background:var(--tiffany);color:#000;transform:translateY(-6px);}
+.map{max-width:1200px;margin:0 auto;border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.6);height:400px;}
+.map iframe{width:100%;height:100%;border:0;}
+.reveal{opacity:0;transform:translateY(80px);transition:all 1s ease;}
+.reveal.active{opacity:1;transform:none;}
+
+/* PANEL CENNIKA FULLSCREEN */
+.pricing-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:4000;}
+.pricing-modal-overlay.active{opacity:1;visibility:visible;}
+.pricing-modal{position:fixed;inset:0;background:rgba(0,0,0,.95);overflow-y:auto;transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);z-index:4001;}
+.pricing-modal.active{transform:translateX(0);}
+.modal-header{position:sticky;top:0;padding:24px;background:rgba(129,216,208,.1);border-bottom:2px solid var(--tiffany);display:flex;justify-content:space-between;align-items:center;z-index:100;}
+.modal-header h1{font-size:2rem;color:var(--tiffany);margin:0;}
+.modal-close{background:none;border:none;color:var(--tiffany);font-size:2rem;cursor:pointer;transition:.3s;width:40px;height:40px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{color:#fff;transform:scale(1.2);}
+.modal-content{max-width:1200px;margin:0 auto;padding:40px 24px;}
+.category-tabs{display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap;}
+.category-tab{padding:12px 24px;background:rgba(129,216,208,.1);border:2px solid rgba(129,216,208,.3);color:#fff;cursor:pointer;border-radius:8px;font-weight:600;transition:.3s;}
+.category-tab.active{background:var(--tiffany);color:#000;border-color:var(--tiffany);}
+.category-tab:hover{border-color:var(--tiffany);}
+.pricing-list-modal{display:grid;gap:20px;}
+.pricing-item-modal{background:rgba(255,255,255,.05);padding:24px;border-radius:12px;border-left:4px solid var(--tiffany);cursor:pointer;transition:.3s;}
+.pricing-item-modal:hover{background:rgba(129,216,208,.1);transform:translateX(10px);}
+.pricing-item-modal.expanded{background:rgba(129,216,208,.15);border-left-color:#fff;}
+.pricing-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0;}
+.pricing-item-modal.expanded .pricing-item-header{margin-bottom:20px;}
+.item-name{font-size:1.2rem;font-weight:600;color:#fff;}
+.item-price{font-size:1.3rem;color:var(--tiffany);font-weight:bold;}
+.pricing-item-description{display:none;color:var(--muted);line-height:1.8;font-size:1rem;}
+.pricing-item-modal.expanded .pricing-item-description{display:block;}
+
+@media(max-width:768px){
+.modal-content{padding:24px 16px;}
+.category-tabs{gap:8px;}
+.category-tab{padding:10px 16px;font-size:0.9rem;}
+.item-name{font-size:1rem;}
+.item-price{font-size:1.1rem;}
+}
+
+.btn-rezerwacja{
+  background:var(--tiffany);
+  color:#000;
+  padding:10px 24px;
+  border-radius:8px;
+  font-weight:bold;
+  transition:.3s;
+  white-space:nowrap;
+}
+.btn-rezerwacja:hover{
+  background:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(129,216,208,.4);
+}
+
+.beyond-wrapper{
+display:flex;
+align-items:center;
+gap:60px;
+max-width:1400px;
+margin:0 auto;
+}
+.beyond-image{
+flex:1;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 20px 60px rgba(129,216,208,.2);
+}
+.beyond-image img{
+width:100%;
+height:auto;
+display:block;
+}
+.beyond-content{
+flex:1;
+}
+.beyond-content h2{
+text-align:left;
+font-size:2.5rem;
+margin-bottom:20px;
+color:var(--tiffany);
+}
+.beyond-content p{
+color:var(--muted);
+font-size:1.1rem;
+line-height:1.8;
+margin-bottom:20px;
+}
+.beyond-content p strong{
+color:#fff;
+font-size:1.3rem;
+}
+.beyond-list{
+margin-top:30px;
+padding-top:30px;
+border-top:2px solid rgba(129,216,208,.3);
+}
+.beyond-list p{
+color:#fff;
+font-size:1.1rem;
+margin-bottom:15px;
+display:flex;
+align-items:center;
+gap:12px;
+}
+.beyond-list p::before{
+content:'';
+width:8px;
+height:8px;
+background:var(--tiffany);
+border-radius:50%;
+flex-shrink:0;
+}
+
+@media(max-width:1024px){
+.beyond-wrapper{
+gap:40px;
+}
+.beyond-content h2{
+font-size:2rem;
+}
+}
+
+@media(max-width:768px){
+.beyond-wrapper{
+flex-direction:column;
+gap:30px;
+}
+.beyond-content h2{
+text-align:center;
+font-size:1.8rem;
+}
+.beyond-content p{
+text-align:center;
+}
+.beyond-list{
+text-align:center;
+}
+.beyond-list p::before{
+display:none;
+}
+}
+
+@media(max-width:480px){
+.beyond-wrapper{
+gap:20px;
+}
+.beyond-content h2{
+font-size:1.4rem;
+}
+.beyond-content p{
+font-size:1rem;
+}
+.beyond-list p{
+font-size:1rem;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="menu-overlay" id="overlay"></div>
+<div class="pricing-modal-overlay" id="pricingModalOverlay"></div>
+
+<!-- FULLSCREEN MODAL CENNIKA -->
+<div class="pricing-modal" id="pricingModal">
+<div class="modal-header">
+<h1 id="modalTitle">Cennik usług</h1>
+<button class="modal-close" id="modalClose">&times;</button>
+</div>
+<div class="modal-content">
+<div class="category-tabs" id="categoryTabs"></div>
+<div class="pricing-list-modal" id="pricingListModal"></div>
+</div>
+</div>
+
+<header>
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <img src="logo.png" alt="Gloss Point">
+    </div>
+    <div class="nav-wrapper" id="menu">
+      <div class="header-icons">
+        <a href="tel:+48 660 706 043"><i class="fas fa-phone"></i></a>
+        <a href="https://www.instagram.com/glosspoint_/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61570655316863" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      </div>
+      <ul class="nav-center">
+        <li><a href="#onas">O nas</a></li>
+        <li><a href="#uslugi">Usługi</a></li>
+        <li><a href="#realizacje">Realizacje</a></li>
+        <li>
+          <a href="#cennik" class="dropdown-toggle" id="cennikToggle">Cennik</a>
+          <div class="dropdown-menu" id="cennikMenu">
+            <a href="javascript:void(0)" data-category="mycie">Mycie</a>
+            <a href="javascript:void(0)" data-category="wnetrze">Wnętrze pojazdu</a>
+            <a href="javascript:void(0)" data-category="lakier">Lakier</a>
+            <a href="javascript:void(0)" data-category="powloki">Powłoki i hydrofoba</a>
+            <a href="javascript:void(0)" data-category="szyby">Szyby</a>
+            <a href="javascript:void(0)" data-category="ppf">Folia ochronna PPF</a>
+          </div>
+        </li>
+        <li><a href="#kontakt">Kontakt</a></li>
+        <li><a href="#rezerwacja" class="btn-rezerwacja">Rezerwacja</a></li>
+      </ul>
+    </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+</header>
+
+<section class="hero reveal" id="hero" tabindex="-1">
+<h2>Gloss Point Detailing</h2>
+<p>Profesjonalna pielęgnacja samochodów - Tarnów</p>
+</section>
+
+<section id="onas" class="reveal" tabindex="-1">
+<h2>O nas</h2>
+<div class="stats">
+<div class="stat-item"><div class="number">0</div><div class="label">Pojazdów</div></div>
+<div class="stat-item"><div class="number">0</div><div class="label">Powłok ceramicznych</div></div>
+<div class="stat-item"><div class="number">0</div><div class="label">Korekt lakieru</div></div>
+</div>
+<div class="beyond-wrapper" style="margin-top:60px;">
+<div class="beyond-image">
+<img src="https://lh3.googleusercontent.com/p/AF1QipOnn3GGyAbq9u_Ds0e89yYcxTimEI8fuyDypu6z=s1600" alt="Gloss Point Detailing">
+</div>
+<div class="beyond-content">
+<h2>Beyond Clean</h2>
+<p><strong>Nie myjemy samochodów - przeprowadzamy rytuał renowacji.</strong></p>
+<p>Dzięki zaawansowanej nanotechnologii oraz obsesyjnej dbałości o detale sprawiamy, że Twoje auto nie tylko lśni — ono emanuje perfekcją.</p>
+<div class="beyond-list">
+<p>Specjaliści korekty lakieru</p>
+<p>Certyfikowani instalatorzy powłok ceramicznych</p>
+<p>Eksperci renowacji wnętrz</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="uslugi" class="reveal" tabindex="-1">
+<h2>Usługi</h2>
+<div class="services-grid">
+<div class="service-card" onclick="openPricingModal('mycie')"><img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=900"><h3>Mycie pojazdu</h3><p>Profesjonalne mycie z zewnątrz i wnętrza</p></div>
+<div class="service-card" onclick="openPricingModal('wnetrze')"><img src="https://images.unsplash.com/photo-1617814065893-00757125efab?w=900"><h3>Detailing wnętrza</h3><p>Głębokie czyszczenie i renowacja wnętrza</p></div>
+<div class="service-card" onclick="openPricingModal('lakier')"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900"><h3>Korekta i renowacja lakieru</h3><p>Usunięcie rys i przywrócenie połysku</p></div>
+<div class="service-card" onclick="openPricingModal('powloki')"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900"><h3>Powłoki ceramiczne</h3><p>Długotrwała ochrona lakieru i szyb</p></div>
+<div class="service-card" onclick="openPricingModal('szyby')"><img src="https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=900"><h3>Szyby</h3><p>Przyciemnianie i ochrona szyb</p></div>
+<div class="service-card" onclick="openPricingModal('ppf')"><img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=900"><h3>Folia ochronna PPF</h3><p>Bezbarwna folia i pakiety ochronne</p></div>
+</div>
+</section>
+
+<section id="przedpo" class="reveal" tabindex="-1">
+<h2>Przed i Po</h2>
+<div class="before-after">
+<div class="ba-box" id="ba-box">
+<img src="probka.jpg">
+<img class="ba-after" src="probka1.jpg">
+<div class="ba-handle"></div>
+</div>
+</div>
+</section>
+
+<section id="realizacje" class="reveal" tabindex="-1">
+<h2>Realizacje</h2>
+<div class="slider-container">
+<div class="slider-track" id="slider">
+<div class="slide" id="slide-left"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900"></div>
+<div class="slide center" id="slide-center"><img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=900"></div>
+<div class="slide" id="slide-right"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900"></div>
+</div>
+</div>
+</section>
+
+<section id="kontakt" class="reveal" tabindex="-1">
+<h2>Kontakt</h2>
+<div class="contact-container">
+<div class="contact-card">
+<h3>Dane kontaktowe</h3>
+<p><strong>Adres:</strong><br>ul. Marii Konopnickiej 5<br>33-100 Tarnów</p>
+<p><strong>Telefon:</strong> <a href="tel:+48 660 706 043" style="color:var(--tiffany);text-decoration:none;">+48 660 706 043</a></p>
+<p><strong>E-mail:</strong> <a href="glosspointbiuro@gmail.com" style="color:var(--tiffany);text-decoration:none;">glosspointbiuro@gmail.com</a></p>
+</div>
+<div class="contact-card">
+<h3>Godziny otwarcia</h3>
+<p>Poniedziałek - Piątek: 8:00 - 18:00</p>
+<p>Sobota: 9:00 - 15:00</p>
+<p>Niedziela: Zamknięte</p>
+</div>
+</div>
+<div class="contact-icons">
+<a href="tel:+48660706043"><i class="fas fa-phone"></i></a>
+<a href="https://www.instagram.com/glosspoint_/" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="https://www.facebook.com/profile.php?id=61570655316863" target="_blank"><i class="fab fa-facebook-f"></i></a>
+</div>
+
+<div class="map">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2592.802468242!2d20.979227016928!3d50.00739999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47165d0b0b0b0b0b%3A0xabcdef1234567890!2sul.+Marii+Konopnickiej+5%2C+33-100+Tarn%C3%B3w%2C+Polska!5e0!3m2!1spl!2spl!4v1737028800000!5m2!1spl!2spl" allowfullscreen="" loading="lazy"></iframe>
+</div>
+</section>
+
+<script>
+// ------------------- CENNIK KATEGORYZOWANY -------------------
+const pricingData = {
+  mycie: {
+    title: 'Mycie pojazdu',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Mycie z zewnątrz': {
+        description: 'Profesjonalne mycie całego pojazdu z obsługą każdego detalu',
+        prices: { 'Samochód mały': '130 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '180 zł' }
+      },
+      'Sprzątanie środka': {
+        description: 'Gruntowne czyszczenie wnętrza pojazdu',
+        prices: { 'Samochód mały': '130 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '180 zł' }
+      },
+      'Dekontaminacja chemiczna': {
+        description: 'Usunięcie żelaznych zanieczyszczeń i skontaminowania z lakieru',
+        prices: { 'Samochód mały': '150 zł', 'Samochód duży': '170 zł', 'SUV/VAN': '200 zł' }
+      },
+      'Ozonowanie wnętrza': {
+        description: 'Eliminacja nieprzyjemnych zapachów i bakterii z wnętrza pojazdu',
+        prices: { 'Samochód mały': '120 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '180 zł' }
+      },
+      'Wosk 9 miesięcy (do mycia)': {
+        description: 'Dodatkowa usługa do mycia - nałożenie wosku ochronnego',
+        prices: { 'Samochód mały': '350 zł', 'Samochód duży': '350 zł', 'SUV/VAN': '350 zł' }
+      },
+      'Bagażnik dachowy mycie': {
+        description: 'Czyszczenie bagażnika dachowego pojazdu',
+        prices: { 'Samochód mały': '50 zł', 'Samochód duży': '50 zł', 'SUV/VAN': '50 zł' }
+      },
+    }
+  },
+  wnetrze: {
+    title: 'Detailing wnętrza pojazdu',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Usuwanie sierści': {
+        description: 'Profesjonalne usunięcie sierści zwierząt z tapicerki pojazdu',
+        prices: { 'Samochód mały': 'od 50 zł', 'Samochód duży': 'od 50 zł', 'SUV/VAN': 'od 50 zł' }
+      },
+      'Czyszczenie skór + impregnacja': {
+        description: 'Głębokie czyszczenie i impregnacja siedzeń skórzanych',
+        prices: { 'Samochód mały': '600 zł', 'Samochód duży': '700 zł', 'SUV/VAN': '800 zł' }
+      },
+      'Pranie standardowe': {
+        description: 'Czyszczenie całego wnętrza pojazdu - tapicerka, dywanki, plastiki',
+        prices: { 'Samochód mały': '1000 zł', 'Samochód duży': '1200 zł', 'SUV/VAN': '1400 zł' }
+      },
+      'Pranie premium': {
+        description: 'Zaawansowane czyszczenie z użyciem profesjonalnych środków chemicznych',
+        prices: { 'Samochód mały': '1500 zł', 'Samochód duży': '1800 zł', 'SUV/VAN': '2200 zł' }
+      },
+      'Pranie fotela/siedziska': {
+        description: 'Czyszczenie jednego fotela lub siedziska',
+        prices: { 'Samochód mały': '150 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '150 zł' }
+      },
+      'Impregnacja wnętrza pojazdu': {
+        description: 'Ochrona tkanin wnętrza przed zabrudzeniami i zmianą koloru',
+        prices: { 'Samochód mały': '600 zł', 'Samochód duży': '700 zł', 'SUV/VAN': '800 zł' }
+      },
+    }
+  },
+  lakier: {
+    title: 'Korekta i renowacja lakieru',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Usuwanie zarysowań Smart Repair': {
+        description: 'Usunięcie małych zarysowań bez konieczności przygotowywania',
+        prices: { 'Samochód mały': 'Wycena indywidualna', 'Samochód duży': 'Wycena indywidualna', 'SUV/VAN': 'Wycena indywidualna' }
+      },
+      'Usuwanie odprysków na szybie': {
+        description: 'Naprawa drobnych pęknięć i odprysków na szybie',
+        prices: { 'Samochód mały': '200 zł', 'Samochód duży': '200 zł', 'SUV/VAN': '200 zł' }
+      },
+      'One step + wosk': {
+        description: 'Jedno polerowanie + nałożenie wosku ochronnego',
+        prices: { 'Samochód mały': '1100 zł', 'Samochód duży': '1300 zł', 'SUV/VAN': '1500 zł' }
+      },
+      'Korekta lakieru (2-3 etapy)': {
+        description: 'Wieloetapowe polerowanie lakieru celem usunięcia rys i hologramów',
+        prices: { 'Samochód mały': '1600 zł', 'Samochód duży': '2000 zł', 'SUV/VAN': '2400 zł' }
+      },
+      'Renowacja lakieru': {
+        description: 'Kompleksowa renowacja lakieru pojazdu na wysokim poziomie',
+        prices: { 'Samochód mały': 'od 2500 zł', 'Samochód duży': 'od 3000 zł', 'SUV/VAN': 'od 3500 zł' }
+      },
+      'Przygotowanie do sprzedaży': {
+        description: 'Pełne przygotowanie pojazdu do sprzedaży - lakier, wnętrze',
+        prices: { 'Samochód mały': 'Wycena indywidualna', 'Samochód duży': 'Wycena indywidualna', 'SUV/VAN': 'Wycena indywidualna' }
+      },
+      'Oddaj auto po leasingu/najmie': {
+        description: 'Przygotowanie pojazdu do zwrotu w idealnym stanie',
+        prices: { 'Samochód mały': 'Wycena indywidualna', 'Samochód duży': 'Wycena indywidualna', 'SUV/VAN': 'Wycena indywidualna' }
+      },
+    }
+  },
+  powloki: {
+    title: 'Powłoki ceramiczne i hydrofoba',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Powłoka polimerowa 3 miesięczna': {
+        description: 'Tymczasowa powłoka ochronna na lakier - 3 miesiące gwarancji',
+        prices: { 'Samochód mały': '150 zł', 'Samochód duży': '180 zł', 'SUV/VAN': '220 zł' }
+      },
+      'Powłoka hydrofobowa na przednią szybę': {
+        description: 'Hydrofobowa powłoka ochronna na przednią szybę',
+        prices: { 'Samochód mały': '150 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '150 zł' }
+      },
+      'Powłoka hydrofobowa wszystkich szyb': {
+        description: 'Hydrofobowa powłoka na wszystkie szyby pojazdu',
+        prices: { 'Samochód mały': '300 zł', 'Samochód duży': '300 zł', 'SUV/VAN': '300 zł' }
+      },
+      'Pakiet zabezpieczenia ceramicznego 3 letni': {
+        description: 'Ceramiczna powłoka ochronna na lakier - 3 lata gwarancji',
+        prices: { 'Samochód mały': 'od 2500 zł', 'Samochód duży': 'od 3000 zł', 'SUV/VAN': 'od 3500 zł' }
+      },
+      'Pakiet zabezpieczenia ceramicznego 5 letni': {
+        description: 'Ceramiczna powłoka ochronna na lakier - 5 lat gwarancji',
+        prices: { 'Samochód mały': 'od 3500 zł', 'Samochód duży': 'od 4200 zł', 'SUV/VAN': 'od 5000 zł' }
+      },
+      'Pakiet zabezpieczenia ceramicznego 7 letni': {
+        description: 'Ceramiczna powłoka ochronna na lakier - 7 lat gwarancji',
+        prices: { 'Samochód mały': 'od 4800 zł', 'Samochód duży': 'od 5800 zł', 'SUV/VAN': 'od 6800 zł' }
+      },
+    }
+  },
+  szyby: {
+    title: 'Szyby pojazdu',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Przyciemnianie szyb': {
+        description: 'Profesjonalne przyciemnianie szyb bocznych i tylnej',
+        prices: { 'Samochód mały': '1000 zł', 'Samochód duży': '1200 zł', 'SUV/VAN': '1400 zł' }
+      },
+    }
+  },
+  ppf: {
+    title: 'Folia ochronna PPF',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Reflektory': {
+        description: 'Folia ochronna na reflektory pojazdu',
+        prices: { 'Samochód mały': '800 zł', 'Samochód duży': '800 zł', 'SUV/VAN': '800 zł' }
+      },
+      'Maska': {
+        description: 'Folia ochronna na maskę pojazdu',
+        prices: { 'Samochód mały': '2000 zł', 'Samochód duży': '2200 zł', 'SUV/VAN': '2500 zł' }
+      },
+      'Zderzak przedni': {
+        description: 'Folia ochronna na zderzak przedni',
+        prices: { 'Samochód mały': '2000 zł', 'Samochód duży': '2200 zł', 'SUV/VAN': '2500 zł' }
+      },
+      'Wnęki klamek': {
+        description: 'Folia ochronna w wnetrzach klamek drzwi',
+        prices: { 'Samochód mały': '400 zł', 'Samochód duży': '400 zł', 'SUV/VAN': '400 zł' }
+      },
+      'Progi wewnętrzne': {
+        description: 'Folia ochronna na progi wewnętrzne pojazdu',
+        prices: { 'Samochód mały': '600 zł', 'Samochód duży': '600 zł', 'SUV/VAN': '600 zł' }
+      },
+      'Próg bagażnika': {
+        description: 'Folia ochronna na próg bagażnika',
+        prices: { 'Samochód mały': '500 zł', 'Samochód duży': '500 zł', 'SUV/VAN': '500 zł' }
+      },
+      'Lusterka': {
+        description: 'Folia ochronna na lusterka boczne pojazdu',
+        prices: { 'Samochód mały': '600 zł', 'Samochód duży': '600 zł', 'SUV/VAN': '600 zł' }
+      },
+      'Pakiet Hybrydowy full front': {
+        description: 'Pakiet obejmujący maskę, reflektory, zderzak, progi - hybrydowy',
+        prices: { 'Samochód mały': 'od 7000 zł', 'Samochód duży': 'od 8000 zł', 'SUV/VAN': 'od 9000 zł' }
+      },
+      'Pakiet front': {
+        description: 'Pakiet pełna ochrona przodu pojazdu',
+        prices: { 'Samochód mały': 'od 6500 zł', 'Samochód duży': 'od 7500 zł', 'SUV/VAN': 'od 8500 zł' }
+      },
+      'Full body PPF': {
+        description: 'Całkowita ochrona całego pojazdu folią ochronną',
+        prices: { 'Samochód mały': 'od 14500 zł', 'Samochód duży': 'od 17000 zł', 'SUV/VAN': 'od 20000 zł' }
+      },
+      'Pakiet PPF Basic': {
+        description: 'Podstawowy pakiet ochrony folią ochronną',
+        prices: { 'Samochód mały': 'od 1800 zł', 'Samochód duży': 'od 2200 zł', 'SUV/VAN': 'od 2600 zł' }
+      },
+    }
+  }
+};
+
+// ------------------- MODAL CENNIK -------------------
+const pricingModal = document.getElementById('pricingModal');
+const pricingModalOverlay = document.getElementById('pricingModalOverlay');
+const modalClose = document.getElementById('modalClose');
+
+function openPricingModal(category) {
+  const data = pricingData[category];
+  if (!data) return;
+
+  document.getElementById('modalTitle').textContent = data.title;
+
+  // Kategorie
+  const categoriesHtml = data.categories.map(cat => 
+    `<button class="category-tab active" onclick="filterByCategory(this, '${cat}')" data-category="${cat}">${cat}</button>`
+  ).join('');
+  document.getElementById('categoryTabs').innerHTML = categoriesHtml;
+
+  // Elementy cennika
+  const itemsHtml = Object.entries(data.items).map(([name, item]) => {
+    const pricesHtml = Object.entries(item.prices).map(([cat, price]) =>
+      `<div class="category-price" data-category="${cat}" style="display: none;"><strong>${cat}:</strong> ${price}</div>`
+    ).join('');
+    
+    return `
+      <div class="pricing-item-modal" onclick="toggleExpand(this)">
+        <div class="pricing-item-header">
+          <div class="item-name">${name}</div>
+          <div class="item-price">${Object.values(item.prices)[0]}</div>
+        </div>
+        <div class="pricing-item-description">${item.description}</div>
+        <div class="category-prices" style="margin-top: 16px; display: none;">
+          ${pricesHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('pricingListModal').innerHTML = itemsHtml;
+
+  // Pokaż pierwszą kategorię
+  showCategory(data.categories[0]);
+
+  pricingModal.classList.add('active');
+  pricingModalOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function toggleExpand(el) {
+  el.classList.toggle('expanded');
+  const priceBox = el.querySelector('.category-prices');
+  if (priceBox) {
+    priceBox.style.display = priceBox.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
+function filterByCategory(btn, category) {
+  document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+  btn.classList.add('active');
+  showCategory(category);
+}
+
+function showCategory(category) {
+  const items = document.querySelectorAll('.pricing-item-modal');
+  items.forEach(item => {
+    const categoryPrices = item.querySelectorAll('.category-price');
+    categoryPrices.forEach(price => {
+      price.style.display = price.getAttribute('data-category') === category ? 'block' : 'none';
+    });
+  });
+}
+
+function closePricingModal() {
+  pricingModal.classList.remove('active');
+  pricingModalOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closePricingModal);
+pricingModalOverlay.addEventListener('click', closePricingModal);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closePricingModal();
+});
+
+// ------------------- MENU -------------------
+const burger = document.getElementById('hamburger');
+const menu = document.getElementById('menu');
+const overlay = document.getElementById('overlay');
+
+function closeMenu() {
+  burger.classList.remove('active');
+  menu.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+burger.onclick = () => {
+  burger.classList.toggle('active');
+  menu.classList.toggle('active');
+  overlay.classList.toggle('active');
+  document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+};
+
+overlay.onclick = closeMenu;
+
+document.querySelectorAll('.nav-center a:not(.dropdown-toggle)').forEach(link => {
+  link.addEventListener('click', e => {
+    if (!link.classList.contains('btn-rezerwacja')) {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      closeMenu();
+      setTimeout(() => {
+        const headerOffset = document.querySelector('header').offsetHeight;
+        const elementPosition = target.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: elementPosition - headerOffset - 10, behavior: 'smooth' });
+      }, 300);
+    }
+  });
+});
+
+// ------------------- DROPDOWN CENNIK -------------------
+const cennikToggle = document.getElementById('cennikToggle');
+const cennikMenu = document.getElementById('cennikMenu');
+
+if (cennikToggle && cennikMenu) {
+  cennikToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    cennikToggle.classList.toggle('active');
+    cennikMenu.classList.toggle('active');
+  });
+
+  // Delegacja dla wszystkich linków w menu
+  cennikMenu.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const category = link.getAttribute('data-category');
+    
+    if (category && pricingData[category]) {
+      openPricingModal(category);
+      
+      // Zamknij wszystkie menu
+      setTimeout(() => {
+        cennikToggle.classList.remove('active');
+        cennikMenu.classList.remove('active');
+        burger.classList.remove('active');
+        menu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }, 50);
+    }
+  });
+
+  // Zamknij dropdown przy kliknięciu poza nim
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-center li:has(#cennikToggle)')) {
       cennikToggle.classList.remove('active');
       cennikMenu.classList.remove('active');
     }
