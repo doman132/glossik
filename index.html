@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gloss Point Detailing – Tarnów</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
 <style>
 :root{
 --tiffany:#81d8d0;
@@ -514,17 +513,55 @@ font-size:1rem;
 <button class="modal-close" id="reservationClose">&times;</button>
 </div>
 <div class="modal-content">
+
 <!-- STRONA 1: WYBÓR USŁUGI -->
 <div id="reservationPage1" class="reservation-page">
 <h2 style="text-align:center;margin-bottom:40px;color:var(--tiffany);">Wybierz usługę</h2>
 <div class="services-list" id="reservationServicesList"></div>
 </div>
-<!-- STRONA 2: FORMULARZ REZERWACJI -->
+
+<!-- STRONA 2: WYBÓR DNIA (KALENDARZ) -->
 <div id="reservationPage2" class="reservation-page" style="display:none;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;">
+<button onclick="goBackReservation()" style="background:none;border:none;color:var(--tiffany);cursor:pointer;font-size:24px;">← Wróć</button>
+<h2 style="flex:1;text-align:center;margin:0;color:var(--tiffany);" id="calendarTitle">Wybierz datę</h2>
+<div style="width:24px;"></div>
+</div>
+<div id="calendarContainer" style="background:rgba(129,216,208,.05);padding:20px;border-radius:12px;border:2px solid rgba(129,216,208,.2);">
+<div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+<button onclick="prevMonth()" style="background:rgba(129,216,208,.2);border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;">← Poprzedni</button>
+<h3 id="monthYear" style="margin:0;color:#fff;text-align:center;flex:1;"></h3>
+<button onclick="nextMonth()" style="background:rgba(129,216,208,.2);border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;">Następny →</button>
+</div>
+<div id="calendarGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:20px;"></div>
+<div id="selectedDateInfo" style="text-align:center;padding:15px;background:rgba(129,216,208,.1);border-radius:8px;display:none;">
+<p style="margin:0;color:#fff;font-size:1.1rem;">Wybrana data: <span id="selectedDateDisplay" style="color:var(--tiffany);font-weight:bold;"></span></p>
+</div>
+</div>
+<button onclick="confirmDate()" id="confirmDateBtn" style="width:100%;margin-top:20px;padding:14px;background:var(--tiffany);color:#0b0b0b;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;display:none;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Dalej - Wybierz godzinę</button>
+</div>
+
+<!-- STRONA 3: WYBÓR GODZINY -->
+<div id="reservationPage3" class="reservation-page" style="display:none;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;">
+<button onclick="backToCalendar()" style="background:none;border:none;color:var(--tiffany);cursor:pointer;font-size:24px;">← Wróć</button>
+<h2 style="flex:1;text-align:center;margin:0;color:var(--tiffany);">Wybierz godzinę</h2>
+<div style="width:24px;"></div>
+</div>
+<p style="text-align:center;color:#aaa;margin-bottom:20px;">Data: <span id="selectedDateForHours" style="color:var(--tiffany);font-weight:bold;"></span></p>
+<div id="hoursGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;"></div>
+<button onclick="confirmTime()" id="confirmTimeBtn" style="width:100%;padding:14px;background:var(--tiffany);color:#0b0b0b;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;display:none;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Dalej - Uzupełnij dane</button>
+</div>
+
+<!-- STRONA 4: FORMULARZ REZERWACJI -->
+<div id="reservationPage4" class="reservation-page" style="display:none;">
 <h2 style="text-align:center;margin-bottom:30px;color:var(--tiffany);">Potwierdź rezerwację</h2>
 <div id="selectedServiceInfo" style="background:rgba(129,216,208,.1);padding:20px;border-radius:12px;margin-bottom:30px;border-left:4px solid var(--tiffany);">
 <p id="selectedServiceName" style="font-size:1.2rem;color:#fff;margin-bottom:10px;"></p>
 <p id="selectedServicePrice" style="font-size:1.1rem;color:var(--tiffany);font-weight:bold;"></p>
+<p id="selectedDateTimeInfo" style="font-size:0.95rem;color:#aaa;margin-top:15px;border-top:1px solid rgba(129,216,208,.3);padding-top:15px;margin:15px 0 0 0;">
+<span style="color:#fff;">📅</span> <span id="dateTimeDisplay"></span>
+</p>
 </div>
 <form id="reservationForm" style="max-width:600px;margin:0 auto;">
 <div style="margin-bottom:20px;">
@@ -539,21 +576,12 @@ font-size:1rem;
 <label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">E-mail *</label>
 <input type="email" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
 </div>
-<div style="margin-bottom:20px;">
-<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Data rezerwacji *</label>
-<input type="date" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
-</div>
-<div style="margin-bottom:20px;">
-<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Godzina (9:00 - 17:00) *</label>
-<input type="time" id="reservationTime" required min="09:00" max="17:00" style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
-<div id="blockedHoursWarning" style="margin-top:8px;color:#ff6b6b;font-size:0.9rem;display:none;">Ta godzina jest już zarezerwowana. Wybierz inną.</div>
-</div>
 <div style="margin-bottom:30px;">
 <label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Wiadomość (opcjonalnie)</label>
 <textarea style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;min-height:120px;resize:vertical;"></textarea>
 </div>
 <div style="display:flex;gap:16px;">
-<button type="button" onclick="goBackReservation()" style="flex:1;padding:14px;background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.3);border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;">Wróć</button>
+<button type="button" onclick="backToHours()" style="flex:1;padding:14px;background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.3);border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;">Wróć</button>
 <button type="submit" style="flex:1;padding:14px;background:var(--tiffany);color:#000;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;">Zarezerwuj</button>
 </div>
 </form>
@@ -1148,22 +1176,20 @@ let selectedService = null;
 
 // Lista usług do rezerwacji
 const reservationServices = [
-  { id: 'mycie', name: 'Mycie pojazdu', price: 'od 130 zł', description: 'Profesjonalne mycie pojazdu' },
-  { id: 'wnetrze', name: 'Detailing wnętrza', price: 'od 1000 zł', description: 'Głębokie czyszczenie wnętrza' },
-  { id: 'lakier', name: 'Korekta lakieru', price: 'od 1100 zł', description: 'Polerowanie i renowacja' },
-  { id: 'powloki', name: 'Powłoki ceramiczne', price: 'od 2500 zł', description: 'Ochrona lakieru i szyb' },
-  { id: 'szyby', name: 'Przyciemnianie szyb', price: '1000 zł', description: 'Profesjonalne przyciemnianie' },
-  { id: 'ppf', name: 'Folia ochronna PPF', price: 'od 1800 zł', description: 'Ochrona pojazdu' }
+  { id: 'mycie', name: 'Bieżące mycie', price: 'od 130 zł', description: 'Profesjonalne mycie pojazdu', duration: 1 },
+  { id: 'sprzatanie', name: 'Sprzątanie wnętrza', price: 'od 1000 zł', description: 'Głębokie czyszczenie wnętrza', duration: 1 },
+  { id: 'komplet', name: 'Bieżące mycie ze sprzątaniem wnętrza (KOMPLET)', price: 'od 1130 zł', description: 'Pełny serwis mycia i czyszczenia', duration: 2 }
 ];
 
 function openReservationModal() {
   // Wygeneruj listę usług
   const servicesList = document.getElementById('reservationServicesList');
   servicesList.innerHTML = reservationServices.map(service => `
-    <div class="service-item" onclick="selectService('${service.id}', '${service.name}', '${service.price}')">
+    <div class="service-item" onclick="selectService('${service.id}', '${service.name}', '${service.price}', ${service.duration})">
       <h3>${service.name}</h3>
       <p>${service.description}</p>
       <div class="price">${service.price}</div>
+      <div style="font-size:0.85rem;color:var(--tiffany);margin-top:10px;">⏱️ ${service.duration}h</div>
     </div>
   `).join('');
 
@@ -1171,30 +1197,44 @@ function openReservationModal() {
   reservationModalOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
   
-  // Pokaż pierwszą stronę
   document.getElementById('reservationPage1').style.display = 'block';
   document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
 }
 
-function selectService(id, name, price) {
-  selectedService = { id, name, price };
+function selectService(id, name, price, duration) {
+  selectedService = { id, name, price, duration };
   document.getElementById('selectedServiceName').textContent = name;
   document.getElementById('selectedServicePrice').textContent = price;
   
-  // Przejdź na drugą stronę
+  // Inicjalizuj kalendarz
+  currentMonth = new Date();
+  renderCalendar();
+  
   document.getElementById('reservationPage1').style.display = 'none';
   document.getElementById('reservationPage2').style.display = 'block';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
+  
+  selectedDate = null;
+  selectedTime = null;
 }
 
 function goBackReservation() {
   document.getElementById('reservationPage1').style.display = 'block';
   document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
+  selectedDate = null;
+  selectedTime = null;
 }
 
 function closeReservationModal() {
   reservationModal.classList.remove('active');
   reservationModalOverlay.classList.remove('active');
   document.body.style.overflow = '';
+  goBackReservation();
 }
 
 // Event listenery
@@ -1206,53 +1246,334 @@ reservationBtn.addEventListener('click', (e) => {
 reservationClose.addEventListener('click', closeReservationModal);
 reservationModalOverlay.addEventListener('click', closeReservationModal);
 
-// Inicjalizuj EmailJS
-emailjs.init('YOUR_PUBLIC_KEY_HERE'); // Zastąp swoim kluczem publicznym z EmailJS
+// ------------------- NOWY SYSTEM REZERWACJI Z KALENDARZEM -------------------
+let selectedDate = null; // YYYY-MM-DD
+let selectedTime = null; // HH:MM
+let currentMonth = new Date();
 
-// Funkcja sprawdzająca czy godzina jest zablokowana
-function isTimeBlocked(date, serviceId, time) {
-  const blockedKey = `blocked_${date}_${serviceId}_${time}`;
-  return localStorage.getItem(blockedKey) === 'true';
-}
-
-// Funkcja blokująca godzinę
-function blockTime(date, serviceId, time) {
-  const blockedKey = `blocked_${date}_${serviceId}_${time}`;
-  localStorage.setItem(blockedKey, 'true');
-}
-
-// Walidacja godziny w czasie rzeczywistym
-document.getElementById('reservationTime').addEventListener('change', function() {
-  const selectedDate = reservationForm.querySelectorAll('input')[3].value;
-  const selectedTime = this.value;
+function renderCalendar() {
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth();
   
-  if (selectedDate && selectedTime && selectedService) {
-    if (isTimeBlocked(selectedDate, selectedService.id, selectedTime)) {
-      document.getElementById('blockedHoursWarning').style.display = 'block';
-      this.style.borderColor = '#ff6b6b';
+  // Ustaw tytuł
+  document.getElementById('monthYear').textContent = currentMonth.toLocaleDateString('pl-PL', { 
+    month: 'long', 
+    year: 'numeric' 
+  }).charAt(0).toUpperCase() + currentMonth.toLocaleDateString('pl-PL', { 
+    month: 'long', 
+    year: 'numeric' 
+  }).slice(1);
+  
+  // Przygotuj grid
+  const grid = document.getElementById('calendarGrid');
+  grid.innerHTML = '';
+  
+  // Dni tygodnia (po-nie)
+  const daysHeader = ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd'];
+  daysHeader.forEach(day => {
+    const dayEl = document.createElement('div');
+    dayEl.textContent = day;
+    dayEl.style.cssText = 'color:#81d8d0;font-weight:bold;text-align:center;padding:8px;';
+    grid.appendChild(dayEl);
+  });
+  
+  // Pierwsze dla miesiąca (0=pon, 6=nie)
+  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7; // Shift żeby poniedziałek = 0
+  
+  // Liczba dni w miesiącu
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  
+  // Puste pola przed pierwszym dniem
+  for (let i = 0; i < firstDay; i++) {
+    const emptyEl = document.createElement('div');
+    grid.appendChild(emptyEl);
+  }
+  
+  // Dni miesiąca
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const dateStr = date.toISOString().split('T')[0];
+    
+    const dayEl = document.createElement('button');
+    dayEl.textContent = day;
+    dayEl.style.cssText = `
+      padding:10px;border:2px solid rgba(129,216,208,.2);border-radius:6px;background:rgba(255,255,255,.05);color:#fff;
+      cursor:pointer;transition:.2s;font-weight:600;
+    `;
+    
+    // Disable dni w przeszłości
+    if (date < today) {
+      dayEl.style.opacity = '0.3';
+      dayEl.style.cursor = 'not-allowed';
+      dayEl.disabled = true;
     } else {
-      document.getElementById('blockedHoursWarning').style.display = 'none';
-      this.style.borderColor = 'rgba(129,216,208,.3)';
+      dayEl.onmouseover = function() { 
+        if (!this.disabled) this.style.borderColor = 'var(--tiffany)'; 
+      };
+      dayEl.onmouseout = function() { 
+        if (!this.disabled) this.style.borderColor = 'rgba(129,216,208,.2)'; 
+      };
+      dayEl.onclick = () => {
+        document.querySelectorAll('#calendarGrid button').forEach(el => {
+          el.style.background = 'rgba(255,255,255,.05)';
+          el.style.color = '#fff';
+        });
+        dayEl.style.background = 'var(--tiffany)';
+        dayEl.style.color = '#0b0b0b';
+        selectedDate = dateStr;
+        
+        document.getElementById('selectedDateDisplay').textContent = date.toLocaleDateString('pl-PL', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        document.getElementById('selectedDateInfo').style.display = 'block';
+        document.getElementById('confirmDateBtn').style.display = 'block';
+      };
+    }
+    
+    grid.appendChild(dayEl);
+  }
+}
+
+function prevMonth() {
+  currentMonth.setMonth(currentMonth.getMonth() - 1);
+  renderCalendar();
+}
+
+function nextMonth() {
+  currentMonth.setMonth(currentMonth.getMonth() + 1);
+  renderCalendar();
+}
+
+function confirmDate() {
+  if (!selectedDate) {
+    alert('Wybierz datę');
+    return;
+  }
+  
+  // Renderuj godziny
+  renderHours();
+  
+  document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'block';
+  document.getElementById('reservationPage4').style.display = 'none';
+  
+  selectedTime = null;
+}
+
+function backToCalendar() {
+  document.getElementById('reservationPage2').style.display = 'block';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
+  selectedTime = null;
+}
+
+function renderHours() {
+  const dateObj = new Date(selectedDate + 'T00:00');
+  document.getElementById('selectedDateForHours').textContent = dateObj.toLocaleDateString('pl-PL', {
+    weekday: 'short',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  
+  const hoursGrid = document.getElementById('hoursGrid');
+  hoursGrid.innerHTML = '';
+  
+  const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+  const duration = selectedService.duration || 1;
+  
+  hours.forEach(hour => {
+    const isBlocked = isTimeBlocked(selectedDate, hour, duration);
+    
+    const btn = document.createElement('button');
+    btn.textContent = hour;
+    btn.type = 'button';
+    
+    if (isBlocked) {
+      btn.style.cssText = `
+        padding:12px;border:2px solid #ff6b6b;border-radius:6px;background:rgba(255,107,107,.1);
+        color:#ff6b6b;cursor:not-allowed;opacity:0.5;font-weight:600;
+      `;
+      btn.disabled = true;
+    } else {
+      btn.style.cssText = `
+        padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:6px;background:rgba(255,255,255,.05);
+        color:#fff;cursor:pointer;transition:.2s;font-weight:600;
+      `;
+      btn.onmouseover = function() { 
+        this.style.borderColor = 'var(--tiffany)';
+      };
+      btn.onmouseout = function() { 
+        this.style.borderColor = 'rgba(129,216,208,.3)';
+      };
+      btn.onclick = () => {
+        document.querySelectorAll('#hoursGrid button').forEach(el => {
+          el.style.background = 'rgba(255,255,255,.05)';
+          el.style.borderColor = 'rgba(129,216,208,.3)';
+          el.style.color = '#fff';
+        });
+        btn.style.background = 'var(--tiffany)';
+        btn.style.color = '#0b0b0b';
+        btn.style.borderColor = 'var(--tiffany)';
+        selectedTime = hour;
+        document.getElementById('confirmTimeBtn').style.display = 'block';
+      };
+    }
+    
+    hoursGrid.appendChild(btn);
+  });
+}
+
+function confirmTime() {
+  if (!selectedTime) {
+    alert('Wybierz godzinę');
+    return;
+  }
+  
+  // Pokaż stronę 4 (formularz)
+  const dateObj = new Date(selectedDate + 'T00:00');
+  const dateFormatted = dateObj.toLocaleDateString('pl-PL', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  
+  document.getElementById('dateTimeDisplay').textContent = `${dateFormatted}, ${selectedTime}`;
+  
+  document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'block';
+}
+
+function backToHours() {
+  document.getElementById('reservationPage3').style.display = 'block';
+  document.getElementById('reservationPage4').style.display = 'none';
+}
+
+function goBackReservation() {
+  document.getElementById('reservationPage1').style.display = 'block';
+  document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
+  selectedDate = null;
+  selectedTime = null;
+}
+
+function closeReservationModal() {
+  reservationModal.classList.remove('active');
+  reservationModalOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+  goBackReservation();
+}
+
+/*
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                 GOOGLE CALENDAR INTEGRATION - INSTRUKCJA SETUP                ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║ Aby zintegrować Google Calendar, wykonaj następujące kroki:                  ║
+║                                                                               ║
+║ 1. OTWÓRZ GOOGLE APPS SCRIPT:                                                ║
+║    - Idź do: https://script.google.com/home                                  ║
+║    - Otwórz swój projekt Apps Script z URL powyżej                           ║
+║                                                                               ║
+║ 2. ZAKTUALIZUJ GOOGLE APPS SCRIPT KOD (editor.gs):                           ║
+║    Zastąp funkcję doPost() i dodaj funkcję createCalendarEvent()             ║
+║    Patrz plik: GOOGLE_APPS_SCRIPT_CODE.js (poniżej)                         ║
+║                                                                               ║
+║ 3. POŁĄCZ GOOGLE CALENDAR:                                                   ║
+║    - W Apps Script: Services (+) → Google Calendar API                       ║
+║    - Włącz Google Calendar API w Google Cloud                                ║
+║                                                                               ║
+║ 4. USTAW ID KALENDARZA:                                                      ║
+║    - Otwórz Google Calendar → Ustawienia kalendarza                          ║
+║    - Skopiuj ID kalendarza (np: xxxxx@group.calendar.google.com)            ║
+║    - Wstaw do CALENDAR_ID w Apps Script                                      ║
+║                                                                               ║
+║ 5. REDEPLOY GOOGLE APPS SCRIPT:                                              ║
+║    - Kliknij "Deploy" (nowa wersja)                                          ║
+║    - Skopiuj nowy URL i zastąp GOOGLE_SCRIPT_URL poniżej                    ║
+║                                                                               ║
+║ REZULTAT:                                                                     ║
+║ - Rezerwacje będą automatycznie dodawane do Google Calendar                  ║
+║ - Godziny będą automatycznie blokowane w systemie                            ║
+║ - Klienci otrzymają email z potwierdzeniem                                   ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+*/
+
+// Inicjalizuj Google Apps Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyNXsKK5GK4W7rhopg_mhjYQh_BrwL7eL1THpf4CBEoakyMM_pXn_0xRlSA1hS10LLa/exec'; // Zastąp pełnym URL z Google Apps Script
+
+// Funkcja do pobierania zablokowanych czasów z lokalnego magazynu
+// W przyszłości można będzie poszerzyć o Google Calendar API
+async function loadBlockedTimes(date) {
+  // Obecnie używamy localStorage
+  // Aby zintegrować Google Calendar:
+  // 1. Ustaw Google Calendar API w Google Cloud
+  // 2. Uwierzytelnij aplikację
+  // 3. Pobierz eventy z kalendarza na wybraną datę
+  // 4. Zapisz je w localStorage
+  return true;
+}
+
+// Funkcja sprawdzająca czy godzina jest zablokowana (wraz z czasem trwania usługi)
+function isTimeBlocked(date, time, duration = 1) {
+  const [hours] = time.split(':').map(Number);
+  // Sprawdź czy jakikolwiek czas w zakresie jest zablokowany
+  for (let i = 0; i < duration; i++) {
+    const currentHour = hours + i;
+    const blockedKey = `blocked_${date}_${currentHour}:00`;
+    if (localStorage.getItem(blockedKey) === 'true') {
+      return true;
     }
   }
-});
+  return false;
+}
+
+// Funkcja blokująca wszystkie godziny zajęte przez usługę
+function blockTime(date, time, duration = 1) {
+  const [hours] = time.split(':').map(Number);
+  // Zablokuj wszystkie godziny zajęte przez usługę
+  for (let i = 0; i < duration; i++) {
+    const currentHour = hours + i;
+    const blockedKey = `blocked_${date}_${currentHour}:00`;
+    localStorage.setItem(blockedKey, 'true');
+  }
+}
 
 // Wysyłanie formularza
 reservationForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   
+  // Pobierz dane z formularza
   const inputs = reservationForm.querySelectorAll('input, textarea');
   const name = inputs[0].value;
   const phone = inputs[1].value;
   const email = inputs[2].value;
-  const date = inputs[3].value;
-  const time = inputs[4].value;
-  const message = inputs[5].value;
+  const message = inputs[3].value;
   
-  // Sprawdź czy godzina jest zablokowana
-  if (isTimeBlocked(date, selectedService.id, time)) {
+  // Użyj wybranych daty i godziny z kalendarza
+  const date = selectedDate;
+  const time = selectedTime;
+  
+  // Sprawdź czy wszystko jest zaznaczone
+  if (!date || !time) {
+    alert('Wybierz datę i godzinę');
+    return;
+  }
+  
+  // Sprawdź czy godzina jest zablokowana (wraz z czasem trwania usługi)
+  const duration = selectedService.duration || 1;
+  if (isTimeBlocked(date, time, duration)) {
     alert('Ta godzina jest już zarezerwowana. Wybierz inną godzinę.');
-    document.getElementById('blockedHoursWarning').style.display = 'block';
     return;
   }
   
@@ -1272,54 +1593,59 @@ reservationForm.addEventListener('submit', async (e) => {
     day: 'numeric' 
   });
   
-  // Dane do wysłania emaila
-  const emailDataAdmin = {
-    to_email: 'glosspointbiuro@gmail.com',
-    subject: `Nowa rezerwacja - ${selectedService.name}`,
+  // Dane do wysłania emaila i kalendarza
+  const reservationData = {
     client_name: name,
     client_phone: phone,
     client_email: email,
     service_name: selectedService.name,
     service_price: selectedService.price,
+    service_duration: selectedService.duration,
+    reservation_date_raw: date,
     reservation_date: dateFormatted,
     reservation_time: time,
-    message: message || 'Brak wiadomości',
-    from_name: name
-  };
-  
-  const emailDataClient = {
-    to_email: email,
-    subject: `Potwierdzenie rezerwacji - Gloss Point Detailing`,
-    client_name: name,
-    service_name: selectedService.name,
-    reservation_date: dateFormatted,
-    reservation_time: time,
-    company_phone: '+48 660 706 043',
-    company_email: 'glosspointbiuro@gmail.com',
-    from_name: 'Gloss Point Detailing'
+    message: message,
+    type: 'createEvent'
   };
   
   try {
-    // Wyślij email do administratora
-    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID_ADMIN', emailDataAdmin);
+    // Pokaż loading
+    const submitBtn = reservationForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Wysyłanie...';
+    submitBtn.disabled = true;
     
-    // Wyślij email do klienta
-    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID_CLIENT', emailDataClient);
+    // Wyślij do Google Apps Script
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(reservationData)
+    });
     
-    // Zablokuj godzinę
-    blockTime(date, selectedService.id, time);
+    const result = await response.json();
     
-    // Pokaż komunikat sukcesu
-    alert(`✓ Rezerwacja potwierdzona!\n\nUżytkownik: ${name}\nUsługa: ${selectedService.name}\nData: ${dateFormatted}\nGodzina: ${time}\n\nEmail potwierdzający został wysłany na adres: ${email}`);
-    
-    // Zamknij modal
-    closeReservationModal();
-    
-    // Resetuj formularz
-    reservationForm.reset();
+    if (result.status === 'success') {
+      // Zablokuj wszystkie godziny zajęte przez usługę
+      const duration = selectedService.duration || 1;
+      blockTime(date, time, duration);
+      
+      // Pokaż komunikat sukcesu
+      alert(`✓ Rezerwacja potwierdzona!\n\nUżytkownik: ${name}\nUsługa: ${selectedService.name}\nData: ${dateFormatted}\nGodzina: ${time}\n\nEmail potwierdzający został wysłany na: ${email}`);
+      
+      // Zamknij modal
+      closeReservationModal();
+      
+      // Resetuj formularz
+      reservationForm.reset();
+    } else {
+      throw new Error(result.message);
+    }
   } catch (error) {
-    console.error('Błąd wysyłania emaila:', error);
-    alert('❌ Błąd przy wysyłaniu rezerwacji. Upewnij się że EmailJS jest prawidłowo skonfigurowany.\n\nSpróbuj ponownie lub skontaktuj się telefonicznie: +48 660 706 043');
+    console.error('Błąd:', error);
+    alert('❌ Błąd przy wysyłaniu rezerwacji:\n' + error.message + '\n\nSpróbuj ponownie lub skontaktuj się: +48 660 706 043');
+  } finally {
+    const submitBtn = reservationForm.querySelector('button[type="submit"]');
+    submitBtn.textContent = 'Zarezerwuj';
+    submitBtn.disabled = false;
   }
 });
 
