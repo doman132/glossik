@@ -1,31 +1,1621 @@
-# 🔄 SESJA BIEŻĄCA - WSZYSTKIE ZMIANY
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gloss Point Detailing – Tarnów</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+--tiffany:#81d8d0;
+--muted:#aaa;
+--dark:#111;
+--black:#0b0b0b;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+html{width:100%;height:auto;overflow-x:hidden;}
+body{width:100%;min-height:100vh;background:linear-gradient(-45deg,var(--black),var(--dark),#1a1a1a,var(--black));background-size:400% 400%;animation:bg 14s infinite;color:#fff;overflow-x:hidden;scroll-behavior:smooth;padding-top:80px;scrollbar-gutter:stable;}
+@keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+header{position:fixed;top:0;z-index:1000;background:rgba(0,0,0,1);backdrop-filter:blur(10px);width:100%;padding:0;left:0;right:0;}
+nav{width:100%;padding:16px 24px;display:flex;justify-content:center;align-items:center;margin:0;background:rgba(0,0,0,1);box-sizing:border-box;}
+.nav-inner{width:100%;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:0;max-width:1400px;margin:0 auto;}
+.logo{height:50px;width:auto;min-width:fit-content;flex-shrink:0;}
+.logo img{height:100%;width:auto;object-fit:contain;}
+.nav-wrapper{display:flex;gap:36px;align-items:center;flex:1;justify-content:flex-end;}
+.header-icons{display:flex;gap:16px;flex-shrink:0;}
+.header-icons a{color:var(--tiffany);font-size:1.2rem;text-decoration:none;transition:.3s;}
+.header-icons a:hover{transform:translateY(-3px);}
+.nav-center{display:flex;gap:36px;list-style:none;margin:0;align-items:center;}
+.nav-center li{position:relative;}
+.nav-center a{color:#fff;text-decoration:none;font-weight:600;transition:.3s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.nav-center a:hover{color:var(--tiffany);}
+.dropdown-toggle{cursor:pointer;}
+.dropdown-toggle::after{content:'▼';font-size:0.7rem;transition:transform 0.3s ease;}
+.dropdown-toggle.active::after{transform:rotate(180deg);}
+.dropdown-menu{
+  position:absolute;
+  top:100%;
+  left:0;
+  background:#111;
+  border-radius:8px;
+  min-width:200px;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-10px);
+  transition:all 0.3s ease;
+  z-index:3000;
+  box-shadow:0 8px 24px rgba(0,0,0,.6);
+  padding:0;
+  margin-top:8px;
+  display:none;
+  pointer-events:auto;
+}
+.dropdown-menu.active{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+  display:block;
+  transition:all 0.3s ease;
+}
+.dropdown-menu a{
+  display:block;
+  padding:12px 20px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:400;
+  transition:.3s;
+  border-bottom:1px solid rgba(129,216,208,.2);
+  cursor:pointer;
+}
+.dropdown-menu a:last-child{
+  border-bottom:none;
+}
+.dropdown-menu a:hover{
+  color:var(--tiffany);
+  background:rgba(129,216,208,.1);
+}
+/* Ulepszone sty dla dropdown menu - lepsze działanie na mobilnych */
+.nav-center li{position:relative;z-index:1001;}
 
-## 📅 Data: Styczeń 2025
-## 🎯 Cel: Integracja Google Calendar + Blokowanie godzin oparte na czasie trwania usługi
+ a:hover{color:var(--tiffany);background:rgba(129,216,208,.1);}
+.hamburger{width:34px;cursor:pointer;display:none;flex-direction:column;gap:6px;z-index:3001;flex-shrink:0;}
+.hamburger span{height:4px;background:var(--tiffany);border-radius:4px;transition:.35s;}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(7px,7px);}
+.hamburger.active span:nth-child(2){opacity:0;}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-7px);}
+@media(max-width:1024px){
+.nav-inner{gap:16px;padding:0 16px;}
+.nav-wrapper{gap:24px;}
+.nav-center{gap:24px;}
+}
+@media(max-width:980px){
+.hamburger{display:flex;}
+.nav-wrapper{display:flex;position:fixed;inset:60px 0 0 0;width:100%;height:calc(100vh - 60px);background:#111;flex-direction:column;justify-content:flex-start;align-items:flex-start;overflow-y:auto;padding-top:20px;transform:translateX(100%);transition:transform 0.4s ease;z-index:9999;will-change:transform;pointer-events:none;box-sizing:border-box;}
+.nav-wrapper.active{transform:translateX(0);pointer-events:auto;}
+.nav-center{flex-direction:column;gap:0;width:100%;order:1;}
+.nav-center li{width:100%;}
+.nav-center li a{display:block;padding:16px 20px;border-bottom:1px solid rgba(129,216,208,.1);width:100%;pointer-events:auto;}
+.dropdown-toggle{pointer-events:auto !important;}
+.header-icons{flex-direction:row;gap:20px;justify-content:center;order:2;width:100%;padding:20px;border-top:1px solid rgba(129,216,208,.2);pointer-events:auto;}
+.header-icons a{pointer-events:auto;}
+.nav-inner{justify-content:space-between;gap:8px;}
+.dropdown-menu{position:static;opacity:0;visibility:hidden;transform:none;background:rgba(17,17,17,0.98);box-shadow:0 8px 24px rgba(0,0,0,.6);max-height:0;overflow:hidden;transition:max-height 0.3s ease, opacity 0.3s ease;margin:8px 0 0 0;padding:0;pointer-events:auto !important;z-index:10000;border-radius:8px;display:none;}
+.dropdown-menu.active{opacity:1;visibility:visible;max-height:500px;padding:10px 0;display:block;overflow:visible;}
+.dropdown-menu a{display:block;padding:12px 20px 12px 40px;border-bottom:1px solid rgba(129,216,208,.2);color:#fff;font-size:0.9rem;pointer-events:auto !important;}
+.dropdown-menu a:last-child{border-bottom:none;}
+}
+@media(max-width:768px){
+nav{padding:12px 16px;}
+.nav-inner{gap:12px;}
+.logo{height:40px;}
+.nav-center{gap:20px;}
+}
+@media(max-width:480px){
+nav{padding:12px 12px;}
+.nav-inner{gap:8px;}
+.logo{height:35px;}
+.header-icons a{font-size:1rem;}
+.nav-center{gap:16px;font-size:0.9rem;}
+}
+.menu-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:9998;
+}
+.menu-overlay.active{
+  display:block;
+}
+section{margin:0 auto;padding:100px 24px;position:relative;width:100%;max-width:100%;box-sizing:border-box;z-index:2;}
+h2{text-align:center;color:var(--tiffany);font-size:3rem;margin-bottom:60px;}
+.hero{padding:180px 24px 140px;text-align:center;}
+.hero h2{font-size:5rem;}
+.hero p{color:var(--muted);font-size:1.8rem;}
+.stats{display:flex;justify-content:center;gap:70px;flex-wrap:wrap;}
+.stat-item .number{font-size:4.2rem;color:var(--tiffany);font-weight:bold;}
+.stat-item .label{color:var(--muted);margin-top:10px;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:1400px;margin:0 auto;}
+.service-card{background:rgba(255,255,255,.05);border-radius:18px;overflow:hidden;transition:.35s;cursor:pointer;pointer-events:auto;}
+.service-card:hover{transform:translateY(-14px);box-shadow:0 24px 48px rgba(129,216,208,.25);}
+.service-card img{width:100%;height:280px;object-fit:cover;}
+.service-card h3{padding:22px 20px 10px;font-size:1.5rem;}
+.service-card p{padding:0 20px 30px;color:var(--muted);font-size:1rem;}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
+.pricing-item{background:rgba(255,255,255,.05);border-radius:18px;overflow:hidden;border:2px solid rgba(129,216,208,.2);transition:.35s;}
+.pricing-item:hover{transform:translateY(-8px);border-color:var(--tiffany);box-shadow:0 20px 40px rgba(129,216,208,.2);}
+.pricing-header{padding:24px 20px;background:rgba(129,216,208,.1);border-bottom:2px solid var(--tiffany);}
+.pricing-header h3{color:var(--tiffany);font-size:1.4rem;margin-bottom:8px;}
+.pricing-content{padding:24px 20px;}
+.pricing-list{list-style:none;}
+.pricing-list li{padding:10px 0;color:var(--muted);border-bottom:1px solid rgba(129,216,208,.1);display:flex;justify-content:space-between;}
+.pricing-list li:last-child{border-bottom:none;}
+.pricing-list span{color:var(--tiffany);font-weight:bold;}
+.before-after-slider{max-width:900px;margin:auto;position:relative;z-index:5;display:flex;align-items:center;gap:30px;justify-content:center;}
+.before-after{max-width:100%;margin:auto;overflow:hidden;border-radius:20px;position:relative;flex:1;min-width:0;}
+.ba-box{position:relative;aspect-ratio:4/3;cursor:grab;user-select:none;-webkit-user-select:none;-moz-user-select:none;}
+.ba-box img{position:absolute;width:100%;height:100%;object-fit:cover;}
+.ba-after{clip-path:inset(0 50% 0 0);}
+.ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;background:var(--tiffany);cursor:grab;z-index:10;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.ba-handle::before{content:'⟨';color:#000;font-size:24px;font-weight:bold;}
+.ba-handle::after{content:'⟩';color:#000;font-size:24px;font-weight:bold;}
+.ba-nav{display:flex;gap:20px;align-items:center;justify-content:center;}
+.ba-arrow{background:rgba(129,216,208,.2);border:2px solid var(--tiffany);color:var(--tiffany);width:60px;height:60px;border-radius:50%;cursor:pointer;font-size:32px;display:flex;align-items:center;justify-content:center;transition:.3s;flex-shrink:0;}
+.ba-arrow:hover{background:var(--tiffany);color:#000;transform:scale(1.1);}
+.slider-container{position:relative;overflow:visible;max-width:1400px;margin:0 auto;perspective:1200px;padding:40px 0;}
+.slider-track{display:flex;gap:30px;justify-content:center;align-items:center;position:relative;height:420px;}
+.slide{position:relative;background:rgba(255,255,255,.05);border-radius:18px;overflow:hidden;height:100%;width:340px;flex-shrink:0;transition:all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);border:2px solid rgba(129,216,208,.2);}
+.slide img{width:100%;height:100%;object-fit:cover;}
+.slide#slide-left{transform:perspective(1200px) rotateY(25deg) translateZ(-100px) scale(0.85);opacity:0.7;}
+.slide#slide-center{transform:perspective(1200px) rotateY(0deg) translateZ(0) scale(1);opacity:1;z-index:10;border-color:var(--tiffany);box-shadow:0 20px 60px rgba(129,216,208,.3);}
+.slide#slide-right{transform:perspective(1200px) rotateY(-25deg) translateZ(-100px) scale(0.85);opacity:0.7;}
 
----
+@media(max-width:1024px){
+.services-grid{grid-template-columns:repeat(3,1fr);gap:30px;}
+.service-card img{height:240px;}
+.slider-track{gap:20px;height:360px;}
+.slide{width:290px;}
+.slide#slide-left{transform:perspective(1000px) rotateY(20deg) translateZ(-80px) scale(0.8);}
+.slide#slide-center{transform:perspective(1000px) rotateY(0deg) translateZ(0) scale(1);}
+.slide#slide-right{transform:perspective(1000px) rotateY(-20deg) translateZ(-80px) scale(0.8);}
+}
+@media(max-width:768px){
+section{padding:60px 16px;}
+h2{font-size:2rem;margin-bottom:40px;}
+.hero{padding:120px 16px 100px;}
+.hero h2{font-size:3rem;}
+.hero p{font-size:1.4rem;}
+.stats{gap:40px;}
+.stat-item .number{font-size:3rem;}
+.services-grid{grid-template-columns:repeat(2,1fr);gap:20px;}
+.service-card img{height:200px;}
+.before-after{max-width:400px;}
+.slider-track{gap:15px;height:300px;}
+.slide{width:240px;}
+.slide#slide-left{transform:perspective(800px) rotateY(15deg) translateZ(-60px) scale(0.75);}
+.slide#slide-center{transform:perspective(800px) rotateY(0deg) translateZ(0) scale(1);}
+.slide#slide-right{transform:perspective(800px) rotateY(-15deg) translateZ(-60px) scale(0.75);}
+}
+@media(max-width:480px){
+section{padding:40px 12px;}
+h2{font-size:1.5rem;margin-bottom:30px;}
+.hero{padding:80px 12px 60px;}
+.hero h2{font-size:2rem;}
+.hero p{font-size:1.1rem;}
+.stats{gap:30px;flex-direction:column;}
+.stat-item .number{font-size:2.5rem;}
+.services-grid{grid-template-columns:1fr;}
+.service-card h3{font-size:1.2rem;}
+.service-card p{font-size:0.9rem;padding:0 15px 20px;}
+.service-card img{height:160px;}
+.before-after{max-width:300px;}
+.slider-track{gap:10px;height:240px;}
+.slide{width:180px;}
+.slide#slide-left{transform:perspective(600px) rotateY(10deg) translateZ(-40px) scale(0.7);}
+.slide#slide-center{transform:perspective(600px) rotateY(0deg) translateZ(0) scale(1);}
+.slide#slide-right{transform:perspective(600px) rotateY(-10deg) translateZ(-40px) scale(0.7);}
+.contact-card{flex:1 1 100%;}
+.map{height:300px;}
+.contact-icons{gap:16px;}
+.contact-icons a{width:60px;height:60px;font-size:1.4rem;}
+.pricing-grid{grid-template-columns:1fr;}
+.pricing-header h3{font-size:1.1rem;}
+}
+.contact-container{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;margin-top:40px;}
+.contact-card{flex:1 1 280px;background:rgba(255,255,255,0.05);padding:30px 20px;border-radius:20px;text-align:center;transition:all .3s;}
+.contact-card:hover{background:rgba(129,216,208,0.15);}
+.contact-icons{display:flex;justify-content:center;gap:24px;margin:50px 0;flex-wrap:wrap;}
+.contact-icons a{display:flex;align-items:center;justify-content:center;width:70px;height:70px;border-radius:50%;background:rgba(129,216,208,0.2);color:var(--tiffany);font-size:1.8rem;transition:.3s;text-decoration:none;}
+.contact-icons a:hover{background:var(--tiffany);color:#000;transform:translateY(-6px);}
+.map{max-width:1200px;margin:0 auto;border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.6);height:400px;}
+.map iframe{width:100%;height:100%;border:0;}
+.reveal{opacity:0;transform:translateY(80px);transition:all 1s ease;}
+.reveal.active{opacity:1;transform:none;}
 
-## 📝 ZMIANY W index.html
+/* PANEL CENNIKA FULLSCREEN */
+.pricing-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:4999;pointer-events:none;contain:layout style paint;}
+.pricing-modal-overlay.active{opacity:1;visibility:visible;pointer-events:auto;}
+.reservation-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:4898;pointer-events:none;contain:layout style paint;}
+.reservation-modal-overlay.active{opacity:1;visibility:visible;pointer-events:auto;}
+.pricing-modal{position:fixed;top:0;left:-100%;width:100%;max-width:100%;height:100vh;background:rgba(0,0,0,.95);overflow-y:auto;overflow-x:hidden;transition:left 0.5s ease-out;z-index:5000 !important;will-change:left;contain:layout style paint;}
+.reservation-modal{position:fixed;top:0;left:-100%;width:100%;max-width:100%;height:100vh;background:rgba(0,0,0,.95);overflow-y:auto;transition:left 0.5s ease-out;z-index:4900;will-change:left;contain:layout style paint;}
+.pricing-modal.active{left:0 !important;}
+.reservation-modal.active{left:0;}
+.modal-header{position:sticky;top:0;left:0;right:0;padding:24px;background:rgba(0,0,0,.95);border-bottom:2px solid var(--tiffany);display:flex;justify-content:space-between;align-items:center;z-index:5001;box-sizing:border-box;}
+.modal-header h1{font-size:2rem;color:var(--tiffany);margin:0;}
+.modal-close{background:none;border:none;color:var(--tiffany);font-size:2rem;cursor:pointer;transition:.3s;width:40px;height:40px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{color:#fff;transform:scale(1.2);}
+.modal-content{max-width:1200px;margin:0 auto;padding:40px 24px 40px 24px;scroll-padding-top:100px;}
+.category-tabs{display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap;}
+.category-tab{padding:12px 24px;background:rgba(129,216,208,.1);border:2px solid rgba(129,216,208,.3);color:#fff;cursor:pointer;border-radius:8px;font-weight:600;transition:.3s;}
+.category-tab.active{background:var(--tiffany);color:#000;border-color:var(--tiffany);}
+.category-tab:hover{border-color:var(--tiffany);}
+.pricing-list-modal{display:grid;gap:20px;}
+.pricing-item-modal{background:rgba(255,255,255,.05);padding:24px;border-radius:12px;border-left:4px solid var(--tiffany);cursor:pointer;transition:.3s;}
+.pricing-item-modal:hover{background:rgba(129,216,208,.1);transform:translateX(10px);}
+.pricing-item-modal.expanded{background:rgba(129,216,208,.15);border-left-color:#fff;}
+.pricing-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0;}
+.pricing-item-modal.expanded .pricing-item-header{margin-bottom:20px;}
+.item-name{font-size:1.2rem;font-weight:600;color:#fff;}
+.item-price{font-size:1.3rem;color:var(--tiffany);font-weight:bold;}
+.pricing-item-description{display:none;color:var(--muted);line-height:1.8;font-size:1rem;}
+.pricing-item-modal.expanded .pricing-item-description{display:block;}
 
-### ✅ ZMIANA 1: Logika blokowania godzin (linie 1255-1272)
-
-**PRZED:**
-```javascript
-function isTimeBlocked(date, serviceId, time) {
-  const blockedKey = `blocked_${date}_${serviceId}_${time}`;
-  return localStorage.getItem(blockedKey) === 'true';
+@media(max-width:768px){
+.modal-content{padding:100px 16px 40px 16px;}
+.category-tabs{gap:8px;}
+.category-tab{padding:10px 16px;font-size:0.9rem;}
+.item-name{font-size:1rem;}
+.item-price{font-size:1.1rem;}
 }
 
-function blockTime(date, serviceId, time) {
-  const blockedKey = `blocked_${date}_${serviceId}_${time}`;
-  localStorage.setItem(blockedKey, 'true');
+.btn-rezerwacja{
+  background:var(--tiffany);
+  color:#000;
+  padding:10px 24px;
+  border-radius:8px;
+  font-weight:bold;
+  transition:.3s;
+  white-space:nowrap;
+  border:none;
+  cursor:pointer;
 }
-```
+.btn-rezerwacja:hover{
+  background:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(129,216,208,.4);
+}
 
-**PO:**
-```javascript
+.services-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;max-width:1000px;margin:0 auto;}
+.service-item{background:rgba(255,255,255,.05);padding:24px;border-radius:12px;border:2px solid rgba(129,216,208,.2);cursor:pointer;transition:.3s;text-align:center;}
+.service-item:hover{background:rgba(129,216,208,.1);border-color:var(--tiffany);transform:translateY(-6px);}
+.service-item h3{color:#fff;font-size:1.2rem;margin-bottom:10px;}
+.service-item p{color:var(--muted);font-size:0.95rem;margin-bottom:16px;}
+.service-item .price{color:var(--tiffany);font-size:1.3rem;font-weight:bold;}
+
+.beyond-wrapper{
+display:flex;
+align-items:center;
+gap:60px;
+max-width:1400px;
+margin:0 auto;
+}
+.beyond-image{
+flex:1;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 20px 60px rgba(129,216,208,.2);
+}
+.beyond-image img{
+width:100%;
+height:auto;
+display:block;
+}
+.beyond-content{
+flex:1;
+}
+.beyond-content h2{
+text-align:left;
+font-size:2.5rem;
+margin-bottom:20px;
+color:var(--tiffany);
+}
+.beyond-content p{
+color:var(--muted);
+font-size:1.1rem;
+line-height:1.8;
+margin-bottom:20px;
+}
+.beyond-content p strong{
+color:#fff;
+font-size:1.3rem;
+}
+.beyond-list{
+margin-top:30px;
+padding-top:30px;
+border-top:2px solid rgba(129,216,208,.3);
+}
+.beyond-list p{
+color:#fff;
+font-size:1.1rem;
+margin-bottom:15px;
+display:flex;
+align-items:center;
+gap:12px;
+}
+.beyond-list p::before{
+content:'';
+width:8px;
+height:8px;
+background:var(--tiffany);
+border-radius:50%;
+flex-shrink:0;
+}
+
+@media(max-width:1024px){
+.beyond-wrapper{
+gap:40px;
+}
+.beyond-content h2{
+font-size:2rem;
+}
+}
+
+@media(max-width:768px){
+.beyond-wrapper{
+flex-direction:column;
+gap:30px;
+}
+.beyond-content h2{
+text-align:center;
+font-size:1.8rem;
+}
+.beyond-content p{
+text-align:center;
+}
+.beyond-list{
+text-align:center;
+}
+.beyond-list p::before{
+display:none;
+}
+}
+
+@media(max-width:480px){
+.beyond-wrapper{
+gap:20px;
+}
+.beyond-content h2{
+font-size:1.4rem;
+}
+.beyond-content p{
+font-size:1rem;
+}
+.beyond-list p{
+font-size:1rem;
+}
+}
+/* FIX MOBILNE MENU */
+@media(max-width:980px){
+  .nav-center a {
+    color: #fff !important;
+    z-index: 3001;
+    position: relative;
+  }
+  .nav-center li a {
+    pointer-events: auto;
+  }
+  .dropdown-menu a {
+    color: #fff !important;
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 3001;
+  }
+}
+/* ===== KONTAKT – TŁO ZDJĘCIE ===== */
+.contact-bg{
+  position: relative;
+  background: url("fela.jpg") center / cover no-repeat;
+}
+
+/* przyciemnienie dla czytelności */
+.contact-bg::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 0;
+}
+
+/* wszystko nad overlay */
+.contact-bg > *{
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 980px) {
+
+  /* 1. Naprawiamy klikalność całego menu */
+  .nav-wrapper {
+    pointer-events: none;           /* domyślnie wyłączone */
+    transition: transform 0.4s ease;
+  }
+
+  .nav-wrapper.active {
+    pointer-events: auto;           /* ← KLUCZOWE */
+    transform: translateX(0);
+  }
+
+  /* 2. Poprawiamy overlay – lepiej używać opacity niż display */
+  .menu-overlay {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    background: rgba(0,0,0,0.65);
+  }
+
+  .menu-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* 3. Lepsze pozycjonowanie + scrollowanie */
+  .nav-wrapper {
+    top: 0;                        /* ← zmiana z 60px na 0 */
+    height: 100vh;
+    padding-top: 80px;             /* miejsce na logo/nav */
+    padding-bottom: 100px;         /* miejsce na ikony na dole */
+    justify-content: flex-start;
+  }
+
+  /* 4. Ikony social na samym dole (ładniejszy układ) */
+  .header-icons {
+    margin-top: auto;              /* ← wypycha na dół */
+    padding: 30px 20px;
+    width: 100%;
+    justify-content: center;
+    border-top: 1px solid rgba(129,216,208,0.15);
+  }
+
+  /* 5. Linki w menu muszą być na 100% szerokości i mieć wysoki priorytet */
+  .nav-center li a,
+  .dropdown-toggle,
+  .dropdown-menu a {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 10;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="pricing-modal-overlay" id="pricingModalOverlay"></div>
+
+<!-- FULLSCREEN MODAL CENNIKA -->
+<div class="pricing-modal" id="pricingModal">
+<div class="modal-header">
+<h1 id="modalTitle">Cennik usług</h1>
+<button class="modal-close" id="modalClose">&times;</button>
+</div>
+<div class="modal-content">
+<div class="category-tabs" id="categoryTabs"></div>
+<div class="pricing-list-modal" id="pricingListModal"></div>
+</div>
+</div>
+
+<!-- FULLSCREEN MODAL REZERWACJI -->
+<div class="reservation-modal-overlay" id="reservationModalOverlay"></div>
+<div class="reservation-modal" id="reservationModal">
+<div class="modal-header">
+<h1 id="reservationTitle">Rezerwacja</h1>
+<button class="modal-close" id="reservationClose">&times;</button>
+</div>
+<div class="modal-content">
+
+<!-- STRONA 1: WYBÓR USŁUGI -->
+<div id="reservationPage1" class="reservation-page">
+<h2 style="text-align:center;margin-bottom:40px;color:var(--tiffany);">Wybierz usługę</h2>
+<div class="services-list" id="reservationServicesList"></div>
+</div>
+
+<!-- STRONA 2: WYBÓR DNIA (KALENDARZ) -->
+<div id="reservationPage2" class="reservation-page" style="display:none;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;">
+<button onclick="goBackReservation()" style="background:none;border:none;color:var(--tiffany);cursor:pointer;font-size:24px;">← Wróć</button>
+<h2 style="flex:1;text-align:center;margin:0;color:var(--tiffany);" id="calendarTitle">Wybierz datę</h2>
+<div style="width:24px;"></div>
+</div>
+<div id="calendarContainer" style="background:rgba(129,216,208,.05);padding:20px;border-radius:12px;border:2px solid rgba(129,216,208,.2);">
+<div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+<button onclick="prevMonth()" style="background:rgba(129,216,208,.2);border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;">← Poprzedni</button>
+<h3 id="monthYear" style="margin:0;color:#fff;text-align:center;flex:1;"></h3>
+<button onclick="nextMonth()" style="background:rgba(129,216,208,.2);border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;">Następny →</button>
+</div>
+<div id="calendarGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:20px;"></div>
+<div style="background:rgba(255,195,0,.1);padding:10px;border-radius:8px;border-left:4px solid rgba(255,195,0,.5);margin-bottom:15px;">
+<p style="margin:0;color:#fff;font-size:0.9rem;">📌 <strong style="color:rgb(255,195,0);">Sobota</strong>: Rezerwacje tylko od 9:00 do 12:00 | <strong style="color:#ff6b6b;">Niedziela</strong>: Zamknięte</p>
+</div>
+<div id="selectedDateInfo" style="text-align:center;padding:15px;background:rgba(129,216,208,.1);border-radius:8px;display:none;">
+<p style="margin:0;color:#fff;font-size:1.1rem;">Wybrana data: <span id="selectedDateDisplay" style="color:var(--tiffany);font-weight:bold;"></span></p>
+</div>
+</div>
+<button onclick="confirmDate()" id="confirmDateBtn" style="width:100%;margin-top:20px;padding:14px;background:var(--tiffany);color:#0b0b0b;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;display:none;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Dalej - Wybierz godzinę</button>
+</div>
+
+<!-- STRONA 3: WYBÓR GODZINY -->
+<div id="reservationPage3" class="reservation-page" style="display:none;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;">
+<button onclick="backToCalendar()" style="background:none;border:none;color:var(--tiffany);cursor:pointer;font-size:24px;">← Wróć</button>
+<h2 style="flex:1;text-align:center;margin:0;color:var(--tiffany);">Wybierz godzinę</h2>
+<div style="width:24px;"></div>
+</div>
+<p style="text-align:center;color:#aaa;margin-bottom:20px;">Data: <span id="selectedDateForHours" style="color:var(--tiffany);font-weight:bold;"></span></p>
+<div id="hoursGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;"></div>
+<button onclick="confirmTime()" id="confirmTimeBtn" style="width:100%;padding:14px;background:var(--tiffany);color:#0b0b0b;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;display:none;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Dalej - Uzupełnij dane</button>
+</div>
+
+<!-- STRONA 4: FORMULARZ REZERWACJI -->
+<div id="reservationPage4" class="reservation-page" style="display:none;">
+<h2 style="text-align:center;margin-bottom:30px;color:var(--tiffany);">Potwierdź rezerwację</h2>
+<div id="selectedServiceInfo" style="background:rgba(129,216,208,.1);padding:20px;border-radius:12px;margin-bottom:30px;border-left:4px solid var(--tiffany);">
+<p id="selectedServiceName" style="font-size:1.2rem;color:#fff;margin-bottom:10px;"></p>
+<p id="selectedServicePrice" style="font-size:1.1rem;color:var(--tiffany);font-weight:bold;"></p>
+<p id="selectedDateTimeInfo" style="font-size:0.95rem;color:#aaa;margin-top:15px;border-top:1px solid rgba(129,216,208,.3);padding-top:15px;margin:15px 0 0 0;">
+<span style="color:#fff;">📅</span> <span id="dateTimeDisplay"></span>
+</p>
+</div>
+<form id="reservationForm" style="max-width:600px;margin:0 auto;">
+<div style="margin-bottom:20px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Imię i Nazwisko *</label>
+<input type="text" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div style="margin-bottom:20px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Telefon *</label>
+<input type="tel" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div style="margin-bottom:20px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">E-mail *</label>
+<input type="email" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div style="margin-bottom:20px;background:rgba(129,216,208,.05);padding:20px;border-radius:12px;border:2px solid rgba(129,216,208,.2);">
+<h3 style="color:var(--tiffany);margin-top:0;margin-bottom:15px;font-size:1.1rem;">Marka i Model Samochodu</h3>
+<div style="margin-bottom:15px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Marka samochodu *</label>
+<input type="text" placeholder="np. BMW, Audi, Mercedes" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div style="margin-bottom:15px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Model samochodu *</label>
+<input type="text" placeholder="np. X5, A4, C-Class" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div>
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Rocznik (opcjonalnie)</label>
+<input type="text" placeholder="np. 2022, 2023" style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+</div>
+<div style="margin-bottom:30px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Wiadomość (opcjonalnie)</label>
+<textarea style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;min-height:120px;resize:vertical;"></textarea>
+</div>
+
+<div style="margin-bottom:30px;background:rgba(129,216,208,.05);padding:20px;border-radius:12px;border:2px solid rgba(129,216,208,.2);">
+<h3 style="color:var(--tiffany);margin-top:0;margin-bottom:15px;font-size:1.1rem;">Zaliczka i Płatność</h3>
+<p style="color:#aaa;margin-bottom:15px;font-size:0.95rem;">Rezerwacja wymaga zaliczki <strong style="color:#fff;">20 zł</strong> do potwierdzenia. Pozostałą kwotę zapłacisz na miejscu.</p>
+<button type="button" id="paymentMethodBtn" onclick="selectPaymentMethod()" style="width:100%;padding:14px;background:rgba(255,195,0,.2);border:2px solid rgba(255,195,0,.5);color:#fff;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;margin-bottom:15px;">
+  💳 Przelewy24 - Zapłać Zaliczkę (20 zł)
+</button>
+<p style="color:#aaa;font-size:0.85rem;margin:0;">Po kliknięciu przejdziesz do systemu Przelewy24 aby dokończyć płatność.</p>
+</div>
+
+<div style="background:#ff6b6b22;padding:15px;border-radius:12px;border:2px solid rgba(255,107,107,.3);margin-bottom:30px;">
+<p style="margin:0;color:#ff9999;font-size:0.85rem;">
+  <strong>⚠️ Ważna informacja:</strong> Ze względu na rosnący problem automatycznych rezerwacji przez boty, rezerwacja zostanie ostatecznie potwierdzona dopiero po <strong>zapłaceniu zaliczki</strong> Dziękujemy za zrozumienie!
+</p>
+</div>
+
+<div style="display:flex;gap:16px;">
+<button type="button" onclick="backToHours()" style="flex:1;padding:14px;background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.3);border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;">Wróć</button>
+<button type="submit" style="flex:1;padding:14px;background:var(--tiffany);color:#000;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;">Zarezerwuj</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<header>
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <img src="logo.png" alt="Gloss Point">
+    </div>
+    <div class="nav-wrapper" id="menu">
+      <div class="header-icons">
+        <a href="tel:+48 660 706 043"><i class="fas fa-phone"></i></a>
+        <a href="https://www.instagram.com/glosspoint_/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61570655316863" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      </div>
+      <ul class="nav-center">
+        <li><a href="#onas">O nas</a></li>
+        <li><a href="#uslugi">Usługi</a></li>
+        <li><a href="#realizacje">Realizacje</a></li>
+        <li>
+          <a href="javascript:void(0)" class="dropdown-toggle" id="cennikToggle">Cennik</a>
+          <div class="dropdown-menu" id="cennikMenu">
+            <a href="javascript:void(0)" data-category="Mycie">Mycie</a>
+            <a href="javascript:void(0)" data-category="wnetrze">Wnętrze pojazdu</a>
+            <a href="javascript:void(0)" data-category="lakier">Lakier</a>
+            <a href="javascript:void(0)" data-category="powloki">Powłoki i hydrofoba</a>
+            <a href="javascript:void(0)" data-category="szyby">Szyby</a>
+            <a href="javascript:void(0)" data-category="ppf">Folia ochronna PPF</a>
+          </div>
+        </li>
+        <li><a href="#kontakt">Kontakt</a></li>
+        <li><a href="javascript:void(0)" class="btn-rezerwacja" id="reservationBtn">Rezerwacja</a></li>
+      </ul>
+    </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+</header>
+
+<!-- OVERLAY DLA HAMBURGER MENU -->
+<div class="menu-overlay" id="overlay"></div>
+
+<section class="hero reveal" id="hero" tabindex="-1">
+<h2>Gloss Point Detailing</h2>
+<p>Profesjonalna pielęgnacja samochodów - Tarnów</p>
+</section>
+
+<section id="onas" class="reveal" tabindex="-1">
+<h2>O nas</h2>
+<div class="stats">
+<div class="stat-item"><div class="number">0</div><div class="label">Pojazdów</div></div>
+<div class="stat-item"><div class="number">0</div><div class="label">Powłok ceramicznych</div></div>
+<div class="stat-item"><div class="number">0</div><div class="label">Korekt lakieru</div></div>
+</div>
+<div class="beyond-wrapper" style="margin-top:60px;">
+<div class="beyond-image">
+<img src="https://lh3.googleusercontent.com/p/AF1QipOnn3GGyAbq9u_Ds0e89yYcxTimEI8fuyDypu6z=s1600" alt="Gloss Point Detailing">
+</div>
+<div class="beyond-content">
+<h2>Beyond Clean</h2>
+<p><strong>Nie myjemy samochodów - przeprowadzamy rytuał renowacji.</strong></p>
+<p>Dzięki zaawansowanej nanotechnologii oraz obsesyjnej dbałości o detale sprawiamy, że Twoje auto nie tylko lśni — ono emanuje perfekcją.</p>
+<div class="beyond-list">
+<p>Specjaliści korekty lakieru</p>
+<p>Certyfikowani instalatorzy powłok ceramicznych</p>
+<p>Eksperci renowacji wnętrz</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="uslugi" class="reveal" tabindex="-1">
+<h2>Usługi</h2>
+<div class="services-grid">
+<div class="service-card" onclick="openPricingModal('mycie')"><img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=900"><h3>Mycie pojazdu</h3><p>Profesjonalne mycie z zewnątrz i wnętrza</p></div>
+<div class="service-card" onclick="openPricingModal('wnetrze')"><img src="https://images.unsplash.com/photo-1617814065893-00757125efab?w=900"><h3>Detailing wnętrza</h3><p>Głębokie czyszczenie i renowacja wnętrza</p></div>
+<div class="service-card" onclick="openPricingModal('lakier')"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900"><h3>Korekta i renowacja lakieru</h3><p>Usunięcie rys i przywrócenie połysku</p></div>
+<div class="service-card" onclick="openPricingModal('powloki')"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900"><h3>Powłoki ceramiczne</h3><p>Długotrwała ochrona lakieru i szyb</p></div>
+<div class="service-card" onclick="openPricingModal('szyby')"><img src="https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=900"><h3>Szyby</h3><p>Przyciemnianie i ochrona szyb</p></div>
+<div class="service-card" onclick="openPricingModal('ppf')"><img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=900"><h3>Folia ochronna PPF</h3><p>Bezbarwna folia i pakiety ochronne</p></div>
+</div>
+</section>
+
+<section id="przedpo" class="reveal" tabindex="-1">
+<h2>Przed i Po</h2>
+<div class="before-after-slider">
+<button class="ba-arrow" onclick="prevBeforeAfter()" title="Poprzednie">←</button>
+<div class="before-after">
+<div class="ba-box" id="ba-box">
+<img id="ba-before" src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200">
+<img class="ba-after" id="ba-after" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200">
+<div class="ba-handle"></div>
+</div>
+</div>
+<button class="ba-arrow" onclick="nextBeforeAfter()" title="Następne">→</button>
+</div>
+</section>
+
+<section id="realizacje" class="reveal" tabindex="-1">
+<h2>Realizacje</h2>
+<div class="slider-container">
+<div class="slider-track" id="slider">
+<div class="slide" id="slide-left"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900"></div>
+<div class="slide center" id="slide-center"><img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=900"></div>
+<div class="slide" id="slide-right"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900"></div>
+</div>
+</div>
+</section>
+
+<section id="kontakt" class="reveal contact-bg" tabindex="-1">
+<h2>Kontakt</h2>
+<div class="contact-container">
+<div class="contact-card">
+<h3>Dane kontaktowe</h3>
+<p><strong>Adres:</strong><br>ul. Marii Konopnickiej 5<br>33-100 Tarnów</p>
+<p><strong>Telefon:</strong> <a href="tel:+48 660 706 043" style="color:var(--tiffany);text-decoration:none;">+48 660 706 043</a></p>
+<p><strong>E-mail:</strong> <a href="glosspointbiuro@gmail.com" style="color:var(--tiffany);text-decoration:none;">glosspointbiuro@gmail.com</a></p>
+</div>
+<div class="contact-card">
+<h3>Godziny otwarcia</h3>
+<p>Poniedziałek - Piątek: 8:00 - 18:00</p>
+<p>Sobota: 9:00 - 15:00</p>
+<p>Niedziela: Zamknięte</p>
+</div>
+</div>
+<div class="contact-icons">
+<a href="tel:+48660706043"><i class="fas fa-phone"></i></a>
+<a href="https://www.instagram.com/glosspoint_/" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="https://www.facebook.com/profile.php?id=61570655316863" target="_blank"><i class="fab fa-facebook-f"></i></a>
+</div>
+
+<div class="map">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2592.802468242!2d20.979227016928!3d50.00739999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47165d0b0b0b0b0b%3A0xabcdef1234567890!2sul.+Marii+Konopnickiej+5%2C+33-100+Tarn%C3%B3w%2C+Polska!5e0!3m2!1spl!2spl!4v1737028800000!5m2!1spl!2spl" allowfullscreen="" loading="lazy"></iframe>
+</div>
+</section>
+
+<script>
+// ------------------- CENNIK KATEGORYZOWANY -------------------
+const pricingData = {
+  mycie: {
+    title: 'Mycie pojazdu',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Mycie z zewnątrz': {
+        description: 'Profesjonalne mycie całego pojazdu z obsługą każdego detalu',
+        prices: { 'Samochód mały': '130 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '180 zł' }
+      },
+      'Sprzątanie środka': {
+        description: 'Gruntowne czyszczenie wnętrza pojazdu',
+        prices: { 'Samochód mały': '130 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '180 zł' }
+      },
+      'Dekontaminacja chemiczna': {
+        description: 'Usunięcie żelaznych zanieczyszczeń i skontaminowania z lakieru',
+        prices: { 'Samochód mały': '150 zł', 'Samochód duży': '170 zł', 'SUV/VAN': '200 zł' }
+      },
+      'Ozonowanie wnętrza': {
+        description: 'Eliminacja nieprzyjemnych zapachów i bakterii z wnętrza pojazdu',
+        prices: { 'Samochód mały': '120 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '180 zł' }
+      },
+      'Wosk 9 miesięcy (do mycia)': {
+        description: 'Dodatkowa usługa do mycia - nałożenie wosku ochronnego',
+        prices: { 'Samochód mały': '350 zł', 'Samochód duży': '350 zł', 'SUV/VAN': '350 zł' }
+      },
+      'Bagażnik dachowy mycie': {
+        description: 'Czyszczenie bagażnika dachowego pojazdu',
+        prices: { 'Samochód mały': '50 zł', 'Samochód duży': '50 zł', 'SUV/VAN': '50 zł' }
+      },
+    }
+  },
+  wnetrze: {
+    title: 'Detailing wnętrza pojazdu',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Usuwanie sierści': {
+        description: 'Profesjonalne usunięcie sierści zwierząt z tapicerki pojazdu',
+        prices: { 'Samochód mały': 'od 50 zł', 'Samochód duży': 'od 50 zł', 'SUV/VAN': 'od 50 zł' }
+      },
+      'Czyszczenie skór + impregnacja': {
+        description: 'Głębokie czyszczenie i impregnacja siedzeń skórzanych',
+        prices: { 'Samochód mały': '600 zł', 'Samochód duży': '700 zł', 'SUV/VAN': '800 zł' }
+      },
+      'Pranie standardowe': {
+        description: 'Czyszczenie całego wnętrza pojazdu - tapicerka, dywanki, plastiki',
+        prices: { 'Samochód mały': '1000 zł', 'Samochód duży': '1200 zł', 'SUV/VAN': '1400 zł' }
+      },
+      'Pranie premium': {
+        description: 'Zaawansowane czyszczenie z użyciem profesjonalnych środków chemicznych',
+        prices: { 'Samochód mały': '1500 zł', 'Samochód duży': '1800 zł', 'SUV/VAN': '2200 zł' }
+      },
+      'Pranie fotela/siedziska': {
+        description: 'Czyszczenie jednego fotela lub siedziska',
+        prices: { 'Samochód mały': '150 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '150 zł' }
+      },
+      'Impregnacja wnętrza pojazdu': {
+        description: 'Ochrona tkanin wnętrza przed zabrudzeniami i zmianą koloru',
+        prices: { 'Samochód mały': '600 zł', 'Samochód duży': '700 zł', 'SUV/VAN': '800 zł' }
+      },
+    }
+  },
+  lakier: {
+    title: 'Korekta i renowacja lakieru',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Usuwanie zarysowań Smart Repair': {
+        description: 'Usunięcie małych zarysowań bez konieczności przygotowywania',
+        prices: { 'Samochód mały': 'Wycena indywidualna', 'Samochód duży': 'Wycena indywidualna', 'SUV/VAN': 'Wycena indywidualna' }
+      },
+      'Usuwanie odprysków na szybie': {
+        description: 'Naprawa drobnych pęknięć i odprysków na szybie',
+        prices: { 'Samochód mały': '200 zł', 'Samochód duży': '200 zł', 'SUV/VAN': '200 zł' }
+      },
+      'One step + wosk': {
+        description: 'Jedno polerowanie + nałożenie wosku ochronnego',
+        prices: { 'Samochód mały': '1100 zł', 'Samochód duży': '1300 zł', 'SUV/VAN': '1500 zł' }
+      },
+      'Korekta lakieru (2-3 etapy)': {
+        description: 'Wieloetapowe polerowanie lakieru celem usunięcia rys i hologramów',
+        prices: { 'Samochód mały': '1600 zł', 'Samochód duży': '2000 zł', 'SUV/VAN': '2400 zł' }
+      },
+      'Renowacja lakieru': {
+        description: 'Kompleksowa renowacja lakieru pojazdu na wysokim poziomie',
+        prices: { 'Samochód mały': 'od 2500 zł', 'Samochód duży': 'od 3000 zł', 'SUV/VAN': 'od 3500 zł' }
+      },
+      'Przygotowanie do sprzedaży': {
+        description: 'Pełne przygotowanie pojazdu do sprzedaży - lakier, wnętrze',
+        prices: { 'Samochód mały': 'Wycena indywidualna', 'Samochód duży': 'Wycena indywidualna', 'SUV/VAN': 'Wycena indywidualna' }
+      },
+      'Oddaj auto po leasingu/najmie': {
+        description: 'Przygotowanie pojazdu do zwrotu w idealnym stanie',
+        prices: { 'Samochód mały': 'Wycena indywidualna', 'Samochód duży': 'Wycena indywidualna', 'SUV/VAN': 'Wycena indywidualna' }
+      },
+    }
+  },
+  powloki: {
+    title: 'Powłoki ceramiczne i hydrofoba',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Powłoka polimerowa 3 miesięczna': {
+        description: 'Tymczasowa powłoka ochronna na lakier - 3 miesiące gwarancji',
+        prices: { 'Samochód mały': '150 zł', 'Samochód duży': '180 zł', 'SUV/VAN': '220 zł' }
+      },
+      'Powłoka hydrofobowa na przednią szybę': {
+        description: 'Hydrofobowa powłoka ochronna na przednią szybę',
+        prices: { 'Samochód mały': '150 zł', 'Samochód duży': '150 zł', 'SUV/VAN': '150 zł' }
+      },
+      'Powłoka hydrofobowa wszystkich szyb': {
+        description: 'Hydrofobowa powłoka na wszystkie szyby pojazdu',
+        prices: { 'Samochód mały': '300 zł', 'Samochód duży': '300 zł', 'SUV/VAN': '300 zł' }
+      },
+      'Pakiet zabezpieczenia ceramicznego 3 letni': {
+        description: 'Ceramiczna powłoka ochronna na lakier - 3 lata gwarancji',
+        prices: { 'Samochód mały': 'od 2500 zł', 'Samochód duży': 'od 3000 zł', 'SUV/VAN': 'od 3500 zł' }
+      },
+      'Pakiet zabezpieczenia ceramicznego 5 letni': {
+        description: 'Ceramiczna powłoka ochronna na lakier - 5 lat gwarancji',
+        prices: { 'Samochód mały': 'od 3500 zł', 'Samochód duży': 'od 4200 zł', 'SUV/VAN': 'od 5000 zł' }
+      },
+      'Pakiet zabezpieczenia ceramicznego 7 letni': {
+        description: 'Ceramiczna powłoka ochronna na lakier - 7 lat gwarancji',
+        prices: { 'Samochód mały': 'od 4800 zł', 'Samochód duży': 'od 5800 zł', 'SUV/VAN': 'od 6800 zł' }
+      },
+    }
+  },
+  szyby: {
+    title: 'Szyby pojazdu',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Przyciemnianie szyb': {
+        description: 'Profesjonalne przyciemnianie szyb bocznych i tylnej',
+        prices: { 'Samochód mały': '1000 zł', 'Samochód duży': '1200 zł', 'SUV/VAN': '1400 zł' }
+      },
+    }
+  },
+  ppf: {
+    title: 'Folia ochronna PPF',
+    categories: ['Samochód mały', 'Samochód duży', 'SUV/VAN'],
+    items: {
+      'Reflektory': {
+        description: 'Folia ochronna na reflektory pojazdu',
+        prices: { 'Samochód mały': '800 zł', 'Samochód duży': '800 zł', 'SUV/VAN': '800 zł' }
+      },
+      'Maska': {
+        description: 'Folia ochronna na maskę pojazdu',
+        prices: { 'Samochód mały': '2000 zł', 'Samochód duży': '2200 zł', 'SUV/VAN': '2500 zł' }
+      },
+      'Zderzak przedni': {
+        description: 'Folia ochronna na zderzak przedni',
+        prices: { 'Samochód mały': '2000 zł', 'Samochód duży': '2200 zł', 'SUV/VAN': '2500 zł' }
+      },
+      'Wnęki klamek': {
+        description: 'Folia ochronna w wnetrzach klamek drzwi',
+        prices: { 'Samochód mały': '400 zł', 'Samochód duży': '400 zł', 'SUV/VAN': '400 zł' }
+      },
+      'Progi wewnętrzne': {
+        description: 'Folia ochronna na progi wewnętrzne pojazdu',
+        prices: { 'Samochód mały': '600 zł', 'Samochód duży': '600 zł', 'SUV/VAN': '600 zł' }
+      },
+      'Próg bagażnika': {
+        description: 'Folia ochronna na próg bagażnika',
+        prices: { 'Samochód mały': '500 zł', 'Samochód duży': '500 zł', 'SUV/VAN': '500 zł' }
+      },
+      'Lusterka': {
+        description: 'Folia ochronna na lusterka boczne pojazdu',
+        prices: { 'Samochód mały': '600 zł', 'Samochód duży': '600 zł', 'SUV/VAN': '600 zł' }
+      },
+      'Pakiet Hybrydowy full front': {
+        description: 'Pakiet obejmujący maskę, reflektory, zderzak, progi - hybrydowy',
+        prices: { 'Samochód mały': 'od 7000 zł', 'Samochód duży': 'od 8000 zł', 'SUV/VAN': 'od 9000 zł' }
+      },
+      'Pakiet front': {
+        description: 'Pakiet pełna ochrona przodu pojazdu',
+        prices: { 'Samochód mały': 'od 6500 zł', 'Samochód duży': 'od 7500 zł', 'SUV/VAN': 'od 8500 zł' }
+      },
+      'Full body PPF': {
+        description: 'Całkowita ochrona całego pojazdu folią ochronną',
+        prices: { 'Samochód mały': 'od 14500 zł', 'Samochód duży': 'od 17000 zł', 'SUV/VAN': 'od 20000 zł' }
+      },
+      'Pakiet PPF Basic': {
+        description: 'Podstawowy pakiet ochrony folią ochronną',
+        prices: { 'Samochód mały': 'od 1800 zł', 'Samochód duży': 'od 2200 zł', 'SUV/VAN': 'od 2600 zł' }
+      },
+    }
+  }
+};
+
+// ------------------- MODAL CENNIK -------------------
+function openPricingModal(category) {
+  const pricingModal = document.getElementById('pricingModal');
+  const pricingModalOverlay = document.getElementById('pricingModalOverlay');
+  
+  if (!pricingModal || !pricingModalOverlay) {
+    console.error('Modal elements not found');
+    return;
+  }
+  
+  console.log('Opening pricing modal for category:', category);
+  
+  const data = pricingData[category];
+  if (!data) {
+    console.error('No pricing data for category:', category);
+    return;
+  }
+
+  document.getElementById('modalTitle').textContent = data.title;
+
+  // Kategorie
+  const categoriesHtml = data.categories.map(cat => 
+    `<button class="category-tab active" onclick="filterByCategory(this, '${cat}')" data-category="${cat}">${cat}</button>`
+  ).join('');
+  document.getElementById('categoryTabs').innerHTML = categoriesHtml;
+
+  // Elementy cennika
+  const itemsHtml = Object.entries(data.items).map(([name, item]) => {
+    const pricesHtml = Object.entries(item.prices).map(([cat, price]) =>
+      `<div class="category-price" data-category="${cat}" style="display: none;"><strong>${cat}:</strong> ${price}</div>`
+    ).join('');
+    
+    return `
+      <div class="pricing-item-modal" onclick="toggleExpand(this)">
+        <div class="pricing-item-header">
+          <div class="item-name">${name}</div>
+          <div class="item-price">${Object.values(item.prices)[0]}</div>
+        </div>
+        <div class="pricing-item-description">${item.description}</div>
+        <div class="category-prices" style="margin-top: 16px; display: none;">
+          ${pricesHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('pricingListModal').innerHTML = itemsHtml;
+
+  // Pokaż pierwszą kategorię
+  showCategory(data.categories[0]);
+
+  console.log('Adding active class to modals');
+  pricingModal.classList.add('active');
+  pricingModalOverlay.classList.add('active');
+  console.log('Modal classes:', pricingModal.className, pricingModalOverlay.className);
+  document.body.style.overflow = 'hidden';
+  
+  // Scroll do górki modalu
+  pricingModal.scrollTop = 0;
+  
+  // Upewnij się że modal jest widoczny
+  setTimeout(() => {
+    pricingModal.scrollTop = 0;
+  }, 100);
+}
+
+function toggleExpand(el) {
+  el.classList.toggle('expanded');
+  const priceBox = el.querySelector('.category-prices');
+  if (priceBox) {
+    priceBox.style.display = priceBox.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
+function filterByCategory(btn, category) {
+  document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+  btn.classList.add('active');
+  showCategory(category);
+}
+
+function showCategory(category) {
+  const items = document.querySelectorAll('.pricing-item-modal');
+  items.forEach(item => {
+    const categoryPrices = item.querySelectorAll('.category-price');
+    categoryPrices.forEach(price => {
+      price.style.display = price.getAttribute('data-category') === category ? 'block' : 'none';
+    });
+  });
+}
+
+function closePricingModal() {
+  const pricingModal = document.getElementById('pricingModal');
+  const pricingModalOverlay = document.getElementById('pricingModalOverlay');
+  
+  if (pricingModal && pricingModalOverlay) {
+    pricingModal.classList.remove('active');
+    pricingModalOverlay.classList.remove('active');
+  }
+  document.body.style.overflow = '';
+}
+
+// Exports do global scope (dla onclick w HTML)
+window.openPricingModal = openPricingModal;
+window.closePricingModal = closePricingModal;
+window.filterByCategory = filterByCategory;
+window.toggleExpand = toggleExpand;
+
+// =============== INICJALIZACJA NA DOMContentLoaded ===============
+document.addEventListener('DOMContentLoaded', () => {
+  // ------------------- MODAL CENNIK LISTENERS -------------------
+  const modalClose = document.getElementById('modalClose');
+  const pricingModalOverlay = document.getElementById('pricingModalOverlay');
+  
+  if (modalClose) {
+    modalClose.addEventListener('click', closePricingModal);
+  }
+  if (pricingModalOverlay) {
+    pricingModalOverlay.addEventListener('click', closePricingModal);
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePricingModal();
+  });
+
+  // ------------------- HAMBURGER MENU -------------------
+  const hamburger = document.getElementById('hamburger');
+  const menu = document.getElementById('menu');
+  const overlay = document.getElementById('overlay');
+  const navLinks = document.querySelectorAll('.nav-center a');
+
+  // Funkcja do zamykania menu
+  const closeMenu = () => {
+    hamburger.classList.remove('active');
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+    // Zamknij dropdown cennik
+    const cennikToggleEl = document.getElementById('cennikToggle');
+    const cennikMenuEl = document.getElementById('cennikMenu');
+    if (cennikToggleEl && cennikMenuEl) {
+      cennikToggleEl.classList.remove('active');
+      cennikMenuEl.classList.remove('active');
+    }
+  };
+
+  // Klik na hamburger
+  if (hamburger) {
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hamburger.classList.toggle('active');
+      menu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+  }
+
+  // Klik na overlay
+  if (overlay) {
+    overlay.addEventListener('click', closeMenu);
+  }
+
+  // Klik na linki w menu
+  navLinks.forEach(link => {
+    if (!link.classList.contains('dropdown-toggle') && !link.classList.contains('btn-rezerwacja')) {
+      link.addEventListener('click', (e) => {
+        closeMenu();
+      });
+    }
+  });
+  
+  // Scroll do górki
+  updateBeaImages();
+  
+  setTimeout(() => {
+    window.scrollTo({top: 0, behavior: 'auto'});
+  }, 100);
+
+  // ------------------- DROPDOWN CENNIK -------------------
+  // Kod moved to end of script for better compatibility
+
+});
+
+// ------------------- SLIDER REALIZACJI -------------------
+let allImages = [
+  'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900',
+  'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900',
+  'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=900',
+  'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=900',
+  'https://images.unsplash.com/photo-1617814065893-00757125efab?w=900',
+  'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900',
+  'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900',
+  'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=900',
+  'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=900',
+  'https://images.unsplash.com/photo-1617814065893-00757125efab?w=900',
+];
+
+let currentIndex = 1;
+
+function updateSliderImages() {
+  const leftIdx = (currentIndex - 1 + allImages.length) % allImages.length;
+  const centerIdx = currentIndex;
+  const rightIdx = (currentIndex + 1) % allImages.length;
+
+  document.getElementById('slide-left').querySelector('img').src = allImages[leftIdx];
+  document.getElementById('slide-center').querySelector('img').src = allImages[centerIdx];
+  document.getElementById('slide-right').querySelector('img').src = allImages[rightIdx];
+}
+
+function nextSlide() {
+  currentIndex = (currentIndex + 1) % allImages.length;
+  updateSliderImages();
+}
+
+setInterval(nextSlide, 4000);
+updateSliderImages();
+
+// ------------------- PRZED/PO -------------------
+const after = document.querySelector('.ba-after');
+const handle = document.querySelector('.ba-handle');
+const baBox = document.getElementById('ba-box');
+let isDragging = false;
+
+if (handle && baBox) {
+  handle.addEventListener('mousedown', startDrag);
+  handle.addEventListener('touchstart', startDrag, { passive: true });
+
+  function startDrag(e) {
+    e.preventDefault();
+    isDragging = true;
+    baBox.style.cursor = 'grabbing';
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', stopDrag);
+    document.addEventListener('touchmove', drag, { passive: false });
+    document.addEventListener('touchend', stopDrag);
+  }
+
+  function drag(e) {
+    if (!isDragging) return;
+    if (e.type.includes('touch')) {
+      e.preventDefault();
+    }
+    const rect = baBox.getBoundingClientRect();
+    const x = (e.clientX || e.touches?.[0]?.clientX) - rect.left;
+    const limitedX = Math.max(0, Math.min(rect.width, x));
+    const perc = (limitedX / rect.width) * 100;
+    after.style.clipPath = `inset(0 ${100 - perc}% 0 0)`;
+    handle.style.left = perc + '%';
+  }
+
+  function stopDrag() {
+    isDragging = false;
+    baBox.style.cursor = 'grab';
+    document.removeEventListener('mousemove', drag);
+    document.removeEventListener('mouseup', stopDrag);
+    document.removeEventListener('touchmove', drag);
+    document.removeEventListener('touchend', stopDrag);
+  }
+}
+
+// ------------------- REVEAL -------------------
+function reveal() {
+  document.querySelectorAll('.reveal').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      el.classList.add('active');
+    }
+  });
+}
+window.addEventListener('load', reveal);
+window.addEventListener('scroll', reveal);
+
+// ------------------- LICZNIKI -------------------
+function animateCount(el, end) {
+  let start = 0;
+  let duration = 2000;
+  let stepTime = Math.abs(Math.floor(duration / end));
+  let timer = setInterval(() => {
+    start += 1;
+    el.textContent = start + '+';
+    if (start >= end) clearInterval(timer);
+  }, stepTime);
+}
+
+window.addEventListener('scroll', () => {
+  const stats = document.querySelectorAll('.stat-item .number');
+  const offsetTop = document.querySelector('#onas').offsetTop - window.innerHeight + 100;
+  if (window.scrollY > offsetTop) {
+    animateCount(stats[0], 6967);
+    animateCount(stats[1], 69);
+    animateCount(stats[2], 67);
+  }
+}, { once: true });
+
+// ------------------- MODAL REZERWACJI -------------------
+const reservationBtn = document.getElementById('reservationBtn');
+const reservationModal = document.getElementById('reservationModal');
+const reservationModalOverlay = document.getElementById('reservationModalOverlay');
+const reservationClose = document.getElementById('reservationClose');
+const reservationForm = document.getElementById('reservationForm');
+let selectedService = null;
+
+// Lista usług do rezerwacji
+const reservationServices = [
+  { id: 'mycie', name: 'Bieżące mycie', price: 'od 130 zł', description: 'Profesjonalne mycie pojazdu', duration: 1 },
+  { id: 'sprzatanie', name: 'Sprzątanie wnętrza', price: 'od 1000 zł', description: 'Głębokie czyszczenie wnętrza', duration: 1 },
+  { id: 'komplet', name: 'Bieżące mycie ze sprzątaniem wnętrza (KOMPLET)', price: 'od 1130 zł', description: 'Pełny serwis mycia i czyszczenia', duration: 2 }
+];
+
+function openReservationModal() {
+  // Wygeneruj listę usług
+  const servicesList = document.getElementById('reservationServicesList');
+  servicesList.innerHTML = reservationServices.map(service => `
+    <div class="service-item" onclick="selectService('${service.id}', '${service.name}', '${service.price}', ${service.duration})">
+      <h3>${service.name}</h3>
+      <p>${service.description}</p>
+      <div class="price">${service.price}</div>
+      <div style="font-size:0.85rem;color:var(--tiffany);margin-top:10px;">⏱️ ${service.duration}h</div>
+    </div>
+  `).join('');
+
+  reservationModal.classList.add('active');
+  reservationModalOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  
+  document.getElementById('reservationPage1').style.display = 'block';
+  document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
+}
+
+function selectService(id, name, price, duration) {
+  selectedService = { id, name, price, duration };
+  document.getElementById('selectedServiceName').textContent = name;
+  document.getElementById('selectedServicePrice').textContent = price;
+  
+  // Inicjalizuj kalendarz
+  currentMonth = new Date();
+  renderCalendar();
+  
+  document.getElementById('reservationPage1').style.display = 'none';
+  document.getElementById('reservationPage2').style.display = 'block';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
+  
+  selectedDate = null;
+  selectedTime = null;
+}
+
+function goBackReservation() {
+  document.getElementById('reservationPage1').style.display = 'block';
+  document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
+  selectedDate = null;
+  selectedTime = null;
+}
+
+function closeReservationModal() {
+  reservationModal.classList.remove('active');
+  reservationModalOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+  goBackReservation();
+}
+
+// Event listenery
+reservationBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  openReservationModal();
+});
+
+reservationClose.addEventListener('click', closeReservationModal);
+reservationModalOverlay.addEventListener('click', closeReservationModal);
+
+// ------------------- NOWY SYSTEM REZERWACJI Z KALENDARZEM -------------------
+let selectedDate = null; // YYYY-MM-DD
+let selectedTime = null; // HH:MM
+let currentMonth = new Date();
+
+function renderCalendar() {
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth();
+  
+  // Ustaw tytuł
+  document.getElementById('monthYear').textContent = currentMonth.toLocaleDateString('pl-PL', { 
+    month: 'long', 
+    year: 'numeric' 
+  }).charAt(0).toUpperCase() + currentMonth.toLocaleDateString('pl-PL', { 
+    month: 'long', 
+    year: 'numeric' 
+  }).slice(1);
+  
+  // Przygotuj grid
+  const grid = document.getElementById('calendarGrid');
+  grid.innerHTML = '';
+  
+  // Dni tygodnia (po-nie)
+  const daysHeader = ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd'];
+  daysHeader.forEach(day => {
+    const dayEl = document.createElement('div');
+    dayEl.textContent = day;
+    dayEl.style.cssText = 'color:#81d8d0;font-weight:bold;text-align:center;padding:8px;';
+    grid.appendChild(dayEl);
+  });
+  
+  // Pierwsze dla miesiąca (0=pon, 6=nie)
+  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7; // Shift żeby poniedziałek = 0
+  
+  // Liczba dni w miesiącu
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  
+  // Puste pola przed pierwszym dniem
+  for (let i = 0; i < firstDay; i++) {
+    const emptyEl = document.createElement('div');
+    grid.appendChild(emptyEl);
+  }
+  
+  // Dni miesiąca
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    // Format lokalny YYYY-MM-DD (bez UTC shift)
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+    const dayEl = document.createElement('button');
+    dayEl.textContent = day;
+    dayEl.style.cssText = `
+      padding:10px;border:2px solid rgba(129,216,208,.2);border-radius:6px;background:rgba(255,255,255,.05);color:#fff;
+      cursor:pointer;transition:.2s;font-weight:600;
+    `;
+    
+    // Disable dni w przeszłości, niedziele i soboty
+    const dayOfWeek = date.getDay();
+    const isSunday = dayOfWeek === 0;
+    const isSaturday = dayOfWeek === 6;
+    
+    if (date < today || isSunday) {
+      dayEl.style.opacity = '0.3';
+      dayEl.style.cursor = 'not-allowed';
+      dayEl.disabled = true;
+    } else if (isSaturday) {
+      // Sobota: dostępna ale informacja dla użytkownika
+      dayEl.style.borderColor = 'rgba(255,195,0,.5)';
+    }
+    
+    if (!dayEl.disabled) {
+      dayEl.onmouseover = function() { 
+        if (!this.disabled) this.style.borderColor = 'var(--tiffany)'; 
+      };
+      dayEl.onmouseout = function() { 
+        if (!this.disabled) this.style.borderColor = 'rgba(129,216,208,.2)'; 
+      };
+      dayEl.onclick = () => {
+        document.querySelectorAll('#calendarGrid button').forEach(el => {
+          el.style.background = 'rgba(255,255,255,.05)';
+          el.style.color = '#fff';
+        });
+        dayEl.style.background = 'var(--tiffany)';
+        dayEl.style.color = '#0b0b0b';
+        selectedDate = dateStr;
+        
+        document.getElementById('selectedDateDisplay').textContent = date.toLocaleDateString('pl-PL', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        document.getElementById('selectedDateInfo').style.display = 'block';
+        document.getElementById('confirmDateBtn').style.display = 'block';
+      };
+    }
+    
+    grid.appendChild(dayEl);
+  }
+}
+
+function prevMonth() {
+  currentMonth.setMonth(currentMonth.getMonth() - 1);
+  renderCalendar();
+}
+
+function nextMonth() {
+  currentMonth.setMonth(currentMonth.getMonth() + 1);
+  renderCalendar();
+}
+
+function confirmDate() {
+  if (!selectedDate) {
+    showNotification('Wybierz datę', 'error');
+    return;
+  }
+  
+  // Renderuj godziny
+  renderHours();
+  
+  document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'block';
+  document.getElementById('reservationPage4').style.display = 'none';
+  
+  selectedTime = null;
+}
+
+function backToCalendar() {
+  document.getElementById('reservationPage2').style.display = 'block';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
+  selectedTime = null;
+}
+
+function renderHours() {
+  const dateObj = new Date(selectedDate + 'T00:00');
+  document.getElementById('selectedDateForHours').textContent = dateObj.toLocaleDateString('pl-PL', {
+    weekday: 'short',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  
+  const hoursGrid = document.getElementById('hoursGrid');
+  hoursGrid.innerHTML = '';
+  
+  // Sprawdź czy to sobota
+  const dayOfWeek = dateObj.getDay();
+  const isSaturday = dayOfWeek === 6;
+  
+  // Dla soboty tylko 9:00-12:00, dla innych dni 9:00-16:00
+  const hours = isSaturday ? ['09:00', '10:00', '11:00', '12:00'] : ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+  const duration = selectedService.duration || 1;
+  
+  // Sprawdź czy wybrana data to dzisiaj
+  const today = new Date();
+  const isToday = selectedDate === `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const currentHour = today.getHours();
+  
+  hours.forEach(hour => {
+    const [hourNum] = hour.split(':').map(Number);
+    const isBlocked = isTimeBlocked(selectedDate, hour, duration);
+    const isInPast = isToday && hourNum <= currentHour;
+    
+    const btn = document.createElement('button');
+    btn.textContent = hour;
+    btn.type = 'button';
+    
+    if (isBlocked || isInPast) {
+      btn.style.cssText = `
+        padding:12px;border:2px solid #ff6b6b;border-radius:6px;background:rgba(255,107,107,.1);
+        color:#ff6b6b;cursor:not-allowed;opacity:0.5;font-weight:600;
+      `;
+      btn.disabled = true;
+      btn.title = isInPast ? 'Godzina już minęła' : 'Termin zajęty';
+    } else {
+      btn.style.cssText = `
+        padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:6px;background:rgba(255,255,255,.05);
+        color:#fff;cursor:pointer;transition:.2s;font-weight:600;
+      `;
+      btn.onmouseover = function() { 
+        this.style.borderColor = 'var(--tiffany)';
+      };
+      btn.onmouseout = function() { 
+        this.style.borderColor = 'rgba(129,216,208,.3)';
+      };
+      btn.onclick = () => {
+        document.querySelectorAll('#hoursGrid button').forEach(el => {
+          el.style.background = 'rgba(255,255,255,.05)';
+          el.style.borderColor = 'rgba(129,216,208,.3)';
+          el.style.color = '#fff';
+        });
+        btn.style.background = 'var(--tiffany)';
+        btn.style.color = '#0b0b0b';
+        btn.style.borderColor = 'var(--tiffany)';
+        selectedTime = hour;
+        document.getElementById('confirmTimeBtn').style.display = 'block';
+      };
+    }
+    
+    hoursGrid.appendChild(btn);
+  });
+}
+
+function confirmTime() {
+  if (!selectedTime) {
+    alert('Wybierz godzinę');
+    return;
+  }
+  
+  // Pokaż stronę 4 (formularz)
+  const dateObj = new Date(selectedDate + 'T00:00');
+  const dateFormatted = dateObj.toLocaleDateString('pl-PL', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  
+  document.getElementById('dateTimeDisplay').textContent = `${dateFormatted}, ${selectedTime}`;
+  
+  document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'block';
+}
+
+function backToHours() {
+  document.getElementById('reservationPage3').style.display = 'block';
+  document.getElementById('reservationPage4').style.display = 'none';
+}
+
+function goBackReservation() {
+  document.getElementById('reservationPage1').style.display = 'block';
+  document.getElementById('reservationPage2').style.display = 'none';
+  document.getElementById('reservationPage3').style.display = 'none';
+  document.getElementById('reservationPage4').style.display = 'none';
+  selectedDate = null;
+  selectedTime = null;
+}
+
+function closeReservationModal() {
+  reservationModal.classList.remove('active');
+  reservationModalOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+  goBackReservation();
+}
+
+/*
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                 GOOGLE CALENDAR INTEGRATION - INSTRUKCJA SETUP                ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║ Aby zintegrować Google Calendar, wykonaj następujące kroki:                  ║
+║                                                                               ║
+║ 1. OTWÓRZ GOOGLE APPS SCRIPT:                                                ║
+║    - Idź do: https://script.google.com/home                                  ║
+║    - Otwórz swój projekt Apps Script z URL powyżej                           ║
+║                                                                               ║
+║ 2. ZAKTUALIZUJ GOOGLE APPS SCRIPT KOD (editor.gs):                           ║
+║    Zastąp funkcję doPost() i dodaj funkcję createCalendarEvent()             ║
+║    Patrz plik: GOOGLE_APPS_SCRIPT_CODE.js (poniżej)                         ║
+║                                                                               ║
+║ 3. POŁĄCZ GOOGLE CALENDAR:                                                   ║
+║    - W Apps Script: Services (+) → Google Calendar API                       ║
+║    - Włącz Google Calendar API w Google Cloud                                ║
+║                                                                               ║
+║ 4. USTAW ID KALENDARZA:                                                      ║
+║    - Otwórz Google Calendar → Ustawienia kalendarza                          ║
+║    - Skopiuj ID kalendarza (np: xxxxx@group.calendar.google.com)            ║
+║    - Wstaw do CALENDAR_ID w Apps Script                                      ║
+║                                                                               ║
+║ 5. REDEPLOY GOOGLE APPS SCRIPT:                                              ║
+║    - Kliknij "Deploy" (nowa wersja)                                          ║
+║    - Skopiuj nowy URL i zastąp GOOGLE_SCRIPT_URL poniżej                    ║
+║                                                                               ║
+║ REZULTAT:                                                                     ║
+║ - Rezerwacje będą automatycznie dodawane do Google Calendar                  ║
+║ - Godziny będą automatycznie blokowane w systemie                            ║
+║ - Klienci otrzymają email z potwierdzeniem                                   ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+*/
+
+// Inicjalizuj Google Apps Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWfPgI3V_uGn0NL13GNT5hk1_CszphE9uscI76A7uMEYAG8dvHJdkn8RcY7HYOWjXQ/exec'; // Zastąp pełnym URL z Google Apps Script
+
+// Funkcja do pobierania zablokowanych czasów z lokalnego magazynu
+// W przyszłości można będzie poszerzyć o Google Calendar API
+async function loadBlockedTimes(date) {
+  // Obecnie używamy localStorage
+  // Aby zintegrować Google Calendar:
+  // 1. Ustaw Google Calendar API w Google Cloud
+  // 2. Uwierzytelnij aplikację
+  // 3. Pobierz eventy z kalendarza na wybraną datę
+  // 4. Zapisz je w localStorage
+  return true;
+}
+
+// Funkcja sprawdzająca czy godzina jest zablokowana (wraz z czasem trwania usługi)
 function isTimeBlocked(date, time, duration = 1) {
   const [hours] = time.split(':').map(Number);
+  // Sprawdź czy jakikolwiek czas w zakresie jest zablokowany
   for (let i = 0; i < duration; i++) {
     const currentHour = hours + i;
     const blockedKey = `blocked_${date}_${currentHour}:00`;
@@ -36,388 +1626,422 @@ function isTimeBlocked(date, time, duration = 1) {
   return false;
 }
 
+// Funkcja blokująca wszystkie godziny zajęte przez usługę
 function blockTime(date, time, duration = 1) {
   const [hours] = time.split(':').map(Number);
+  // Zablokuj wszystkie godziny zajęte przez usługę
   for (let i = 0; i < duration; i++) {
     const currentHour = hours + i;
     const blockedKey = `blocked_${date}_${currentHour}:00`;
     localStorage.setItem(blockedKey, 'true');
   }
 }
-```
 
-**Co się zmieniło:**
-- Dodano parametr `duration`
-- Zmieniono logikę na loop który sprawdza WSZYSTKIE godziny
-- Zmieniono klucz localStorage z `serviceId` na `currentHour`
-- Teraz 2h usługa blokuje 2 godziny
-
----
-
-### ✅ ZMIANA 2: Funkcja updateAvailableHours (NOWA, linie 1273-1303)
-
-**DODANE:**
-```javascript
-function updateAvailableHours() {
-  const selectedDate = reservationForm.querySelectorAll('input')[3].value;
-  const timeSelect = document.getElementById('reservationTime');
+// Wysyłanie formularza
+reservationForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
   
-  if (!selectedDate || !selectedService) return;
+  // Pobierz dane z formularza
+  const inputs = reservationForm.querySelectorAll('input, textarea');
+  const name = inputs[0].value;
+  const phone = inputs[1].value;
+  const email = inputs[2].value;
+  const carBrand = inputs[3].value;
+  const carModel = inputs[4].value;
+  const carYear = inputs[5].value;
+  const message = inputs[6].value;
   
+  // Użyj wybranych daty i godziny z kalendarza
+  const date = selectedDate;
+  const time = selectedTime;
+  
+  // Sprawdź czy wszystko jest zaznaczone
+  if (!date || !time) {
+    showNotification('Wybierz datę i godzinę', 'error');
+    return;
+  }
+  
+  // Sprawdź czy godzina jest zablokowana (wraz z czasem trwania usługi)
   const duration = selectedService.duration || 1;
+  if (isTimeBlocked(date, time, duration)) {
+    showNotification('Ta godzina jest już zarezerwowana. Wybierz inną godzinę.', 'error');
+    return;
+  }
   
-  const options = timeSelect.querySelectorAll('option');
-  options.forEach(option => {
-    const timeValue = option.value;
-    if (timeValue === '') return;
+  // Sprawdź czy czas jest w zakresie 9:00-17:00
+  const [hours] = time.split(':').map(Number);
+  if (hours < 9 || hours >= 17) {
+    alert('Rezerwacje możliwe tylko w godzinach 9:00 - 17:00');
+    return;
+  }
+  
+  // Formatuj datę
+  const dateObj = new Date(date + 'T00:00');
+  const dateFormatted = dateObj.toLocaleDateString('pl-PL', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+  
+  // Dane do wysłania emaila i kalendarza
+  const reservationData = {
+    client_name: name,
+    client_phone: phone,
+    client_email: email,
+    car_brand: carBrand,
+    car_model: carModel,
+    car_year: carYear,
+    service_name: selectedService.name,
+    service_price: selectedService.price,
+    service_duration: selectedService.duration,
+    reservation_date_raw: date,
+    reservation_date: dateFormatted,
+    reservation_time: time,
+    message: message,
+    type: 'createEvent'
+  };
+  
+  try {
+    // Pokaż loading
+    const submitBtn = reservationForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Wysyłanie...';
+    submitBtn.disabled = true;
     
-    const isBlocked = isTimeBlocked(selectedDate, timeValue, duration);
+    // Wyślij do Google Apps Script
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(reservationData)
+    });
     
-    if (isBlocked) {
-      option.disabled = true;
-      option.textContent = option.textContent.includes('(zajęte)') 
-        ? option.textContent 
-        : option.textContent + ' (zajęte)';
+    const result = await response.json();
+    
+    if (result.status === 'success') {
+      // Zablokuj wszystkie godziny zajęte przez usługę
+      const duration = selectedService.duration || 1;
+      blockTime(date, time, duration);
+      
+      // Pokaż ładny komunikat sukcesu
+      showReservationSuccess(name, selectedService.name, dateFormatted, time, email);
+      
+      // Zamknij modal
+      closeReservationModal();
+      
+      // Resetuj formularz
+      reservationForm.reset();
     } else {
-      option.disabled = false;
-      option.textContent = option.textContent.replace(' (zajęte)', '');
+      throw new Error(result.message);
+    }
+  } catch (error) {
+    console.error('Błąd:', error);
+    showNotification('Błąd przy wysyłaniu rezerwacji: ' + error.message + '. Spróbuj ponownie lub skontaktuj się: +48 660 706 043', 'error');
+  } finally {
+    const submitBtn = reservationForm.querySelector('button[type="submit"]');
+    submitBtn.textContent = 'Zarezerwuj';
+    submitBtn.disabled = false;
+  }
+});
+
+// Zamknij modal na Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && reservationModal.classList.contains('active')) {
+    closeReservationModal();
+  }
+});
+
+// ===== SYSTEM PŁATNOŚCI PRZELEWY24 =====
+function selectPaymentMethod() {
+  // Pobierz dane z formularza
+  const inputs = reservationForm.querySelectorAll('input, textarea');
+  const name = inputs[0].value;
+  const phone = inputs[1].value;
+  const email = inputs[2].value;
+  const carBrand = inputs[3].value;
+  const carModel = inputs[4].value;
+  
+  // Sprawdzenia
+  if (!name || !phone || !email) {
+    showNotification('Uzupełnij imię, telefon i email aby kontynuować płatność', 'error');
+    return;
+  }
+  
+  if (!selectedDate || !selectedTime) {
+    showNotification('Wybierz datę i godzinę', 'error');
+    return;
+  }
+  
+  // Przygotuj dane do płatności
+  const amount = 2000; // 20 zł w groszach
+  const orderId = `GLO-${Date.now()}`; // Unikalny ID zamówienia
+  const description = `Zaliczka za ${selectedService.name} - ${carBrand} ${carModel}`;
+  
+  // Ustaw dane w sessionStorage żeby potem pobrać w Google Apps Script
+  sessionStorage.setItem('paymentData', JSON.stringify({
+    orderId: orderId,
+    amount: amount,
+    email: email,
+    phone: phone,
+    clientName: name,
+    carBrand: carBrand,
+    carModel: carModel,
+    serviceName: selectedService.name,
+    reservationDate: selectedDate,
+    reservationTime: selectedTime,
+    description: description
+  }));
+  
+  // Tutaj będzie integracja z Przelewy24
+  // Na razie wyświetlamy alert
+  alert(`💳 Płatność Przelewy24 (struktura przygotowana)\n\nZaliczka: 20 zł\nUsługa: ${selectedService.name}\nData: ${selectedDate}\n\nStruktra gotowa pieniazki na konto se splyna `);
+  
+  console.log('Payment Data:', sessionStorage.getItem('paymentData'));
+}
+
+// Scroll do góry strony na ładowaniu
+// ========== SUWAK PRZED/PO ==========
+const beaImages = [
+  { before: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200', after: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200', after: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=1200', after: 'https://images.unsplash.com/photo-1617814065893-00757125efab?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200', after: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200', after: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1617814065893-00757125efab?w=1200', after: 'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200', after: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200', after: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=1200', after: 'https://images.unsplash.com/photo-1617814065893-00757125efab?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200', after: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200' },
+];
+
+let beaIndex = 0;
+
+function updateBeaImages() {
+  const img = beaImages[beaIndex];
+  document.getElementById('ba-before').src = img.before;
+  document.getElementById('ba-after').src = img.after;
+  document.getElementById('ba-current').textContent = beaIndex + 1;
+  document.getElementById('ba-total').textContent = beaImages.length;
+}
+
+function nextBeforeAfter() {
+  beaIndex = (beaIndex + 1) % beaImages.length;
+  updateBeaImages();
+}
+
+function prevBeforeAfter() {
+  beaIndex = (beaIndex - 1 + beaImages.length) % beaImages.length;
+  updateBeaImages();
+}
+
+// Inicjalizuj licznik
+document.addEventListener('DOMContentLoaded', () => {
+  updateBeaImages();
+  
+  setTimeout(() => {
+    window.scrollTo({top: 0, behavior: 'auto'});
+  }, 100);
+});
+
+// Upewnij się że scroll się dzieje nawet gdy już załadowano
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    window.scrollTo({top: 0, behavior: 'auto'});
+  }, 100);
+});
+// Zamykanie po kliknięciu linka (bardzo przydatne na mobile)
+document.querySelectorAll('.nav-center a').forEach(link => {
+  link.addEventListener('click', () => {
+    // Pomijamy przycisk Rezerwacja jeśli otwiera modal
+    // Pomijamy dropdown toggle - on ma swój handler
+    if (!link.classList.contains('btn-rezerwacja') && !link.classList.contains('dropdown-toggle')) {
+      closeMenu();
+    }
+  });
+});
+
+// Dropdown też powinien zamykać po wybraniu kategorii
+document.querySelectorAll('#cennikMenu a').forEach(item => {
+  item.addEventListener('click', closeMenu);
+});
+
+// =============== DROPDOWN CENNIK - STANDALONE SETUP ===============
+const cennikToggle = document.getElementById('cennikToggle');
+const cennikMenu = document.getElementById('cennikMenu');
+
+if (cennikToggle && cennikMenu) {
+  cennikToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    cennikToggle.classList.toggle('active');
+    cennikMenu.classList.toggle('active');
+  });
+
+  cennikMenu.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const category = link.getAttribute('data-category');
+    if (category && typeof pricingData !== 'undefined' && pricingData[category]) {
+      openPricingModal(category);
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!cennikToggle.contains(e.target) && !cennikMenu.contains(e.target)) {
+      cennikToggle.classList.remove('active');
+      cennikMenu.classList.remove('active');
     }
   });
 }
 
-document.getElementById('reservationDate').addEventListener('change', updateAvailableHours);
-```
-
-**Co to robi:**
-- Aktualizuje dropdown gdy zmieni się data
-- Dla każdej godziny sprawdza czy jest zablokowana
-- Wyłącza niedostępne opcje
-- Dodaje "(zajęte)" do tekstu
-
----
-
-### ✅ ZMIANA 3: Walidacja czasu (linie 1304-1320)
-
-**PRZED:**
-```javascript
-if (isTimeBlocked(selectedDate, selectedService.id, selectedTime)) {
-```
-
-**PO:**
-```javascript
-const duration = selectedService.duration || 1;
-if (isTimeBlocked(selectedDate, selectedTime, duration)) {
-```
-
-**Co się zmieniło:**
-- Dodano pobranie `duration` z usługi
-- Przekazywanie czasu trwania do `isTimeBlocked`
-
----
-
-### ✅ ZMIANA 4: Dane wysyłane do Google Apps Script (linie 1330-1345)
-
-**PRZED:**
-```javascript
-const reservationData = {
-  client_name: name,
-  client_phone: phone,
-  client_email: email,
-  service_name: selectedService.name,
-  service_price: selectedService.price,
-  reservation_date: dateFormatted,
-  reservation_time: time,
-  message: message
-};
-```
-
-**PO:**
-```javascript
-const reservationData = {
-  client_name: name,
-  client_phone: phone,
-  client_email: email,
-  service_name: selectedService.name,
-  service_price: selectedService.price,
-  service_duration: selectedService.duration,  // ← NOWE
-  reservation_date: dateFormatted,
-  reservation_time: time,
-  message: message,
-  type: 'createEvent'  // ← NOWE
-};
-```
-
-**Co się zmieniło:**
-- Dodano `service_duration` (czas trwania usługi)
-- Dodano `type: 'createEvent'` dla Google Calendar
-
----
-
-### ✅ ZMIANA 5: Blokowanie po rezerwacji (linie 1370-1372)
-
-**PRZED:**
-```javascript
-blockTime(date, selectedService.id, time);
-```
-
-**PO:**
-```javascript
-const duration = selectedService.duration || 1;
-blockTime(date, time, duration);
-```
-
-**Co się zmieniło:**
-- Pobranie czasu trwania usługi
-- Przekazanie do `blockTime` z czasem trwania
-
----
-
-### ✅ ZMIANA 6: Instrukcja setup (linie 1216-1248)
-
-**DODANE:**
-Komentarz z instrukcją setup Google Calendar (walka z \`\`\`-ów)
-
-```
-╔════════════════════════════════════════════════════════════╗
-║ GOOGLE CALENDAR INTEGRATION - INSTRUKCJA SETUP            ║
-├════════════════════════════════════════════════════════════┤
-║ 1. OTWÓRZ GOOGLE APPS SCRIPT                              ║
-║ 2. ZAKTUALIZUJ KOD (editor.gs)                           ║
-║ 3. POŁĄCZ GOOGLE CALENDAR (Services +)                   ║
-║ 4. USTAW ID KALENDARZA                                   ║
-║ 5. REDEPLOY GOOGLE APPS SCRIPT                           ║
-╚════════════════════════════════════════════════════════════╝
-```
-
----
-
-## 📁 NOWE PLIKI UTWORZONE
-
-### 📄 GOOGLE_APPS_SCRIPT_WITH_CALENDAR.js (250+ linii)
-**Zawiera:**
-- Kompletny kod do wklejenia do Google Apps Script
-- Funkcja `doPost()` dla obsługi żądań
-- Funkcja `handleReservation()` dla logiki rezerwacji
-- Funkcja `createCalendarEvent()` dla Google Calendar
-- Funkcje `sendAdminEmail()` i `sendClientEmail()`
-- Funkcja `testEmail()` dla testowania
-- Dokumentacja jak wdrożyć
-
-**Status:** ✅ Gotowy do użytku
-
----
-
-### 📋 SETUP_GUIDE_GOOGLE_CALENDAR.md (300+ linii)
-**Zawiera:**
-- Szybki start (5 minut)
-- Szczegółowy opis integracji
-- Parametry konfiguracji
-- Instrukcje testowania
-- Troubleshooting
-- FAQ
-
-**Status:** ✅ Kompletny
-
----
-
-### 📋 QUICK_START.md (100+ linii)
-**Zawiera:**
-- 3 kroki do deployment'u (2 minuty)
-- Co to zrobi?
-- Szybka pomoc
-
-**Status:** ✅ Gotowy
-
----
-
-### 📋 COPY_PASTE_CONFIG.md (150+ linii)
-**Zawiera:**
-- Gotowe do copy-paste parametry
-- Jak znaleźć CALENDAR_ID
-- Zmień wartości
-- Checklist
-
-**Status:** ✅ Gotowy
-
----
-
-### 📋 CODE_SNIPPETS_REFERENCE.md (400+ linii)
-**Zawiera:**
-- Wszystkie ważne snippety kodu
-- 10 kluczowych fragmentów
-- Wyjaśnienia
-- Example flow
-
-**Status:** ✅ Kompletny
-
----
-
-### 📋 ARCHITECTURE_DIAGRAM.md (350+ linii)
-**Zawiera:**
-- Diagram systemu (ASCII art)
-- Flow rezerwacji
-- Frontend → Backend
-- Blokowanie godzin
-
-**Status:** ✅ Kompletny
-
----
-
-### 📋 CHANGELOG_CURRENT_SESSION.md (200+ linii)
-**Zawiera:**
-- Podsumowanie zmian
-- Statystyka
-- Bieżące pliki
-- Szybka lista todo
-
-**Status:** ✅ Gotowy
-
----
-
-### 📋 README.md (250+ linii)
-**Zawiera:**
-- Pełne podsumowanie sesji
-- Co zostało zrobione
-- Status bieżący
-- Następne kroki
-
-**Status:** ✅ Kompletny
-
----
-
-### 📋 INDEX.md (200+ linii)
-**Zawiera:**
-- Spis treści dokumentacji
-- Struktura projektu
-- Roadmap
-- Checklist
-
-**Status:** ✅ Gotowy
-
----
-
-### 📋 00_START_HERE.md (300+ linii)
-**Zawiera:**
-- Finalne podsumowanie
-- Co jest gotowe
-- Następny krok
-- Checklist
-
-**Status:** ✅ Kompletny
-
----
-
-## 📊 STATYSTYKA ZMIAN
-
-```
-Pliki zmienione:     1 (index.html)
-Pliki dodane:        9 (dokumentacja + kod)
-Linii kodu zmienione: ~50
-Nowych linii kodu:   ~350 (Google Apps Script)
-Linii dokumentacji:  2000+
-Zmian w logice:      6 (głównych)
-Nowych funkcji:      1 (updateAvailableHours)
-Nowych plików JS:    1 (GOOGLE_APPS_SCRIPT_WITH_CALENDAR.js)
-```
-
----
-
-## 🎯 GŁÓWNE OSIĄGNIĘCIA
-
-✅ **Logika blokowania** - oparta na czasie trwania usługi
-✅ **Dropdown dynamiczny** - wyświetla "(zajęte)"
-✅ **Google Calendar integracja** - automatyczne eventy
-✅ **Emaile automatyczne** - admin + klient
-✅ **Kod Google Apps Script** - gotowy do wdrożenia
-✅ **Dokumentacja** - 2000+ linii wszystkiego
-
----
-
-## 🔍 ZMIANY TECHNICZNE - PODSUMOWANIE
-
-### Przed
-```
-- Blokowanie bez uwzględnienia czasu trwania
-- Dropdown statyczny (nie pokazuje blokad)
-- Brak Google Calendar integracji
-- Brak dokumentacji
-```
-
-### Po
-```
-- Blokowanie uwzględniające czas trwania
-- Dropdown dynamiczny (pokazuje "(zajęte)")
-- Google Calendar integracja (gotowa)
-- Kompletna dokumentacja (2000+ linii)
-```
-
----
-
-## 🚀 GOTOWE DO DEPLOYMENTU
-
-### Frontend:
-✅ index.html (1441 linii)
-✅ Wszystkie funkcjonalności
-✅ Walidacja
-✅ UI/UX
-
-### Backend:
-✅ GOOGLE_APPS_SCRIPT_WITH_CALENDAR.js (gotowy do wklejenia)
-✅ Obsługa rezerwacji
-✅ Google Calendar API
-✅ Emaile
-
-### Dokumentacja:
-✅ 9 plików
-✅ 2000+ linii
-✅ Szybki start
-✅ Szczegółowy setup
-✅ Troubleshooting
-
----
-
-## 🎓 JAK ROZPOCZĄĆ
-
-1. Przeczytaj: **QUICK_START.md** (2 minuty)
-2. Przygotuj: **CALENDAR_ID** (z Google Calendar Settings)
-3. Wdrażaj: **GOOGLE_APPS_SCRIPT_WITH_CALENDAR.js** (do Apps Script)
-4. Konfiguruj: **Zmień CALENDAR_ID i ADMIN_EMAIL**
-5. Deploy: **Nowa wersja Apps Script**
-6. Testuj: **Rezerwacja → Google Calendar → Emaile**
-
----
-
-## 📝 NOTATKI
-
-- Wszystkie zmiany są wstecz-kompatybilne
-- Nie usunięto żadnych funkcjonalności
-- Dodano tylko nowe funkcjonalności
-- Kod jest gotów do produkcji
-- Dokumentacja jest kompletna
-
----
-
-## ✅ FINAL CHECKLIST - CO JEST GOTOWE
-
-- [x] Logika blokowania oparta na czasie trwania
-- [x] Dropdown aktualizujący się dynamicznie
-- [x] Dane zawierające service_duration
-- [x] Google Apps Script z Calendar API
-- [x] Emaile dla administratora i klienta
-- [x] Instrukcje setup
-- [x] Code snippets
-- [x] Dokumentacja
-- [x] Troubleshooting
-- [x] Architektura
-- [x] Changelog
-- [x] START_HERE guide
-
-**STATUS: ✅ WSZYSTKO GOTOWE**
-
----
-
-**Sesja bieżąca: Styczeń 2025 | Gloss Point Detailing - System Rezerwacji v1.0**
-
-*Czas do deploymentu: ~30 minut*
-*Złożoność wdrożenia: Niska (3 kroki)*
-*Gotowość do produkcji: 100%*
+function closeMenu() {
+  document.getElementById('hamburger').classList.remove('active');
+  document.getElementById('menu').classList.remove('active');
+  document.getElementById('overlay').classList.remove('active');
+  document.getElementById('cennikToggle')?.classList.remove('active');
+  document.getElementById('cennikMenu')?.classList.remove('active');
+}
+
+// =============== SYSTEM POWIADOMIEŃ ===============
+function showNotification(message, type = 'info') {
+  // Usuń poprzednie powiadomienie
+  const oldNotif = document.querySelector('.notification-toast');
+  if (oldNotif) oldNotif.remove();
+  
+  // Utwórz nowe powiadomienie
+  const notif = document.createElement('div');
+  notif.className = 'notification-toast';
+  notif.textContent = message;
+  notif.style.cssText = `
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: ${type === 'error' ? '#ff6b6b' : type === 'success' ? '#51cf66' : '#81d8d0'};
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    z-index: 10001;
+    max-width: 90%;
+    word-wrap: break-word;
+    animation: slideUp 0.4s ease;
+    font-weight: 500;
+  `;
+  
+  document.body.appendChild(notif);
+  
+  // Usuń po 4 sekundach
+  setTimeout(() => {
+    notif.style.animation = 'slideDown 0.4s ease forwards';
+    setTimeout(() => notif.remove(), 400);
+  }, 4000);
+}
+
+function showReservationSuccess(name, serviceName, date, time, email) {
+  // Usuń poprzednie powiadomienie
+  const oldNotif = document.querySelector('.reservation-success-modal');
+  if (oldNotif) oldNotif.remove();
+  
+  // Utwórz modal sukcesu
+  const modal = document.createElement('div');
+  modal.className = 'reservation-success-modal';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10002;
+    animation: fadeIn 0.3s ease;
+  `;
+  
+  modal.innerHTML = `
+    <div style="
+      background: linear-gradient(135deg, rgba(81,207,102,.05) 0%, rgba(129,216,208,.05) 100%);
+      border: 2px solid #51cf66;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      animation: slideUp 0.4s ease;
+    ">
+      <div style="font-size: 60px; margin-bottom: 20px;">✓</div>
+      <h2 style="color: #51cf66; margin: 0 0 20px 0; font-size: 28px;">Rezerwacja potwierdzona!</h2>
+      
+      <div style="background: rgba(129,216,208,.1); padding: 20px; border-radius: 12px; text-align: left; margin: 30px 0; border-left: 4px solid #81d8d0;">
+        <p style="margin: 8px 0; color: #fff;"><strong>Imię:</strong> ${name}</p>
+        <p style="margin: 8px 0; color: #fff;"><strong>Usługa:</strong> ${serviceName}</p>
+        <p style="margin: 8px 0; color: #fff;"><strong>Data:</strong> ${date}</p>
+        <p style="margin: 8px 0; color: #fff;"><strong>Godzina:</strong> ${time}</p>
+      </div>
+      
+      <p style="color: #aaa; margin: 20px 0; font-size: 0.95rem;">Email potwierdzający rezerwacji został wysłany na:</p>
+      <p style="color: #81d8d0; font-weight: bold; margin: 10px 0 30px 0;">${email}</p>
+      
+      <p style="color: #aaa; font-size: 0.9rem; line-height: 1.6; margin-bottom: 30px;">
+        ⏰ Jeśli nie potwierdzisz rezerwacji (klikając link w emailu) w ciągu 24 godzin, zostanie ona anulowana.
+      </p>
+      
+      <button onclick="this.closest('.reservation-success-modal').remove()" style="
+        background: #51cf66;
+        color: #000;
+        border: none;
+        padding: 14px 40px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      " onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Zamknij</button>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Zamknij po 8 sekundach
+  setTimeout(() => {
+    if (modal.parentNode) {
+      modal.style.animation = 'fadeOut 0.3s ease forwards';
+      setTimeout(() => modal.remove(), 300);
+    }
+  }, 8000);
+}
+
+// Dodaj animacje do CSS
+if (!document.querySelector('style[data-animations]')) {
+  const style = document.createElement('style');
+  style.setAttribute('data-animations', 'true');
+  style.textContent = `
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(30px); opacity: 0; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+</script>
+
+</body>
+</html>
