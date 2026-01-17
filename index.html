@@ -114,12 +114,13 @@ nav{width:100%;padding:16px 24px;display:flex;justify-content:center;align-items
 .nav-center{flex-direction:column;gap:0;width:100%;order:1;}
 .nav-center li{width:100%;}
 .nav-center li a{display:block;padding:16px 20px;border-bottom:1px solid rgba(129,216,208,.1);width:100%;pointer-events:auto;}
+.dropdown-toggle{pointer-events:auto !important;}
 .header-icons{flex-direction:row;gap:20px;justify-content:center;order:2;width:100%;padding:20px;border-top:1px solid rgba(129,216,208,.2);pointer-events:auto;}
 .header-icons a{pointer-events:auto;}
 .nav-inner{justify-content:space-between;gap:8px;}
-.dropdown-menu{position:static;opacity:1;visibility:visible;transform:none;background:transparent;box-shadow:none;max-height:0;overflow:hidden;transition:max-height 0.3s ease;margin:0;padding:0;}
+.dropdown-menu{position:static;opacity:1;visibility:visible;transform:none;background:transparent;box-shadow:none;max-height:0;overflow:hidden;transition:max-height 0.3s ease;margin:0;padding:0;pointer-events:auto !important;}
 .dropdown-menu.active{max-height:500px;padding:10px 0;}
-.dropdown-menu a{display:block;padding:12px 20px 12px 40px;border-bottom:none;color:#fff;font-size:0.9rem;pointer-events:auto;}
+.dropdown-menu a{display:block;padding:12px 20px 12px 40px;border-bottom:none;color:#fff;font-size:0.9rem;pointer-events:auto !important;}
 }
 @media(max-width:768px){
 nav{padding:12px 16px;}
@@ -176,6 +177,7 @@ h2{text-align:center;color:var(--tiffany);font-size:3rem;margin-bottom:60px;}
 .ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;background:var(--tiffany);cursor:grab;z-index:10;border-radius:50%;display:flex;align-items:center;justify-content:center;}
 .ba-handle::before{content:'⟨';color:#000;font-size:24px;font-weight:bold;}
 .ba-handle::after{content:'⟩';color:#000;font-size:24px;font-weight:bold;}
+.ba-counter{position:absolute;bottom:16px;right:16px;background:rgba(129,216,208,0.9);color:#000;padding:8px 12px;border-radius:6px;font-weight:600;font-size:0.9rem;z-index:11;}
 .ba-nav{display:flex;gap:20px;align-items:center;justify-content:center;}
 .ba-arrow{background:rgba(129,216,208,.2);border:2px solid var(--tiffany);color:var(--tiffany);width:60px;height:60px;border-radius:50%;cursor:pointer;font-size:32px;display:flex;align-items:center;justify-content:center;transition:.3s;flex-shrink:0;}
 .ba-arrow:hover{background:var(--tiffany);color:#000;transform:scale(1.1);}
@@ -432,7 +434,6 @@ font-size:1rem;
 /* ===== KONTAKT – TŁO ZDJĘCIE ===== */
 .contact-bg{
   position: relative;
-  background: url("fela.jpg") center / cover no-repeat;
 }
 
 /* przyciemnienie dla czytelności */
@@ -602,7 +603,7 @@ font-size:1rem;
         <li><a href="#uslugi">Usługi</a></li>
         <li><a href="#realizacje">Realizacje</a></li>
         <li>
-          <a href="#cennik" class="dropdown-toggle" id="cennikToggle">Cennik</a>
+          <a href="javascript:void(0)" class="dropdown-toggle" id="cennikToggle">Cennik</a>
 <div class="dropdown-menu" id="cennikMenu">
   <a href="javascript:void(0)" data-category="mycie">Mycie</a>
   <a href="javascript:void(0)" data-category="wnetrze">Wnętrze pojazdu</a>
@@ -674,6 +675,7 @@ font-size:1rem;
 <img id="ba-before" src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200">
 <img class="ba-after" id="ba-after" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200">
 <div class="ba-handle"></div>
+<div class="ba-counter"><span id="ba-current">1</span> / <span id="ba-total">5</span></div>
 </div>
 </div>
 <button class="ba-arrow" onclick="nextBeforeAfter()" title="Następne">→</button>
@@ -908,11 +910,15 @@ const pricingData = {
 };
 
 // ------------------- MODAL CENNIK -------------------
-const pricingModal = document.getElementById('pricingModal');
-const pricingModalOverlay = document.getElementById('pricingModalOverlay');
-const modalClose = document.getElementById('modalClose');
-
 function openPricingModal(category) {
+  const pricingModal = document.getElementById('pricingModal');
+  const pricingModalOverlay = document.getElementById('pricingModalOverlay');
+  
+  if (!pricingModal || !pricingModalOverlay) {
+    console.error('Modal elements not found');
+    return;
+  }
+  
   const data = pricingData[category];
   if (!data) return;
 
@@ -986,19 +992,38 @@ function showCategory(category) {
 }
 
 function closePricingModal() {
-  pricingModal.classList.remove('active');
-  pricingModalOverlay.classList.remove('active');
+  const pricingModal = document.getElementById('pricingModal');
+  const pricingModalOverlay = document.getElementById('pricingModalOverlay');
+  
+  if (pricingModal && pricingModalOverlay) {
+    pricingModal.classList.remove('active');
+    pricingModalOverlay.classList.remove('active');
+  }
   document.body.style.overflow = '';
 }
 
-modalClose.addEventListener('click', closePricingModal);
-pricingModalOverlay.addEventListener('click', closePricingModal);
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closePricingModal();
-});
+// Exports do global scope (dla onclick w HTML)
+window.openPricingModal = openPricingModal;
+window.closePricingModal = closePricingModal;
+window.filterByCategory = filterByCategory;
+window.toggleExpand = toggleExpand;
 
 // =============== INICJALIZACJA NA DOMContentLoaded ===============
 document.addEventListener('DOMContentLoaded', () => {
+  // ------------------- MODAL CENNIK LISTENERS -------------------
+  const modalClose = document.getElementById('modalClose');
+  const pricingModalOverlay = document.getElementById('pricingModalOverlay');
+  
+  if (modalClose) {
+    modalClose.addEventListener('click', closePricingModal);
+  }
+  if (pricingModalOverlay) {
+    pricingModalOverlay.addEventListener('click', closePricingModal);
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePricingModal();
+  });
+
   // ------------------- HAMBURGER MENU -------------------
   const hamburger = document.getElementById('hamburger');
   const menu = document.getElementById('menu');
@@ -1010,6 +1035,13 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.classList.remove('active');
     menu.classList.remove('active');
     overlay.classList.remove('active');
+    // Zamknij dropdown cennik
+    const cennikToggleEl = document.getElementById('cennikToggle');
+    const cennikMenuEl = document.getElementById('cennikMenu');
+    if (cennikToggleEl && cennikMenuEl) {
+      cennikToggleEl.classList.remove('active');
+      cennikMenuEl.classList.remove('active');
+    }
   };
 
   // Klik na hamburger
