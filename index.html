@@ -14,7 +14,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
 html{overflow-x:hidden;width:100%;}
-body{width:100%;height:100%;overflow-x:hidden;}
+body{width:100%;height:100%;overflow-x:visible;}
 body{
 background:linear-gradient(-45deg,var(--black),var(--dark),#1a1a1a,var(--black));
 background-size:400% 400%;animation:bg 14s infinite;
@@ -255,19 +255,19 @@ h2{font-size:1.5rem;margin-bottom:30px;}
 .reveal.active{opacity:1;transform:none;}
 
 /* PANEL CENNIKA FULLSCREEN */
-.pricing-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:5000;}
+.pricing-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:5000;}
 .pricing-modal-overlay.active{opacity:1;visibility:visible;}
-.reservation-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:4900;}
+.reservation-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:4900;}
 .reservation-modal-overlay.active{opacity:1;visibility:visible;}
-.pricing-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);overflow-y:auto;transform:translateX(100%);transition:transform 0.5s ease-out;z-index:5001;}
-.reservation-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);overflow-y:auto;transform:translateX(100%);transition:transform 0.5s ease-out;z-index:4901;}
-.pricing-modal.active{transform:translateX(0);}
+.pricing-modal{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.95);overflow-y:auto;overflow-x:hidden;transform:translateX(100%);transition:transform 0.5s ease-out;z-index:5001 !important;}
+.reservation-modal{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.95);overflow-y:auto;transform:translateX(100%);transition:transform 0.5s ease-out;z-index:4901;}
+.pricing-modal.active{transform:translateX(0) !important;}
 .reservation-modal.active{transform:translateX(0);}
-.modal-header{position:relative;padding:24px;background:rgba(129,216,208,.1);border-bottom:2px solid var(--tiffany);display:flex;justify-content:space-between;align-items:center;z-index:100;}
+.modal-header{position:fixed;top:0;left:0;right:0;padding:24px;background:rgba(0,0,0,.95);border-bottom:2px solid var(--tiffany);display:flex;justify-content:space-between;align-items:center;z-index:5003;box-sizing:border-box;}
 .modal-header h1{font-size:2rem;color:var(--tiffany);margin:0;}
 .modal-close{background:none;border:none;color:var(--tiffany);font-size:2rem;cursor:pointer;transition:.3s;width:40px;height:40px;display:flex;align-items:center;justify-content:center;}
 .modal-close:hover{color:#fff;transform:scale(1.2);}
-.modal-content{max-width:1200px;margin:0 auto;padding:40px 24px;}
+.modal-content{max-width:1200px;margin:0 auto;padding:120px 24px 40px 24px;scroll-padding-top:100px;}
 .category-tabs{display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap;}
 .category-tab{padding:12px 24px;background:rgba(129,216,208,.1);border:2px solid rgba(129,216,208,.3);color:#fff;cursor:pointer;border-radius:8px;font-weight:600;transition:.3s;}
 .category-tab.active{background:var(--tiffany);color:#000;border-color:var(--tiffany);}
@@ -284,7 +284,7 @@ h2{font-size:1.5rem;margin-bottom:30px;}
 .pricing-item-modal.expanded .pricing-item-description{display:block;}
 
 @media(max-width:768px){
-.modal-content{padding:24px 16px;}
+.modal-content{padding:100px 16px 40px 16px;}
 .category-tabs{gap:8px;}
 .category-tab{padding:10px 16px;font-size:0.9rem;}
 .item-name{font-size:1rem;}
@@ -994,6 +994,14 @@ function openPricingModal(category) {
   pricingModal.classList.add('active');
   pricingModalOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
+  
+  // Scroll do górki modalu
+  pricingModal.scrollTop = 0;
+  
+  // Upewnij się że modal jest widoczny
+  setTimeout(() => {
+    pricingModal.scrollTop = 0;
+  }, 100);
 }
 
 function toggleExpand(el) {
@@ -1032,41 +1040,55 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closePricingModal();
 });
 
-// ------------------- MENU -------------------
-const burger = document.getElementById('hamburger');
-const menu = document.getElementById('menu');
-const overlay = document.getElementById('overlay');
+// =============== INICJALIZACJA NA DOMContentLoaded ===============
+document.addEventListener('DOMContentLoaded', () => {
+  // ------------------- MENU -------------------
+  const burger = document.getElementById('hamburger');
+  const menu = document.getElementById('menu');
+  const overlay = document.getElementById('overlay');
 
-function closeMenu() {
-  burger.classList.remove('active');
-  menu.classList.remove('active');
-  overlay.classList.remove('active');
-  document.body.style.overflow = '';
-}
+  function closeMenu() {
+    burger.classList.remove('active');
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 
-burger.onclick = () => {
-  burger.classList.toggle('active');
-  menu.classList.toggle('active');
-  overlay.classList.toggle('active');
-  document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
-};
+  if (burger) {
+    burger.onclick = () => {
+      burger.classList.toggle('active');
+      menu.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+    };
+  }
 
-overlay.onclick = closeMenu;
+  if (overlay) {
+    overlay.onclick = closeMenu;
+  }
 
-document.querySelectorAll('.nav-center a:not(.dropdown-toggle)').forEach(link => {
-  link.addEventListener('click', e => {
-    if (!link.classList.contains('btn-rezerwacja')) {
-      e.preventDefault();
-      const target = document.querySelector(link.getAttribute('href'));
-      if (!target) return;
-      closeMenu();
-      setTimeout(() => {
-        const headerOffset = document.querySelector('header').offsetHeight;
-        const elementPosition = target.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top: elementPosition - headerOffset - 10, behavior: 'smooth' });
-      }, 300);
-    }
+  document.querySelectorAll('.nav-center a:not(.dropdown-toggle)').forEach(link => {
+    link.addEventListener('click', e => {
+      if (!link.classList.contains('btn-rezerwacja')) {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (!target) return;
+        closeMenu();
+        setTimeout(() => {
+          const headerOffset = document.querySelector('header').offsetHeight;
+          const elementPosition = target.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: elementPosition - headerOffset - 10, behavior: 'smooth' });
+        }, 300);
+      }
+    });
   });
+  
+  // Scroll do górki
+  updateBeaImages();
+  
+  setTimeout(() => {
+    window.scrollTo({top: 0, behavior: 'auto'});
+  }, 100);
 });
 
 // ------------------- DROPDOWN CENNIK -------------------
