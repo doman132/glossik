@@ -21,8 +21,8 @@ background-size:400% 400%;animation:bg 14s infinite;
 color:#fff;overflow-x:hidden;scroll-behavior:smooth;
 }
 @keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-header{position:sticky;top:0;z-index:2000;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);width:100%;padding:0;overflow:hidden;}
-nav{width:100%;padding:16px 24px;display:flex;justify-content:center;align-items:center;margin:0;background:rgba(0,0,0,.95);}
+header{position:sticky;top:0;z-index:1000;background:rgba(0,0,0,1);backdrop-filter:blur(10px);width:100%;padding:0;overflow:hidden;}
+nav{width:100%;padding:16px 24px;display:flex;justify-content:center;align-items:center;margin:0;background:rgba(0,0,0,1);}
 .nav-inner{width:100%;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:0 24px;}
 .logo{height:50px;width:auto;min-width:fit-content;flex-shrink:0;}
 .logo img{height:100%;width:auto;object-fit:contain;}
@@ -149,7 +149,7 @@ nav{padding:12px 12px;}
   opacity:1;
   pointer-events:auto;
 }
-section{margin:0 auto;padding:100px 24px;position:relative;width:100%;max-width:100%;box-sizing:border-box;}
+section{margin:0 auto;padding:100px 24px;position:relative;width:100%;max-width:100%;box-sizing:border-box;z-index:2;}
 h2{text-align:center;color:var(--tiffany);font-size:3rem;margin-bottom:60px;}
 .hero{padding:180px 24px 140px;text-align:center;}
 .hero h2{font-size:5rem;}
@@ -173,13 +173,17 @@ h2{text-align:center;color:var(--tiffany);font-size:3rem;margin-bottom:60px;}
 .pricing-list li{padding:10px 0;color:var(--muted);border-bottom:1px solid rgba(129,216,208,.1);display:flex;justify-content:space-between;}
 .pricing-list li:last-child{border-bottom:none;}
 .pricing-list span{color:var(--tiffany);font-weight:bold;}
-.before-after{max-width:500px;margin:auto;overflow:hidden;border-radius:20px;position:relative;}
+.before-after-slider{max-width:900px;margin:auto;position:relative;z-index:5;display:flex;align-items:center;gap:30px;justify-content:center;}
+.before-after{max-width:100%;margin:auto;overflow:hidden;border-radius:20px;position:relative;flex:1;min-width:0;}
 .ba-box{position:relative;aspect-ratio:4/3;cursor:grab;user-select:none;-webkit-user-select:none;-moz-user-select:none;}
 .ba-box img{position:absolute;width:100%;height:100%;object-fit:cover;}
 .ba-after{clip-path:inset(0 50% 0 0);}
 .ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;background:var(--tiffany);cursor:grab;z-index:10;border-radius:50%;display:flex;align-items:center;justify-content:center;}
 .ba-handle::before{content:'⟨';color:#000;font-size:24px;font-weight:bold;}
 .ba-handle::after{content:'⟩';color:#000;font-size:24px;font-weight:bold;}
+.ba-nav{display:flex;gap:20px;align-items:center;justify-content:center;}
+.ba-arrow{background:rgba(129,216,208,.2);border:2px solid var(--tiffany);color:var(--tiffany);width:60px;height:60px;border-radius:50%;cursor:pointer;font-size:32px;display:flex;align-items:center;justify-content:center;transition:.3s;flex-shrink:0;}
+.ba-arrow:hover{background:var(--tiffany);color:#000;transform:scale(1.1);}
 .slider-container{position:relative;overflow:visible;max-width:1400px;margin:0 auto;perspective:1200px;padding:40px 0;}
 .slider-track{display:flex;gap:30px;justify-content:center;align-items:center;position:relative;height:420px;}
 .slide{position:relative;background:rgba(255,255,255,.05);border-radius:18px;overflow:hidden;height:100%;width:340px;flex-shrink:0;transition:all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);border:2px solid rgba(129,216,208,.2);}
@@ -251,11 +255,15 @@ h2{font-size:1.5rem;margin-bottom:30px;}
 .reveal.active{opacity:1;transform:none;}
 
 /* PANEL CENNIKA FULLSCREEN */
-.pricing-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:4000;}
+.pricing-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:5000;}
 .pricing-modal-overlay.active{opacity:1;visibility:visible;}
-.pricing-modal{position:fixed;inset:0;background:rgba(0,0,0,.95);overflow-y:auto;transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);z-index:4001;}
+.reservation-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:4900;}
+.reservation-modal-overlay.active{opacity:1;visibility:visible;}
+.pricing-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);overflow-y:auto;transform:translateX(100%);transition:transform 0.5s ease-out;z-index:5001;}
+.reservation-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);overflow-y:auto;transform:translateX(100%);transition:transform 0.5s ease-out;z-index:4901;}
 .pricing-modal.active{transform:translateX(0);}
-.modal-header{position:sticky;top:0;padding:24px;background:rgba(129,216,208,.1);border-bottom:2px solid var(--tiffany);display:flex;justify-content:space-between;align-items:center;z-index:100;}
+.reservation-modal.active{transform:translateX(0);}
+.modal-header{position:relative;padding:24px;background:rgba(129,216,208,.1);border-bottom:2px solid var(--tiffany);display:flex;justify-content:space-between;align-items:center;z-index:100;}
 .modal-header h1{font-size:2rem;color:var(--tiffany);margin:0;}
 .modal-close{background:none;border:none;color:var(--tiffany);font-size:2rem;cursor:pointer;transition:.3s;width:40px;height:40px;display:flex;align-items:center;justify-content:center;}
 .modal-close:hover{color:#fff;transform:scale(1.2);}
@@ -506,8 +514,8 @@ font-size:1rem;
 </div>
 
 <!-- FULLSCREEN MODAL REZERWACJI -->
-<div class="pricing-modal-overlay" id="reservationModalOverlay"></div>
-<div class="pricing-modal" id="reservationModal">
+<div class="reservation-modal-overlay" id="reservationModalOverlay"></div>
+<div class="reservation-modal" id="reservationModal">
 <div class="modal-header">
 <h1 id="reservationTitle">Rezerwacja</h1>
 <button class="modal-close" id="reservationClose">&times;</button>
@@ -534,6 +542,9 @@ font-size:1rem;
 <button onclick="nextMonth()" style="background:rgba(129,216,208,.2);border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;">Następny →</button>
 </div>
 <div id="calendarGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:20px;"></div>
+<div style="background:rgba(255,195,0,.1);padding:10px;border-radius:8px;border-left:4px solid rgba(255,195,0,.5);margin-bottom:15px;">
+<p style="margin:0;color:#fff;font-size:0.9rem;">📌 <strong style="color:rgb(255,195,0);">Sobota</strong>: Rezerwacje tylko od 9:00 do 12:00 | <strong style="color:#ff6b6b;">Niedziela</strong>: Zamknięte</p>
+</div>
 <div id="selectedDateInfo" style="text-align:center;padding:15px;background:rgba(129,216,208,.1);border-radius:8px;display:none;">
 <p style="margin:0;color:#fff;font-size:1.1rem;">Wybrana data: <span id="selectedDateDisplay" style="color:var(--tiffany);font-weight:bold;"></span></p>
 </div>
@@ -576,10 +587,41 @@ font-size:1rem;
 <label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">E-mail *</label>
 <input type="email" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
 </div>
+<div style="margin-bottom:20px;background:rgba(129,216,208,.05);padding:20px;border-radius:12px;border:2px solid rgba(129,216,208,.2);">
+<h3 style="color:var(--tiffany);margin-top:0;margin-bottom:15px;font-size:1.1rem;">Marka i Model Samochodu</h3>
+<div style="margin-bottom:15px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Marka samochodu *</label>
+<input type="text" placeholder="np. BMW, Audi, Mercedes" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div style="margin-bottom:15px;">
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Model samochodu *</label>
+<input type="text" placeholder="np. X5, A4, C-Class" required style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+<div>
+<label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Rocznik (opcjonalnie)</label>
+<input type="text" placeholder="np. 2022, 2023" style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;">
+</div>
+</div>
 <div style="margin-bottom:30px;">
 <label style="display:block;margin-bottom:8px;color:#fff;font-weight:600;">Wiadomość (opcjonalnie)</label>
 <textarea style="width:100%;padding:12px;border:2px solid rgba(129,216,208,.3);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;min-height:120px;resize:vertical;"></textarea>
 </div>
+
+<div style="margin-bottom:30px;background:rgba(129,216,208,.05);padding:20px;border-radius:12px;border:2px solid rgba(129,216,208,.2);">
+<h3 style="color:var(--tiffany);margin-top:0;margin-bottom:15px;font-size:1.1rem;">Zaliczka i Płatność</h3>
+<p style="color:#aaa;margin-bottom:15px;font-size:0.95rem;">Rezerwacja wymaga zaliczki <strong style="color:#fff;">20 zł</strong> do potwierdzenia. Pozostałą kwotę zapłacisz na miejscu.</p>
+<button type="button" id="paymentMethodBtn" onclick="selectPaymentMethod()" style="width:100%;padding:14px;background:rgba(255,195,0,.2);border:2px solid rgba(255,195,0,.5);color:#fff;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;margin-bottom:15px;">
+  💳 Przelewy24 - Zapłać Zaliczkę (20 zł)
+</button>
+<p style="color:#aaa;font-size:0.85rem;margin:0;">Po kliknięciu przejdziesz do systemu Przelewy24 aby dokończyć płatność.</p>
+</div>
+
+<div style="background:#ff6b6b22;padding:15px;border-radius:12px;border:2px solid rgba(255,107,107,.3);margin-bottom:30px;">
+<p style="margin:0;color:#ff9999;font-size:0.85rem;">
+  <strong>⚠️ Ważna informacja:</strong> Ze względu na rosnący problem automatycznych rezerwacji przez boty, rezerwacja zostanie ostatecznie potwierdzona dopiero po <strong>zapłaceniu zaliczki</strong> Dziękujemy za zrozumienie!
+</p>
+</div>
+
 <div style="display:flex;gap:16px;">
 <button type="button" onclick="backToHours()" style="flex:1;padding:14px;background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.3);border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;">Wróć</button>
 <button type="submit" style="flex:1;padding:14px;background:var(--tiffany);color:#000;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;">Zarezerwuj</button>
@@ -668,12 +710,16 @@ font-size:1rem;
 
 <section id="przedpo" class="reveal" tabindex="-1">
 <h2>Przed i Po</h2>
+<div class="before-after-slider">
+<button class="ba-arrow" onclick="prevBeforeAfter()" title="Poprzednie">←</button>
 <div class="before-after">
 <div class="ba-box" id="ba-box">
-<img src="probka.jpg">
-<img class="ba-after" src="probka1.jpg">
+<img id="ba-before" src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200">
+<img class="ba-after" id="ba-after" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200">
 <div class="ba-handle"></div>
 </div>
+</div>
+<button class="ba-arrow" onclick="nextBeforeAfter()" title="Następne">→</button>
 </div>
 </section>
 
@@ -1295,7 +1341,8 @@ function renderCalendar() {
   
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
-    const dateStr = date.toISOString().split('T')[0];
+    // Format lokalny YYYY-MM-DD (bez UTC shift)
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
     const dayEl = document.createElement('button');
     dayEl.textContent = day;
@@ -1304,12 +1351,21 @@ function renderCalendar() {
       cursor:pointer;transition:.2s;font-weight:600;
     `;
     
-    // Disable dni w przeszłości
-    if (date < today) {
+    // Disable dni w przeszłości, niedziele i soboty
+    const dayOfWeek = date.getDay();
+    const isSunday = dayOfWeek === 0;
+    const isSaturday = dayOfWeek === 6;
+    
+    if (date < today || isSunday) {
       dayEl.style.opacity = '0.3';
       dayEl.style.cursor = 'not-allowed';
       dayEl.disabled = true;
-    } else {
+    } else if (isSaturday) {
+      // Sobota: dostępna ale informacja dla użytkownika
+      dayEl.style.borderColor = 'rgba(255,195,0,.5)';
+    }
+    
+    if (!dayEl.disabled) {
       dayEl.onmouseover = function() { 
         if (!this.disabled) this.style.borderColor = 'var(--tiffany)'; 
       };
@@ -1385,7 +1441,12 @@ function renderHours() {
   const hoursGrid = document.getElementById('hoursGrid');
   hoursGrid.innerHTML = '';
   
-  const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+  // Sprawdź czy to sobota
+  const dayOfWeek = dateObj.getDay();
+  const isSaturday = dayOfWeek === 6;
+  
+  // Dla soboty tylko 9:00-12:00, dla innych dni 9:00-16:00
+  const hours = isSaturday ? ['09:00', '10:00', '11:00', '12:00'] : ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
   const duration = selectedService.duration || 1;
   
   hours.forEach(hour => {
@@ -1510,7 +1571,7 @@ function closeReservationModal() {
 */
 
 // Inicjalizuj Google Apps Script
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyNXsKK5GK4W7rhopg_mhjYQh_BrwL7eL1THpf4CBEoakyMM_pXn_0xRlSA1hS10LLa/exec'; // Zastąp pełnym URL z Google Apps Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWfPgI3V_uGn0NL13GNT5hk1_CszphE9uscI76A7uMEYAG8dvHJdkn8RcY7HYOWjXQ/exec'; // Zastąp pełnym URL z Google Apps Script
 
 // Funkcja do pobierania zablokowanych czasów z lokalnego magazynu
 // W przyszłości można będzie poszerzyć o Google Calendar API
@@ -1558,7 +1619,10 @@ reservationForm.addEventListener('submit', async (e) => {
   const name = inputs[0].value;
   const phone = inputs[1].value;
   const email = inputs[2].value;
-  const message = inputs[3].value;
+  const carBrand = inputs[3].value;
+  const carModel = inputs[4].value;
+  const carYear = inputs[5].value;
+  const message = inputs[6].value;
   
   // Użyj wybranych daty i godziny z kalendarza
   const date = selectedDate;
@@ -1598,6 +1662,9 @@ reservationForm.addEventListener('submit', async (e) => {
     client_name: name,
     client_phone: phone,
     client_email: email,
+    car_brand: carBrand,
+    car_model: carModel,
+    car_year: carYear,
     service_name: selectedService.name,
     service_price: selectedService.price,
     service_duration: selectedService.duration,
@@ -1656,6 +1723,104 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// ===== SYSTEM PŁATNOŚCI PRZELEWY24 =====
+function selectPaymentMethod() {
+  // Pobierz dane z formularza
+  const inputs = reservationForm.querySelectorAll('input, textarea');
+  const name = inputs[0].value;
+  const phone = inputs[1].value;
+  const email = inputs[2].value;
+  const carBrand = inputs[3].value;
+  const carModel = inputs[4].value;
+  
+  // Sprawdzenia
+  if (!name || !phone || !email) {
+    alert('Uzupełnij imię, telefon i email aby kontynuować płatność');
+    return;
+  }
+  
+  if (!selectedDate || !selectedTime) {
+    alert('Wybierz datę i godzinę');
+    return;
+  }
+  
+  // Przygotuj dane do płatności
+  const amount = 2000; // 20 zł w groszach
+  const orderId = `GLO-${Date.now()}`; // Unikalny ID zamówienia
+  const description = `Zaliczka za ${selectedService.name} - ${carBrand} ${carModel}`;
+  
+  // Ustaw dane w sessionStorage żeby potem pobrać w Google Apps Script
+  sessionStorage.setItem('paymentData', JSON.stringify({
+    orderId: orderId,
+    amount: amount,
+    email: email,
+    phone: phone,
+    clientName: name,
+    carBrand: carBrand,
+    carModel: carModel,
+    serviceName: selectedService.name,
+    reservationDate: selectedDate,
+    reservationTime: selectedTime,
+    description: description
+  }));
+  
+  // Tutaj będzie integracja z Przelewy24
+  // Na razie wyświetlamy alert
+  alert(`💳 Płatność Przelewy24 (struktura przygotowana)\n\nZaliczka: 20 zł\nUsługa: ${selectedService.name}\nData: ${selectedDate}\n\nStruktra gotowa pieniazki na konto se splyna `);
+  
+  console.log('Payment Data:', sessionStorage.getItem('paymentData'));
+}
+
+// Scroll do góry strony na ładowaniu
+// ========== SUWAK PRZED/PO ==========
+const beaImages = [
+  { before: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200', after: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200', after: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=1200', after: 'https://images.unsplash.com/photo-1617814065893-00757125efab?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200', after: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200', after: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1617814065893-00757125efab?w=1200', after: 'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200', after: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200', after: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1583267741297-fce58a3d63a7?w=1200', after: 'https://images.unsplash.com/photo-1617814065893-00757125efab?w=1200' },
+  { before: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200', after: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1200' },
+];
+
+let beaIndex = 0;
+
+function updateBeaImages() {
+  const img = beaImages[beaIndex];
+  document.getElementById('ba-before').src = img.before;
+  document.getElementById('ba-after').src = img.after;
+  document.getElementById('ba-current').textContent = beaIndex + 1;
+  document.getElementById('ba-total').textContent = beaImages.length;
+}
+
+function nextBeforeAfter() {
+  beaIndex = (beaIndex + 1) % beaImages.length;
+  updateBeaImages();
+}
+
+function prevBeforeAfter() {
+  beaIndex = (beaIndex - 1 + beaImages.length) % beaImages.length;
+  updateBeaImages();
+}
+
+// Inicjalizuj licznik
+document.addEventListener('DOMContentLoaded', () => {
+  updateBeaImages();
+  
+  setTimeout(() => {
+    window.scrollTo({top: 0, behavior: 'auto'});
+  }, 100);
+});
+
+// Upewnij się że scroll się dzieje nawet gdy już załadowano
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    window.scrollTo({top: 0, behavior: 'auto'});
+  }, 100);
+});
 </script>
 
 </body>
