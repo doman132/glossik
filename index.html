@@ -14,7 +14,8 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
 html{width:100%;height:auto;overflow-x:hidden;}
-body{width:100%;min-height:100vh;background:linear-gradient(-45deg,var(--black),var(--dark),#1a1a1a,var(--black));background-size:400% 400%;animation:bg 14s infinite;color:#fff;overflow-x:hidden;scroll-behavior:smooth;padding-top:80px;scrollbar-gutter:stable;}
+body{width:100%;min-height:100vh;background:linear-gradient(-45deg,var(--black),var(--dark),#1a1a1a,var(--black));background-size:400% 400%;animation:bg 14s infinite;color:#fff;overflow-x:hidden;scroll-behavior:smooth;padding-top:80px;scrollbar-gutter:stable;transition:overflow 0.3s ease;}
+body.menu-open{overflow:hidden;}
 @keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 header{position:fixed;top:0;z-index:1000;background:rgba(0,0,0,1);backdrop-filter:blur(10px);width:100%;padding:0;left:0;right:0;}
 nav{width:100%;padding:16px 24px;display:flex;justify-content:center;align-items:center;margin:0;background:rgba(0,0,0,1);box-sizing:border-box;}
@@ -93,18 +94,20 @@ nav{width:100%;padding:16px 24px;display:flex;justify-content:center;align-items
 .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(7px,7px);}
 .hamburger.active span:nth-child(2){opacity:0;}
 .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-7px);}
-.nav-wrapper{display:flex;position:fixed;inset:60px 0 0 0;width:100%;height:calc(100vh - 60px);background:#111;flex-direction:column;justify-content:flex-start;align-items:flex-start;overflow-y:auto;padding-top:20px;transform:translateX(100%);transition:transform 0.4s ease;z-index:9999;will-change:transform;pointer-events:none;box-sizing:border-box;}
-.nav-wrapper.active{transform:translateX(0);pointer-events:auto;}
+.nav-wrapper{display:flex;position:fixed;inset:60px 0 0 0;width:100%;height:calc(100vh - 60px);background:#0b0b0b;flex-direction:column;justify-content:flex-start;align-items:flex-start;overflow-y:auto;padding-top:20px;transform:translateX(100%);transition:transform 0.4s ease;z-index:9000;will-change:transform;pointer-events:auto;box-sizing:border-box;}
+.nav-wrapper.active{transform:translateX(0);pointer-events:auto;box-shadow:inset -2px 0 20px rgba(0,0,0,0.8);}
 .nav-center{flex-direction:column;gap:0;width:100%;order:1;}
 .nav-center li{width:100%;}
-.nav-center li a{display:block;padding:16px 20px;border-bottom:1px solid rgba(129,216,208,.1);width:100%;pointer-events:auto;}
+.nav-center li a{display:block;padding:16px 20px;border-bottom:1px solid rgba(129,216,208,.1);width:100%;pointer-events:auto;transition:all 0.2s ease;}
+.nav-center li a:active{background:rgba(129,216,208,.15);}
 .dropdown-toggle{pointer-events:auto !important;}
 .header-icons{flex-direction:row;gap:20px;justify-content:center;order:2;width:100%;padding:20px;border-top:1px solid rgba(129,216,208,.2);pointer-events:auto;}
 .header-icons a{pointer-events:auto;}
 .nav-inner{justify-content:space-between;gap:8px;}
 .dropdown-menu{position:static;opacity:0;visibility:hidden;transform:none;background:rgba(17,17,17,0.98);box-shadow:0 8px 24px rgba(0,0,0,.6);max-height:0;width:100%;overflow:hidden;transition:max-height 0.3s ease, opacity 0.3s ease;margin:8px 0 0 0;padding:0;pointer-events:auto;z-index:10000;border-radius:8px;display:none;}
 .dropdown-menu.active{opacity:1;visibility:visible;max-height:300px;padding:10px 0;display:block;overflow-y:auto;pointer-events:auto;}
-.dropdown-menu a{display:block;padding:12px 20px 12px 20px;border-bottom:1px solid rgba(129,216,208,.2);color:#fff;font-size:0.9rem;pointer-events:auto;}
+.dropdown-menu a{display:block;padding:12px 20px 12px 20px;border-bottom:1px solid rgba(129,216,208,.2);color:#fff;font-size:0.9rem;pointer-events:auto;transition:all 0.2s ease;}
+.dropdown-menu a:active{background:rgba(129,216,208,.15);}
 .dropdown-menu a:last-child{border-bottom:none;}
 }
 @media(max-width:768px){
@@ -121,17 +124,22 @@ nav{padding:12px 12px;}
 .nav-center{gap:16px;font-size:0.9rem;}
 }
 .menu-overlay{
-  display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.6);
-  z-index:9998;
-  pointer-events:none;
+  background:rgba(0,0,0,0.85);
+  z-index:1500;
+  pointer-events:auto;
+  backdrop-filter:blur(4px);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity 0.3s ease, visibility 0.3s ease;
 }
 .menu-overlay.active{
-  display:block;
-  pointer-events:none;
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
 }
+
 section{margin:0 auto;padding:100px 24px;position:relative;width:100%;max-width:100%;box-sizing:border-box;z-index:2;overflow-x:hidden;}
 h2{text-align:center;color:var(--tiffany);font-size:3rem;margin-bottom:60px;}
 .hero{padding:180px 24px 140px;text-align:center;}
@@ -442,49 +450,26 @@ font-size:1rem;
 }
 @media (max-width: 980px) {
 
-  /* 1. Naprawiamy klikalność całego menu */
+  /* Menu wrapper ma zawsze pointer-events auto żeby był klikowalny */
   .nav-wrapper {
-    pointer-events: none;           /* domyślnie wyłączone */
     transition: transform 0.4s ease;
-  }
-
-  .nav-wrapper.active {
-    pointer-events: auto;           /* ← KLUCZOWE */
-    transform: translateX(0);
-  }
-
-  /* 2. Poprawiamy overlay – lepiej używać opacity niż display */
-  .menu-overlay {
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-    background: rgba(0,0,0,0.65);
-  }
-
-  .menu-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* 3. Lepsze pozycjonowanie + scrollowanie */
-  .nav-wrapper {
-    top: 0;                        /* ← zmiana z 60px na 0 */
+    top: 0;
     height: 100vh;
-    padding-top: 80px;             /* miejsce na logo/nav */
-    padding-bottom: 100px;         /* miejsce na ikony na dole */
+    padding-top: 80px;
+    padding-bottom: 100px;
     justify-content: flex-start;
   }
 
-  /* 4. Ikony social na samym dole (ładniejszy układ) */
+  /* Ikony social na samym dole */
   .header-icons {
-    margin-top: auto;              /* ← wypycha na dół */
+    margin-top: auto;
     padding: 30px 20px;
     width: 100%;
     justify-content: center;
     border-top: 1px solid rgba(129,216,208,0.15);
   }
 
-  /* 5. Linki w menu muszą być na 100% szerokości i mieć wysoki priorytet */
+  /* Linki w menu muszą być na 100% szerokości */
   .nav-center li a,
   .dropdown-toggle,
   .dropdown-menu a {
@@ -1084,6 +1069,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.classList.remove('active');
     menu.classList.remove('active');
     overlay.classList.remove('active');
+    document.body.classList.remove('menu-open');
     // Zamknij dropdown cennik
     const cennikToggleEl = document.getElementById('cennikToggle');
     const cennikMenuEl = document.getElementById('cennikMenu');
@@ -1100,6 +1086,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hamburger.classList.toggle('active');
       menu.classList.toggle('active');
       overlay.classList.toggle('active');
+      document.body.classList.toggle('menu-open');
     });
   }
 
@@ -1910,6 +1897,7 @@ function closeMenu() {
   document.getElementById('hamburger').classList.remove('active');
   document.getElementById('menu').classList.remove('active');
   document.getElementById('overlay').classList.remove('active');
+  document.body.classList.remove('menu-open');
   document.getElementById('cennikToggle')?.classList.remove('active');
   document.getElementById('cennikMenu')?.classList.remove('active');
 }
