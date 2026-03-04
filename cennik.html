@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cennik – Gloss Point Detailing</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cyan: #00c8e0;
+  --cyan2: #00e5ff;
+  --dark: #12151c;
+  --card: #1a1e29;
+  --card2: #1f2433;
+  --border: rgba(0,200,224,0.18);
+  --muted: #8090a8;
+  --white: #e8eef6;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--dark);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* BG grain */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0,200,224,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 85% 80%, rgba(0,150,200,0.05) 0%, transparent 60%);
+  pointer-events:none;
+}
+
+.page {
+  position:relative; z-index:1;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.header-label {
+  display: inline-block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  background: rgba(0,200,224,0.1);
+  border: 1px solid rgba(0,200,224,0.3);
+  padding: 6px 18px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--white);
+}
+
+.header h1 span { color: var(--cyan); }
+
+.header-sub {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.tab {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(0,200,224,0.25);
+  background: rgba(0,200,224,0.06);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  border-color: var(--cyan);
+  color: var(--white);
+  background: rgba(0,200,224,0.12);
+}
+
+.tab.active {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #0a0e14;
+}
+
+/* SECTION TITLE */
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  background: var(--cyan);
+  border-radius: 2px;
+}
+
+/* TABLE */
+.table-wrap {
+  background: var(--card);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 40px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,200,224,0.05);
+  animation: fadeIn 0.35s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead tr {
+  background: rgba(0,200,224,0.12);
+}
+
+thead th {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 14px 20px;
+  color: var(--cyan);
+  text-align: center;
+  border-bottom: 1.5px solid rgba(0,200,224,0.25);
+}
+
+thead th:first-child {
+  text-align: left;
+  width: 34%;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.18s;
+}
+
+tbody tr:last-child { border-bottom: none; }
+
+tbody tr:hover {
+  background: rgba(0,200,224,0.05);
+}
+
+tbody td {
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-align: center;
+  vertical-align: middle;
+}
+
+tbody td:first-child {
+  text-align: left;
+  color: var(--white);
+  font-weight: 500;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.price-val {
+  display: inline-block;
+  background: rgba(0,200,224,0.1);
+  border: 1px solid rgba(0,200,224,0.2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+tbody tr:hover .price-val {
+  background: rgba(0,200,224,0.18);
+  border-color: rgba(0,200,224,0.4);
+  color: var(--cyan2);
+}
+
+.price-val.indiv {
+  font-size: 0.78rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.price-val.dash {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* COL HEADERS inside thead */
+.col-hatch { color: var(--cyan); }
+.col-sedan { color: #4db8ff; }
+.col-suv   { color: #7eccff; }
+
+/* SINGLE PRICE (spanning) */
+td.single-price {
+  text-align: center;
+}
+
+td.full-span {
+  color: var(--muted);
+  font-style: normal;
+}
+
+/* HIDDEN SECTIONS */
+.price-section { display: none; }
+.price-section.active { display: block; }
+
+/* FOOTER NOTE */
+.footer-note {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 20px;
+  line-height: 1.7;
+}
+
+.footer-note strong { color: var(--cyan); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .page { padding: 40px 16px 60px; }
+  thead th, tbody td { padding: 12px 10px; font-size: 0.82rem; }
+  tbody td:first-child { font-size: 0.8rem; }
+  .price-val { padding: 5px 8px; font-size: 0.92rem; }
+  thead th:first-child { width: 38%; }
+  .tabs { gap: 8px; }
+  .tab { padding: 9px 14px; font-size: 0.8rem; }
+}
+
+@media (max-width: 520px) {
+  table { font-size: 0.78rem; }
+  thead th, tbody td { padding: 10px 6px; }
+  .price-val { padding: 4px 6px; font-size: 0.82rem; }
+  .header h1 { font-size: 2.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-label">Gloss Point Detailing · Tarnów</div>
+    <h1>Cennik <span>Usług</span></h1>
+    <p class="header-sub">Profesjonalny detailing samochodowy · Wszystkie ceny brutto · Tarnów</p>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-target="mycie">Mycie i sprzątanie</button>
+    <button class="tab" data-target="wnetrze">Wnętrze pojazdu</button>
+    <button class="tab" data-target="polerowanie">Polerowanie / Lakier</button>
+    <button class="tab" data-target="folie">Folie ochronne PPF</button>
+    <button class="tab" data-target="szyby">Przyciemnianie szyb</button>
+  </nav>
+
+  <!-- ======== MYCIE I SPRZĄTANIE ======== -->
+  <div class="price-section active" id="mycie">
+    <div class="section-title">Mycie i sprzątanie</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Usługa</th>
+            <th>Mały<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">hatchback</small></th>
+            <th>Średni<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">sedan / mały SUV</small></th>
+            <th>Duży<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">SUV</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bieżące mycie</td>
+            <td><span class="price-val">80 zł</span></td>
+            <td><span class="price-val">90 zł</span></td>
+            <td><span class="price-val">100 zł</span></td>
+          </tr>
+          <tr>
+            <td>Sprzątanie wnętrza</td>
+            <td><span class="price-val">80 zł</span></td>
+            <td><span class="price-val">90 zł</span></td>
+            <td><span class="price-val">100 zł</span></td>
+          </tr>
+          <tr>
+            <td>Bieżące mycie + sprzątanie wnętrza (komplet)</td>
+            <td><span class="price-val">140 zł</span></td>
+            <td><span class="price-val">160 zł</span></td>
+            <td><span class="price-val">180 zł</span></td>
+          </tr>
+          <tr>
+            <td>Dekontaminacja chemiczna</td>
+            <td><span class="price-val">100 zł</span></td>
+            <td><span class="price-val">140 zł</span></td>
+            <td><span class="price-val">160 zł</span></td>
+          </tr>
+          <tr>
+            <td>Mycie detailingowe</td>
+            <td><span class="price-val">120 zł</span></td>
+            <td><span class="price-val">140 zł</span></td>
+            <td><span class="price-val">180 zł</span></td>
+          </tr>
+          <tr>
+            <td>Ozonowanie</td>
+            <td><span class="price-val">80 zł</span></td>
+            <td><span class="price-val">80 zł</span></td>
+            <td><span class="price-val">80 zł</span></td>
+          </tr>
+          <tr>
+            <td>Usuwanie sierści</td>
+            <td><span class="price-val">50 zł</span></td>
+            <td><span class="price-val">50 zł</span></td>
+            <td><span class="price-val">50 zł</span></td>
+          </tr>
+          <tr>
+            <td>Aplikacja wosku</td>
+            <td><span class="price-val">200 zł</span></td>
+            <td><span class="price-val">250 zł</span></td>
+            <td><span class="price-val">300 zł</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======== WNĘTRZE ======== -->
+  <div class="price-section" id="wnetrze">
+    <div class="section-title">Wnętrze pojazdu</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Usługa</th>
+            <th>Mały<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">hatchback</small></th>
+            <th>Średni<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">sedan / mały SUV</small></th>
+            <th>Duży<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">SUV</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pranie fotela (1 szt.)</td>
+            <td><span class="price-val">100 zł</span></td>
+            <td><span class="price-val">100 zł</span></td>
+            <td><span class="price-val">100 zł</span></td>
+          </tr>
+          <tr>
+            <td>Pranie kompletu foteli</td>
+            <td><span class="price-val">400 zł</span></td>
+            <td><span class="price-val">400 zł</span></td>
+            <td><span class="price-val">400 zł</span></td>
+          </tr>
+          <tr>
+            <td>Czyszczenie skór + impregnacja</td>
+            <td><span class="price-val">450 zł</span></td>
+            <td><span class="price-val">450 zł</span></td>
+            <td><span class="price-val">550 zł</span></td>
+          </tr>
+          <tr>
+            <td>Pranie podłogi</td>
+            <td><span class="price-val">100 zł</span></td>
+            <td><span class="price-val">200 zł</span></td>
+            <td><span class="price-val">250 zł</span></td>
+          </tr>
+          <tr>
+            <td>Czyszczenie sufitu</td>
+            <td><span class="price-val">200 zł</span></td>
+            <td><span class="price-val">200 zł</span></td>
+            <td><span class="price-val">300 zł</span></td>
+          </tr>
+          <tr>
+            <td>Czyszczenie pasów bezpieczeństwa</td>
+            <td><span class="price-val">30 zł/szt</span></td>
+            <td><span class="price-val">30 zł/szt</span></td>
+            <td><span class="price-val">30 zł/szt</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======== POLEROWANIE ======== -->
+  <div class="price-section" id="polerowanie">
+    <div class="section-title">Polerowanie / Zabezpieczenie lakieru</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Usługa</th>
+            <th>Mały<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">hatchback</small></th>
+            <th>Średni<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">sedan / mały SUV</small></th>
+            <th>Duży<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">SUV</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Odświeżenie lakieru</td>
+            <td><span class="price-val">800 zł</span></td>
+            <td><span class="price-val">1200 zł</span></td>
+            <td><span class="price-val">1500 zł</span></td>
+          </tr>
+          <tr>
+            <td>Korekta lakieru</td>
+            <td><span class="price-val">1300 zł</span></td>
+            <td><span class="price-val">1600 zł</span></td>
+            <td><span class="price-val">1900 zł</span></td>
+          </tr>
+          <tr>
+            <td>Powłoka ceramiczna roczna</td>
+            <td><span class="price-val">600 zł</span></td>
+            <td><span class="price-val">750 zł</span></td>
+            <td><span class="price-val">900 zł</span></td>
+          </tr>
+          <tr>
+            <td>Powłoka ceramiczna 3-letnia</td>
+            <td><span class="price-val">1300 zł</span></td>
+            <td><span class="price-val">1700 zł</span></td>
+            <td><span class="price-val">2000 zł</span></td>
+          </tr>
+          <tr>
+            <td>Powłoka ceramiczna 5-letnia</td>
+            <td><span class="price-val">1900 zł</span></td>
+            <td><span class="price-val">2100 zł</span></td>
+            <td><span class="price-val">2500 zł</span></td>
+          </tr>
+          <tr>
+            <td>Powłoka hydrofobowa na szybę czołową / wszystkie szyby</td>
+            <td><span class="price-val">130 / 350 zł</span></td>
+            <td><span class="price-val">130 / 350 zł</span></td>
+            <td><span class="price-val">130 / 350 zł</span></td>
+          </tr>
+          <tr>
+            <td>Powłoka na felgi</td>
+            <td><span class="price-val">400 zł</span></td>
+            <td><span class="price-val">400 zł</span></td>
+            <td><span class="price-val">400 zł</span></td>
+          </tr>
+          <tr>
+            <td>Impregnacja dachu cabrio</td>
+            <td><span class="price-val">600 zł</span></td>
+            <td><span class="price-val">600 zł</span></td>
+            <td><span class="price-val dash">—</span></td>
+          </tr>
+          <tr>
+            <td>Renowacja reflektorów</td>
+            <td><span class="price-val">od 200 zł</span></td>
+            <td><span class="price-val">od 200 zł</span></td>
+            <td><span class="price-val">od 200 zł</span></td>
+          </tr>
+          <tr>
+            <td>Usuwanie zarysowań</td>
+            <td><span class="price-val indiv">wycena indywidualna</span></td>
+            <td><span class="price-val indiv">wycena indywidualna</span></td>
+            <td><span class="price-val indiv">wycena indywidualna</span></td>
+          </tr>
+          <tr>
+            <td>Odświeżenie plastików powłoką</td>
+            <td><span class="price-val indiv">wycena indywidualna</span></td>
+            <td><span class="price-val indiv">wycena indywidualna</span></td>
+            <td><span class="price-val indiv">wycena indywidualna</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======== FOLIE ======== -->
+  <div class="price-section" id="folie">
+    <div class="section-title">Folie ochronne PPF</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Usługa</th>
+            <th>Mały<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">hatchback</small></th>
+            <th>Średni<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">sedan / mały SUV</small></th>
+            <th>Duży<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">SUV</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Must have (reflektory, klamki, parapet bagażnika)</td>
+            <td><span class="price-val">990 zł</span></td>
+            <td><span class="price-val">990 zł</span></td>
+            <td><span class="price-val">990 zł</span></td>
+          </tr>
+          <tr>
+            <td>Full front (maska, zderzak, błotniki, słupki A…)</td>
+            <td><span class="price-val">od 4000 zł</span></td>
+            <td><span class="price-val">od 5000 zł</span></td>
+            <td><span class="price-val">od 6000 zł</span></td>
+          </tr>
+          <tr>
+            <td>Full body (całe nadwozie)</td>
+            <td><span class="price-val">od 10 000 zł</span></td>
+            <td><span class="price-val">od 12 500 zł</span></td>
+            <td><span class="price-val">od 14 000 zł</span></td>
+          </tr>
+          <tr>
+            <td>Parapety bagażnika</td>
+            <td><span class="price-val">220 zł</span></td>
+            <td><span class="price-val">220 zł</span></td>
+            <td><span class="price-val">250 zł</span></td>
+          </tr>
+          <tr>
+            <td>Reflektory</td>
+            <td><span class="price-val">450 zł</span></td>
+            <td><span class="price-val">450 zł</span></td>
+            <td><span class="price-val">450 zł</span></td>
+          </tr>
+          <tr>
+            <td>Wnęki klamek</td>
+            <td><span class="price-val">160 zł</span></td>
+            <td><span class="price-val">160 zł</span></td>
+            <td><span class="price-val">160 zł</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======== SZYBY ======== -->
+  <div class="price-section" id="szyby">
+    <div class="section-title">Przyciemnianie szyb</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Usługa</th>
+            <th>Mały<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">hatchback</small></th>
+            <th>Średni<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">sedan / mały SUV</small></th>
+            <th>Duży<br><small style="font-weight:400;font-size:0.7rem;color:#5e8fa8">SUV</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Przyciemnianie szyb (tylne)</td>
+            <td><span class="price-val">650 zł</span></td>
+            <td><span class="price-val">750 zł</span></td>
+            <td><span class="price-val">900 zł</span></td>
+          </tr>
+          <tr>
+            <td>Przyciemnianie przednich szyb</td>
+            <td><span class="price-val">380 zł</span></td>
+            <td><span class="price-val">380 zł</span></td>
+            <td><span class="price-val">380 zł</span></td>
+          </tr>
+          <tr>
+            <td>Szyba czołowa – kameleon</td>
+            <td><span class="price-val">1000 zł</span></td>
+            <td><span class="price-val">1000 zł</span></td>
+            <td><span class="price-val">1000 zł</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="footer-note">
+    Wszystkie ceny są cenami brutto. <strong>Wycena indywidualna</strong> – skontaktuj się z nami telefonicznie lub przez formularz.<br>
+    <strong>+48 660 706 043</strong> · glosspointbiuro@gmail.com · ul. Marii Konopnickiej 5, Tarnów
+  </p>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const sections = document.querySelectorAll('.price-section');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.target).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
